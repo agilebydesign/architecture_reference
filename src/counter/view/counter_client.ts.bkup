@@ -1,0 +1,83 @@
+// counter/view/counter_client.ts — Client: DOM adapter, syncToServer() (compiled to JS for webview)
+// Note: This file imports from counter.ts which is bundled separately as counter_bundle.js
+// The Counter class will be available as CounterDomain.Counter in the browser
+//@ts-check
+
+import type { HydrateData, ICounter } from "../counter.js";
+
+interface VsCodeApi {
+  postMessage(message: unknown): void;
+}
+
+// Counter class from bundled counter_bundle.js
+declare const CounterDomain: {
+  Counter: new () => ICounter;
+};
+
+export function initCounterClient(vscode: VsCodeApi): ICounter {
+  const amountInput = document.getElementById("amount") as HTMLInputElement;
+  const resetBtn = document.getElementById("resetBtn") as HTMLButtonElement;
+  const totalEl = document.getElementById("total") as HTMLSpanElement;
+  const fooBarInput = document.getElementById("fooBar") as HTMLInputElement;
+
+  const counter = new CounterDomain.Counter();
+
+  function syncToServer(command: string, value?: unknown): void {
+    vscode.postMessage(value !== undefined ? { command, value } : { command });
+  }
+
+  // DOM adapter: implements ICounter; each method runs domain op, updates DOM, syncs to server
+  // TODO: is this a real implementation of the interface?
+  const domCounter: ICounter = {
+    count(amount: number | string): void {
+      counter.count(Number(amount) || 0);
+      totalEl.textContent = String(counter.total);
+      syncToServer("counter.count", Number(amount) || 0);
+    },
+    reset(): void {
+      counter.reset();
+      totalEl.textContent = String(counter.total);
+      syncToServer("counter.reset");
+    },
+    get total(): number {
+      return counter.total;
+    },
+    get foo() {
+      return {
+        get bar(): string {
+          return counter.foo.bar;
+        },
+        set bar(val: string) {
+          counter.foo.bar = val;
+          fooBarInput.value = val;
+        },
+      };
+    },
+    hydrate(data: HydrateData): void {
+      counter.hydrate?.(data);
+      if (data.total !== undefined) totalEl.textContent = String(counter.total);
+      if (data.fooBar !== undefined) fooBarInput.value = counter.foo.bar;
+    },
+  };
+
+  amountInput.addEventListener("change", () =>
+    domCounter.count(amountInput.value)
+  );
+  resetBtn.addEventListener("click", () => domCounter.reset());
+  fooBarInput.addEventListener("change", () => {
+    domCounter.foo.bar = fooBarInput.value;
+    syncToServer("counter.foo.bar", domCounter.foo.bar);
+  });
+
+  window.addEventListener("message", (event: MessageEvent) => {
+    if ("total" in event.data || "fooBar" in event.data) {
+      domCounter.hydrate?.(event.data as HydrateData);
+    }
+  });
+
+  // Request initial state from server
+  vscode.postMessage({ command: "counter.total" });
+  vscode.postMessage({ command: "counter.foo.bar" });
+
+  return domCounter; // tests call methods directly; no wrapper
+}
