@@ -1,5 +1,6 @@
 // test/counter/counter_view.test.ts
 import { describe, expect, beforeEach } from "vitest";
+import * as path from "path";
 import { CounterView } from "../../src/counter/view/counter_view.js";
 import { Counter } from "../../src/counter/counter.js";
 import { CounterTest } from "./counter_test.js";
@@ -10,7 +11,8 @@ import type { WebviewPanel } from "../__mocks__/vscode.js";
 describe("CounterView", () => {
   let posted: unknown[];
   let mockPanel: WebviewPanel;
-  const mockExtensionUri = Uri.file("/tmp/ext");
+  // Point to project root so getHtml() can find templates
+  const extensionUri = Uri.file(path.resolve(__dirname, "../.."));
 
   beforeEach(() => {
     posted = [];
@@ -25,7 +27,7 @@ describe("CounterView", () => {
       this._view = new CounterView(
         mockPanel as unknown as import("vscode").WebviewPanel,
         counter,
-        mockExtensionUri as unknown as import("vscode").Uri
+        extensionUri as unknown as import("vscode").Uri
       );
       return this._view;
     }
@@ -40,8 +42,9 @@ describe("CounterView", () => {
         expect(posted).toContainEqual({ total: expected });
       }
 
-      // Skip HTML check since it requires template file on disk
-      // In a real setup, getHtml() would be tested with proper fixtures
+      // Verify the actual getHtml() renders the expected total
+      const html = this._view!.getHtml();
+      expect(html).toContain(`<span id="total">${expected}</span>`);
     }
   }
 

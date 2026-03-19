@@ -71,17 +71,4 @@ export class CounterView extends BaseView implements ICounter {
   hydrate(data: { total?: number; fooBar?: string }): void {
     this._counter.hydrate?.(data);
   }
-
-  /** HTML for test fixtures (placeholder defaults). Tests use this for JSDOM. */
-  static getFixtureHtml(data?: {
-    total?: number;
-    fooBar?: string;
-    counterCssUri?: string;
-  }): string {
-    const d = { total: "0", fooBar: "", counterCssUri: "", ...data };
-    let html = CounterView.template;
-    for (const [k, v] of Object.entries(d))
-      html = html.split(`{{${k}}}`).join(String(v));
-    return html;
-  }
 }
