@@ -25,10 +25,6 @@ describe("counter_webview", () => {
     expect(total).toBe(expected);
 
     // Also verify raw DOM element
-    // TO-DO: this might be the better way to do it? according to copilot $ by itself accesses the entire VS Code Electron DOM
-    // const totalEl = await webview.activeFrame.$(counterLocators.total); 
-    // await expect(totalEl).toHaveText(String(expected));
-    
     await expect($(counterLocators.total)).toHaveText(String(expected));    
   }  
 
@@ -60,21 +56,26 @@ describe("counter_webview", () => {
   });
 
   // Same three scenarios as CounterTest.registerTests()
+  describe("Given a new counter is opened", () => {
+    it("Then it starts at zero", async () => {
+      await assertTotal(0);
+    });
 
-  it("starts at zero", async () => {
-    await assertTotal(0);
-  });
+    describe("When I add numbers to the counter", () => {
+        it("Then the counter displays the sum of the added numbers", async () => {
+          await counter.count(3);
+          await counter.count(4);
+          await counter.count(7);
+          await assertTotal(14);
+        });
+    });
 
-  it("counter that starts at three, add 4 and 7, yields 14", async () => {
-    await counter.count(3);
-    await counter.count(4);
-    await counter.count(7);
-    await assertTotal(14);
-  });
-
-  it("reset clears total", async () => {
-    await counter.count(5);
-    await counter.reset();
-    await assertTotal(0);
+    describe("When I reset the counter", () => {
+      it("Then reset clears total", async () => {
+        await counter.count(5);
+        await counter.reset();
+        await assertTotal(0);
+      });
+    });
   });
 });

@@ -21,6 +21,7 @@ export class CounterClient extends Counter {
     this.fooBarInput = document.getElementById("fooBar") as HTMLInputElement;
   }
 
+  // TODO: make sure this is async
   private syncToServer(command: string, value?: unknown): void {
     this.vscode.postMessage(value !== undefined ? { command, value } : { command });
   }
@@ -28,7 +29,7 @@ export class CounterClient extends Counter {
   override count(amount: number | string): void {
     super.count(amount);
     this.totalEl.textContent = String(this.total);
-    this.syncToServer("counter.count", Number(amount) || 0);
+    this.syncToServer("counter.count", Number(amount) || 0);    
   }
 
   override reset(): void {
