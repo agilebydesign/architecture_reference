@@ -1,8 +1,9 @@
 // e2e/counter_webview.e2e.ts — E2E tests for Counter webview using Template Method pattern
 /// <reference types="mocha" />
-import { browser, expect, $ } from "@wdio/globals";
+import { expect, $ } from "@wdio/globals";
 import { WebView } from "wdio-vscode-service";
 import { WebViewCounterAdapter } from "./adapters/webview_counter_adapter";
+import { getEngineWebview } from "./helpers/get_webview";
 import { counterLocators } from "./pageobjects/locators";
 
 /**
@@ -29,23 +30,7 @@ describe("counter_webview", () => {
   }  
 
   before(async () => {
-    let webviews: WebView[] = []
-
-    // Open the Engine panel (which contains Counter)
-    const workbench = await browser.getWorkbench();    
-    await workbench.executeCommand("Agilebot: View Engine");
-
-    // Get the webview and create adapter
-    // const webviews = await workbench.getAllWebviews();
-    // webview = webviews[0];
-    // await webview.open();
-
-    await browser.waitUntil(async () => (await workbench.getAllWebviews()).length > 0)
-    webviews = await workbench.getAllWebviews();
-    expect(webviews).toHaveLength(1);
-    webview = webviews[0];
-    await webview.open();
-
+    webview = await getEngineWebview();
     counter = new WebViewCounterAdapter(webview);
   });
 

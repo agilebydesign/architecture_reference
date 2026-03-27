@@ -18,7 +18,7 @@ export const config: Options.Testrunner = {
     },
   },
 
-  specs: ["./test/e2e/**/*.e2e.ts"],
+  specs: [["./test/e2e/**/*.e2e.ts"]],
   exclude: [],
 
   maxInstances: 1,

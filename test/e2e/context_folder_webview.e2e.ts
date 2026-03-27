@@ -1,8 +1,9 @@
 // e2e/context_folder_webview.e2e.ts — E2E tests for ContextFolder webview
 /// <reference types="mocha" />
-import { browser, expect, $ } from "@wdio/globals";
+import { expect, $ } from "@wdio/globals";
 import { WebView } from "wdio-vscode-service";
 import { WebViewContextFolderAdapter } from "./adapters/webview_context_folder_adapter";
+import { getEngineWebview } from "./helpers/get_webview";
 import { contextFolderLocators } from "./pageobjects/locators";
 
 /**
@@ -39,17 +40,7 @@ describe("context_folder_webview", () => {
   }
 
   before(async () => {
-    // Open the Engine panel (which contains ContextFolder)
-    const workbench = await browser.getWorkbench();
-    await workbench.executeCommand("Agilebot: View Engine");
-
-    // Get the webview and create adapter
-    await browser.waitUntil(async () => (await workbench.getAllWebviews()).length > 0);
-    const webviews = await workbench.getAllWebviews();
-    expect(webviews).toHaveLength(1);
-    webview = webviews[0];
-    await webview.open();
-
+    webview = await getEngineWebview();
     contextFolder = new WebViewContextFolderAdapter(webview);
   });
 
