@@ -1,0 +1,22 @@
+/* context_folder/view/context_folder.css — Context folder section positioning and styling */
+.context-folder-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.context-folder-section #folderPath {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.context-folder-section .bot-info {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.context-folder-section .bot-info .label {
+  font-weight: bold;
+  color: var(--accent-color);
+}

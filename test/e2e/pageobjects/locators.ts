@@ -1,4 +1,4 @@
-// e2e/pageobjects/locators.ts — DOM selectors for Counter webview elements
+// e2e/pageobjects/locators.ts — DOM selectors for webview elements
 
 export const counterLocators = {
   /** Input field for count amount - triggers count on "change" event */
@@ -9,4 +9,15 @@ export const counterLocators = {
   total: "#total",
   /** Input field for foo.bar property */
   fooBar: "#fooBar",
+};
+
+export const contextFolderLocators = {
+  /** Input field for context folder path - triggers updatePath on "change" event */
+  folderPath: "#folderPath",
+  /** Browse button - triggers browse on "click" */
+  browseBtn: "#browseBtn",
+  /** Span displaying current bot name */
+  botName: "#botName",
+  /** Span displaying current bot directory */
+  botDirectory: "#botDirectory",
 };

@@ -3,6 +3,8 @@ import { describe, beforeEach, expect } from "vitest";
 import { EngineCLI } from "../../src/engine/engine_cli.js";
 import { CounterTest } from "../counter/counter_test.js";
 import type { ICounter, IFoo, HydrateData } from "../../src/counter/counter.js";
+import { ContextFolderTest } from "../context_folder/context_folder_test.js";
+import type { IContextFolder, IBotInfo, ContextFolderHydrateData } from "../../src/context_folder/context_folder.js";
 
 /**
  * Wraps EngineCLI.run as ICounter for Template Method tests.
@@ -74,4 +76,78 @@ describe("EngineCLI", () => {
   }
 
   new CliCounterTest().registerTests();
+});
+
+/**
+ * Wraps EngineCLI.run as IContextFolder for Template Method tests.
+ * Implements IContextFolder interface by delegating to CLI commands.
+ */
+class CliContextFolderWrapper implements IContextFolder {
+  botInfo: IBotInfo = {
+    get name(): string {
+      return EngineCLI.engine.contextFolder.botInfo.name;
+    },
+    set name(val: string) {
+      EngineCLI.engine.contextFolder.botInfo.name = val;
+    },
+    get directory(): string {
+      return EngineCLI.engine.contextFolder.botInfo.directory;
+    },
+    set directory(val: string) {
+      EngineCLI.engine.contextFolder.botInfo.directory = val;
+    },
+  };
+
+  updatePath(directory: string): void {
+    EngineCLI.run(`contextFolder.updatePath --value ${directory}`);
+  }
+
+  switchBot(name: string): void {
+    EngineCLI.run(`contextFolder.switchBot --value ${name}`);
+  }
+
+  reset(): void {
+    EngineCLI.run("contextFolder.reset");
+  }
+
+  get folderPath(): string {
+    return EngineCLI.engine.contextFolder.folderPath;
+  }
+
+  get availableBots(): string[] {
+    return EngineCLI.engine.contextFolder.availableBots;
+  }
+
+  hydrate(data?: ContextFolderHydrateData): void {
+    EngineCLI.engine.contextFolder.hydrate?.(data ?? {});
+  }
+}
+
+describe("EngineCLI — ContextFolder", () => {
+  beforeEach(() => {
+    EngineCLI.reset();
+  });
+
+  class CliContextFolderTest extends ContextFolderTest {
+    protected createContextFolder(): IContextFolder {
+      return new CliContextFolderWrapper();
+    }
+
+    protected override assertFolderPath(contextFolder: IContextFolder, expected: string): void {
+      // First: standard domain assertion
+      super.assertFolderPath(contextFolder, expected);
+
+      // CLI layer adds: verify all output formats produce correct output
+      const outJson = EngineCLI.run("contextFolder.folderPath", { format: "json" });
+      expect(JSON.parse(outJson)).toEqual({ folderPath: expected });
+
+      const outTty = EngineCLI.run("contextFolder.folderPath", { format: "tty" });
+      expect(outTty).toContain(expected);
+
+      const outMd = EngineCLI.run("contextFolder.folderPath", { format: "markdown" });
+      expect(outMd).toContain(expected);
+    }
+  }
+
+  new CliContextFolderTest().registerTests();
 });

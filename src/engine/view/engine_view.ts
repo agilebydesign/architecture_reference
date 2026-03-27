@@ -6,6 +6,8 @@ import { BaseView } from "../base_view";
 import { Engine } from "../engine";
 import { CounterServer } from "../../counter/counter_server";
 import { CounterView } from "../../counter/view/counter_view";
+import { ContextFolderServer } from "../../context_folder/context_folder_server";
+import { ContextFolderView } from "../../context_folder/view/context_folder_view";
 
 function getNonce(): string {
   return crypto.randomBytes(16).toString("hex");
@@ -16,6 +18,7 @@ export class EngineView extends BaseView {
   private readonly _panel: vscode.WebviewPanel;
   private _engine: Engine;
   public counter: CounterView;
+  public contextFolder: ContextFolderView;
   private _disposables: vscode.Disposable[] = [];
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
@@ -23,10 +26,19 @@ export class EngineView extends BaseView {
     this._panel = panel;
 
     const counterPath = path.join(extensionUri.fsPath, "counter.json");
-    this._engine = new Engine(new CounterServer(counterPath)); // server domain (persistence)
+    const contextFolderPath = path.join(extensionUri.fsPath, "context_folder.json");
+    this._engine = new Engine(
+      new CounterServer(counterPath),
+      new ContextFolderServer(contextFolderPath)
+    ); // server domain (persistence)
     this.counter = new CounterView(
       this._panel,
       this._engine.counter,
+      extensionUri
+    ); // server view
+    this.contextFolder = new ContextFolderView(
+      this._panel,
+      this._engine.contextFolder,
       extensionUri
     ); // server view
 
@@ -63,6 +75,10 @@ export class EngineView extends BaseView {
         this._panel.webview.postMessage({ total: value });
       } else if (key === "bar") {
         this._panel.webview.postMessage({ fooBar: value });
+      } else if (key === "folderPath") {
+        this._panel.webview.postMessage({ folderPath: value });
+      } else if (key === "name" && command.startsWith("contextFolder.")) {
+        this._panel.webview.postMessage({ botName: value });
       }
     }
   }
@@ -82,13 +98,15 @@ export class EngineView extends BaseView {
       webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "dist", ...p)); // TODO: will hardcoding dist work when the extension is bundled for publishing?
     const nonce = getNonce();
     const counterHtml = this.counter.getHtml(); // delegate; EngineView does not know counter markup
+    const contextFolderHtml = this.contextFolder.getHtml();
 
     return this.renderTemplate("dist/engine/view/Engine.html", {
       nonce,
-      content: counterHtml,
+      content: contextFolderHtml + counterHtml,
       themeCssUri: asUri(["view", "theme.css"]).toString(),
       engineCssUri: asUri(["engine", "view", "layout.css"]).toString(),      
       counterClientUri: asUri(["counter", "view", "counter_client.js"]).toString(),
+      contextFolderClientUri: asUri(["context_folder", "view", "context_folder_client.js"]).toString(),
       engineClientUri: asUri(["engine", "view", "engine_client.js"]).toString(),
     });
   }

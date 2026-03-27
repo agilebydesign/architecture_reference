@@ -2,10 +2,12 @@
 // Compiled to JS for webview
 
 import { initCounterClient } from "../../counter/view/counter_client.js";
+import { initContextFolderClient } from "../../context_folder/view/context_folder_client.js";
 
 declare function acquireVsCodeApi(): { postMessage(message: unknown): void };
 
 (function (): void {
   const vscode = acquireVsCodeApi();
   initCounterClient(vscode);
+  initContextFolderClient(vscode);
 })();

@@ -4,6 +4,10 @@ import { CounterTty } from "../counter/adapters/counter_tty.js";
 import { CounterMarkdown } from "../counter/adapters/counter_markdown.js";
 import { CounterJson } from "../counter/adapters/counter_json.js";
 import type { ICounterOutputAdapter } from "../counter/adapters/counter_adapter.js";
+import { ContextFolderTty } from "../context_folder/adapters/context_folder_tty.js";
+import { ContextFolderMarkdown } from "../context_folder/adapters/context_folder_markdown.js";
+import { ContextFolderJson } from "../context_folder/adapters/context_folder_json.js";
+import type { IContextFolderOutputAdapter } from "../context_folder/adapters/context_folder_adapter.js";
 
 // TODO: bundle this in esbuild
 export interface RunOptions {
@@ -57,7 +61,12 @@ export class EngineCLI {
       (obj as Record<string, unknown>)[key] = params.value;
     }
 
-    // Return formatted output via adapter
+    // Return formatted output via adapter, keyed by root path segment
+    const rootSegment = pathStr.split(".")[0];
+    if (rootSegment === "contextFolder") {
+      const adapter = EngineCLI._getContextFolderAdapter(format);
+      return adapter.path;
+    }
     const adapter = EngineCLI._getAdapter(format);
     return adapter.total;
   }
@@ -79,6 +88,17 @@ export class EngineCLI {
         return new CounterJson(EngineCLI._engine.counter);
       default:
         return new CounterTty(EngineCLI._engine.counter);
+    }
+  }
+
+  private static _getContextFolderAdapter(format: string): IContextFolderOutputAdapter {
+    switch (format) {
+      case "markdown":
+        return new ContextFolderMarkdown(EngineCLI._engine.contextFolder);
+      case "json":
+        return new ContextFolderJson(EngineCLI._engine.contextFolder);
+      default:
+        return new ContextFolderTty(EngineCLI._engine.contextFolder);
     }
   }
 }
