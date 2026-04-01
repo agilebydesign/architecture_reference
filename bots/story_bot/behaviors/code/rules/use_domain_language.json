@@ -1,0 +1,55 @@
+{
+  "description": "CRITICAL: Code must use domain-specific language, not generic terms. NEVER use Dict[str, Any], List[str], or generic 'data'/'config'/'parameters' - use typed domain objects. Objects should expose properties representing what they contain (e.g., recommended_trades), not methods that 'generate' or 'calculate' things.",
+  "scanner": "scanners.code.python.domain_language_code_scanner.DomainLanguageCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Use domain-specific language with properties",
+        "content": [
+          "Use domain-specific terms for classes, methods, and variables",
+          "Properties represent what objects contain (recommended_trades)",
+          "Avoid generic terms like 'data', 'config', 'parameter', 'result'",
+          "",
+          "Correct Examples (domain language with properties):",
+          "class RebalanceRecommendation:",
+          "    def __init__(self, portfolio: Portfolio, target: TargetAllocation):",
+          "        self.portfolio = portfolio",
+          "        self.target = target",
+          "",
+          "    @property",
+          "    def recommended_trades(self) -> List[Trade]:",
+          "        # Property represents what the recommendation contains",
+          "        if not hasattr(self, '_recommended_trades'):",
+          "            current_holdings = self.portfolio.holdings.get_many_positions()",
+          "            target_percentages = self.target.asset_classes.percentages",
+          "            self._recommended_trades = self._calculate_trades(",
+          "                current_holdings, target_percentages",
+          "            )",
+          "        return self._recommended_trades"
+        ]
+      },
+      "dont": {
+        "description": "Don't use generic terms or generate/calculate methods",
+        "content": [
+          "Don't use generic terms like 'data', 'config', 'parameter', 'result' without domain context",
+          "Don't use method names like 'generate' or 'calculate' when a property would better represent the domain concept",
+          "",
+          "Wrong Examples (generic terms):",
+          "class RebalanceRecommendation:",
+          "    def generate(self, portfolio_data: dict, target_config: dict):",
+          "        # Generic 'data' and 'config' terms",
+          "        holdings = portfolio_data['holdings']",
+          "        percentages = target_config['percentages']",
+          "        return self._calculate_trades(holdings, percentages)",
+          "",
+          "Generic Term Indicators (REFACTOR):",
+          "- Variables/parameters using 'data', 'config', 'parameter', 'result' without domain context",
+          "- Methods starting with 'generate', 'calculate' when property would be better",
+          "- Classes/types that are generic without domain meaning"
+        ]
+      }
+    }
+  ]
+}
+
+

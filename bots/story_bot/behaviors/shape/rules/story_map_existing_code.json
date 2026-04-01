@@ -1,0 +1,37 @@
+{
+  "priority": 8,
+  "description": "When creating story maps from code, start with the outermost layer (entry points), analyze operations, create epics from higher-order goals, and lay out the story journey.",
+  "do": {
+    "description": "Start with entry points and trace to epics and stories. Example: Operations 'render-outline, render-increments' → Goal 'Render StoryGraph' → Epic 'Render StoryGraph'",
+    "guidance": [
+      {
+        "description": "Step 1: Find Entry Points (CLI commands, UI entry points, MCP server tools, API contracts, acceptance tests)",
+        "example": ["CLI commands (main(), argparse)", "UI entry points (routes, handlers, button clicks)", "MCP server tools (names, parameters)", "API contracts (REST, GraphQL, WSDL)", "Acceptance tests (end-to-end, BDD)"]
+      },
+      {
+        "description": "Step 2: Analyze Operations (list operations, group by functional purpose)"
+      },
+      {
+        "description": "Step 3: Create Epics from Goals (group operations by higher-order goals, create epics from goals NOT class structure)",
+        "example": ["Operations 'render-outline, render-increments' → Goal 'Render StoryGraph' → Epic 'Render StoryGraph'"]
+      },
+      {
+        "description": "Step 4: Create Sub-Epics from Behaviors (identify distinct behaviors for each epic, group into sub-epics)",
+        "example": ["Epic 'Render StoryGraph' → Sub-Epics 'Render Outline', 'Render Increments'"]
+      },
+      {
+        "description": "Step 5: Lay Out Story Journey (trace code flow: Start → Middle → End, include WHEN/WHY/OUTCOME/ACTOR, include error handling)",
+        "example": ["User --> invokes command, System --> validates input, System --> processes, System --> confirms"]
+      }
+    ]
+  },
+  "dont": {
+    "description": "Don't start with internal classes or create epics from class structure. Example: Creating epics from class structure (WRONG) → Create epics from goals (CORRECT)",
+    "guidance": [
+      {
+        "description": "Don't start with internal classes instead of entry points - don't create epics from class structure instead of goals - don't create stories from every method call - don't miss context (when/why/outcome) in stories - don't make implementation details into stories",
+        "example": ["Starting with internal classes instead of entry points", "Creating epics from class structure instead of goals", "Creating stories from every method call", "Missing context (when/why/outcome) in stories", "Making implementation details into stories"]
+      }
+    ]
+  }
+}

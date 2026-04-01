@@ -8,6 +8,10 @@ import { ContextFolderTty } from "../context_folder/adapters/context_folder_tty.
 import { ContextFolderMarkdown } from "../context_folder/adapters/context_folder_markdown.js";
 import { ContextFolderJson } from "../context_folder/adapters/context_folder_json.js";
 import type { IContextFolderOutputAdapter } from "../context_folder/adapters/context_folder_adapter.js";
+import { BotBehaviorTty } from "../bot_behavior/adapters/bot_behavior_tty.js";
+import { BotBehaviorMarkdown } from "../bot_behavior/adapters/bot_behavior_markdown.js";
+import { BotBehaviorJson } from "../bot_behavior/adapters/bot_behavior_json.js";
+import type { IBotBehaviorOutputAdapter } from "../bot_behavior/adapters/bot_behavior_adapter.js";
 
 // TODO: bundle this in esbuild
 export interface RunOptions {
@@ -67,6 +71,14 @@ export class EngineCLI {
       const adapter = EngineCLI._getContextFolderAdapter(format);
       return adapter.path;
     }
+    if (rootSegment === "botBehavior") {
+      const adapter = EngineCLI._getBotBehaviorAdapter(format);
+      const secondSegment = pathStr.split(".")[1];
+      if (secondSegment === "currentAction" || secondSegment === "loadActions" || secondSegment === "actions") {
+        return adapter.action;
+      }
+      return adapter.behavior;
+    }
     const adapter = EngineCLI._getAdapter(format);
     return adapter.total;
   }
@@ -99,6 +111,17 @@ export class EngineCLI {
         return new ContextFolderJson(EngineCLI._engine.contextFolder);
       default:
         return new ContextFolderTty(EngineCLI._engine.contextFolder);
+    }
+  }
+
+  private static _getBotBehaviorAdapter(format: string): IBotBehaviorOutputAdapter {
+    switch (format) {
+      case "markdown":
+        return new BotBehaviorMarkdown(EngineCLI._engine.botBehavior);
+      case "json":
+        return new BotBehaviorJson(EngineCLI._engine.botBehavior);
+      default:
+        return new BotBehaviorTty(EngineCLI._engine.botBehavior);
     }
   }
 }

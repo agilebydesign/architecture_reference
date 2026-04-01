@@ -1,0 +1,8 @@
+{
+  "typical_assumptions": [
+    "Thin slices should provide either value, learning, or risk reduction",
+    "Slices do not need to include all functionality to be useful",
+    "Not every increment must be user-visible if it validates key assumptions",
+    "Some slices may be architectural if they unlock multiple features"
+  ]
+}

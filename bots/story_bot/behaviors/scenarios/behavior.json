@@ -1,0 +1,124 @@
+{
+  "behaviorName": "specification_scenarios",
+  "order": 4,
+  "description": "Write detailed plain-English scenarios (Given/When/Then) that specify exact behavior for each story",
+  "goal": "Specify stories with detailed, testable scenarios using plain English",
+  "inputs": "Acceptance criteria from exploration, integration contracts, domain language/concepts",
+  "outputs": "Individual story .md files with detailed scenarios (no variables/examples tables)",
+  "baseActionsPath": "base_actions",
+  "instructions": [
+    "Write detailed plain-English scenarios (Given/When/Then) that specify exact behavior for each story"
+  ],
+  "actions_workflow": {
+    "actions": [
+      {
+        "name": "clarify",
+        "order": 1,
+        "next_action": "strategy",
+        "instructions": []
+      },
+      {
+        "name": "strategy",
+        "order": 2,
+        "next_action": "build",
+        "instructions": []
+      },
+      {
+        "name": "build",
+        "order": 3,
+        "next_action": "validate",
+        "instructions": [
+          "Follow agile_bot/bots/story_bot/behaviors/scenarios/content/story_graph/instructions.json",
+          "specification_scenarios: build scenarios using domain language",
+          "Use proper domain terminology in scenario steps - refer to domain concepts and entities",
+          "Add/update scenarios and scenario_outlines ONLY in main epics section (single source of truth), NOT in increments section",
+          "",
+          "**STORY GRAPH UPDATE STRATEGY (use when story-graph.json already exists):**",
+          "",
+          "When updating an existing story graph, do NOT read and rewrite the entire story-graph.json manually.",
+          "Choose one of these approaches in order of preference:",
+          "",
+          "1. **API approach (preferred for targeted changes):**",
+          "   Use the StoryMap node API via CLI dot-notation to make surgical changes.",
+          "   - Navigate: story_map.filter_by_name name:\"Story Name\" to read only the relevant subtree",
+          "   - Create:  story_map.\"Epic\".\"SubEpic\".\"Story\".create_scenario name:\"Scenario Name\"",
+          "   - Create:  story_map.\"Epic\".\"SubEpic\".\"Story\".create_acceptance_criteria name:\"WHEN condition THEN outcome\"",
+          "   - Rename:  story_map.\"Epic\".\"SubEpic\".\"Story\".rename name:\"New Name\"",
+          "   - Move:    story_map.\"Epic\".\"SubEpic\".\"Story\".move_to target:\"Other SubEpic\"",
+          "   - Reorder: story_map.\"Epic\".\"SubEpic\".\"Story\".move_to at_position:2",
+          "   - Delete:  story_map.\"Epic\".\"SubEpic\".\"Story\".\"Old Scenario\".delete",
+          "   Each call auto-saves the full graph safely through in-memory tree serialization.",
+          "",
+          "2. **Bulk approach (for sweeping changes across many stories):**",
+          "   Build a temporary StoryMap with just your changes using the same create API (without bot context),",
+          "   then use generate_merge_report() to compare against the original, and merge_story_graphs() to apply.",
+          "   The merge preserves all original data (acceptance_criteria, scenarios, steps, metadata) you did not change.",
+          "",
+          "3. **Manual JSON edit (last resort only):**",
+          "   Only if the API and bulk approaches cannot handle the situation.",
+          "   Use filter_by_name to read a scoped subtree rather than the full file.",
+          "   Write changes back through the StoryMap.save() method, as opposed to by editing story-graph.json directly."
+        ]
+      },
+      {
+        "name": "validate",
+        "order": 4,
+        "next_action": "render",
+        "instructions": [
+          "specification_scenarios: validate scenario structure and domain language usage",
+          "Validate that scenarios use proper domain terminology and reference domain concepts correctly"
+        ]
+      },
+      {
+        "name": "render",
+        "order": 5,
+        "instructions": [
+          "specification_scenarios: render story documents with scenarios"
+        ]
+      },
+      {
+        "name": "rules",
+        "instructions": [
+          "Display digested rules for this behavior as AI context"
+        ]
+      }
+    ]
+  },
+  "trigger_words": {
+    "description": "Behavior-level trigger words - specific to specification scenarios writing behavior",
+    "patterns": [
+      "specify.*scenarios",
+      "*specification",
+      "write.*scenarios",
+      "define.*test.*scenario",
+      "write.*details",
+      "get.*to.*exact.*flow",
+      "describe.*step.*by.*step",
+      "elaborate.*flow",
+      "model.*edge.*cases",
+      "walk.*through.*test.*case",
+      "spec.*acceptance.*scenario",
+      "detail.*logic",
+      "level.*specification",
+      "define.*preconditions",
+      "create.*test.*scenarios",
+      "scenario.*based.*design",
+      "specification.*scenarios",
+      "specify.*examples",
+      "add.*test.*data",
+      "define.*test.*data",
+      "write.*examples",
+      "create.*examples.*table",
+      "add.*variables.*to.*scenarios",
+      "convert.*to.*scenario.*outline",
+      "add.*examples.*to.*scenarios",
+      "define.*inputs",
+      "define.*expected.*functionality",
+      "capture.*data.*needs",
+      "specification.*examples",
+      "test.*data"
+    ]
+  }
+}
+
+

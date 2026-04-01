@@ -1,0 +1,69 @@
+{
+    "priority":  2,
+    "description":  "Use ONE word per concept across entire codebase. Pick consistent vocabulary: create (not build/make/construct), verify (not check/assert/validate), load (not fetch/get/retrieve). Use intention-revealing names that describe behavior. Example: create_agent(), verify_initialized(), load_config() - same verbs everywhere",
+    "do":  {
+               "description":  "Use same word for same concept everywhere. Example: create_agent(), create_config(), create_workspace() - all use \u0027create\u0027",
+               "guidance":  [
+                                {
+                                    "description":  "Use \u0027create_*\u0027 consistently for all creation",
+                                    "example":  [
+                                                    "def create_agent(name):",
+                                                    "def create_config(workspace):",
+                                                    "def create_workspace(tmp_path):"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use \u0027verify_*\u0027 consistently for all assertions",
+                                    "example":  [
+                                                    "def verify_agent_initialized(agent):",
+                                                    "def verify_config_valid(config):",
+                                                    "def verify_file_exists(path):"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use \u0027load_*\u0027 consistently for reading data",
+                                    "example":  [
+                                                    "def load_config(workspace):",
+                                                    "def load_graph(path):",
+                                                    "def load_data(file):"
+                                                ]
+                                },
+                                {
+                                    "description":  "Document vocabulary choices in test file docstring",
+                                    "example":  [
+                                                    "\"\"\"Vocabulary: create_* (objects), verify_* (assertions), load_* (files), setup_* (preconditions)\"\"\""
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t mix synonyms for same concept. Example: create_agent() + build_config() + make_workspace() (wrong - pick one verb)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t mix create/build/make/construct",
+                                      "example":  [
+                                                      "def create_agent():",
+                                                      "def build_config():  # WRONG - use create_config",
+                                                      "def make_workspace():  # WRONG"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mix verify/check/assert/validate randomly",
+                                      "example":  [
+                                                      "def verify_agent():",
+                                                      "def check_config():  # WRONG - use verify_config",
+                                                      "def assert_file():  # WRONG"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use vague or abbreviated names",
+                                      "example":  [
+                                                      "def setup(data):  # WRONG - setup what?",
+                                                      "def do_thing(obj):  # WRONG",
+                                                      "def test1(self):  # WRONG"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.consistent_vocabulary_scanner.ConsistentVocabularyScanner"
+}

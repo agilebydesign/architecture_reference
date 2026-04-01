@@ -1,0 +1,68 @@
+{
+  "description": "Each test should verify a single concept. Test one behavior per test, use minimal assertions per test, and build domain-specific test utilities.",
+  "examples": [
+    {
+      "do": {
+        "description": "Test one concept per test",
+        "content": [
+          "Test one behavior per test",
+          "Use minimal assertions per test (1-3 assertions)",
+          "Build domain-specific test utilities",
+          "Create focused, targeted tests",
+          "",
+          "Correct Examples (one concept):",
+          "test('validates order requires items', () => {",
+          "  const order = createOrderWithoutItems();",
+          "  expect(() => validateOrder(order)).toThrow('Order must have items');",
+          "});",
+          "",
+          "test('validates order requires customer', () => {",
+          "  const order = createOrderWithoutCustomer();",
+          "  expect(() => validateOrder(order)).toThrow('Order must have customer');",
+          "});",
+          "",
+          "One Concept Requirements:",
+          "- Each test verifies single behavior",
+          "- Test name describes one thing",
+          "- Failure pinpoints exact issue",
+          "- Minimal assertions (typically 1-3)",
+          "- Use test utilities to reduce setup duplication"
+        ]
+      },
+      "dont": {
+        "description": "Don't test multiple unrelated concepts together",
+        "content": [
+          "Don't test multiple unrelated concepts together",
+          "Don't create massive test setups",
+          "Don't repeat setup code across tests",
+          "",
+          "Wrong Examples (multiple concepts):",
+          "test('order validation', () => {",
+          "  // Tests 5 different validations in one test",
+          "  expect(validateOrder(noItems)).toThrow();",
+          "  expect(validateOrder(noCustomer)).toThrow();",
+          "  expect(validateOrder(negativeTotal)).toThrow();",
+          "  expect(validateOrder(invalidEmail)).toThrow();",
+          "  expect(validateOrder(validOrder)).not.toThrow();",
+          "  // When this fails, which validation broke?",
+          "});",
+          "",
+          "Multiple Concepts Indicators (REFACTOR):",
+          "- Test name vague (test everything)",
+          "- Many assertions (5+)",
+          "- Testing multiple behaviors",
+          "- When test fails, unclear which part failed",
+          "- Repeated setup code in every test",
+          "",
+          "Refactoring Strategy:",
+          "- Split into separate tests (one per concept)",
+          "- Extract setup into test utilities:",
+          "  - createTestOrder(), createValidOrder(), etc.",
+          "- Each test should fail for ONE reason",
+          "- Test name should describe the ONE thing tested"
+        ]
+      }
+    }
+  ],
+  "scanner": "agile_bot.bots.base_bot.src.actions.validate.scanners.one_concept_per_test_scanner.OneConceptPerTestScanner"
+}

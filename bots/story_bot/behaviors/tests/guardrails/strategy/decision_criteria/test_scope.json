@@ -1,0 +1,11 @@
+{
+  "description": "Test scope determination",
+  "question": "What level of testing is appropriate for this scenario?",
+  "outcome": "Determines the appropriate testing strategy and coverage",
+  "options": [
+    "Unit tests only - Test individual components in isolation",
+    "Integration tests - Test interactions between components",
+    "End-to-end tests - Test complete user workflows",
+    "All levels - Comprehensive test coverage across all levels"
+  ]
+}

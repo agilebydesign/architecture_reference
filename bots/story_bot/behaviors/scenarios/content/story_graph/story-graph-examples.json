@@ -1,0 +1,139 @@
+{
+  "_explanation": {
+    "purpose": "EXAMPLE TEMPLATE - shows correct format for writing scenarios with optional examples for data-driven testing",
+    "scenario_structure": "scenarios array: each has name, sequential_order, type (happy_path/edge_case/error_case), steps (single newline-delimited string of Given/When/Then), background (array), test_method, and optional examples",
+    "steps_format": "steps is a SINGLE STRING with newline separators. NOT an array of objects. Example: \"Given state exists\\nWhen action occurs\\nThen outcome is observed\"",
+    "background_format": "background is an ARRAY (empty [] when no shared setup). When used with examples, background holds shared Given/And steps as strings in the array.",
+    "examples_structure": "Scenario-level examples hold ONLY scenario-specific tables. Each table has name, columns, rows.",
+    "variable_matching": "Every <variable_name> in steps MUST appear in example columns. Include both input variables and expected output/result variables",
+    "domain_alignment": "Example tables MUST mirror domain_concepts structure: each domain concept with collaborators becomes a related table, responsibilities define the columns",
+    "use_case": "Reference this template when writing scenarios to see correct Gherkin format and Examples table structure",
+    "context_source": "REQUIRED on scenarios and examples - traces knowledge to source document, page, section, or conversation. Format: {file, page, section} or {type: 'chat'|'code'|'inferred', description}"
+  },
+  "epics": [
+    {
+      "name": "",
+      "sequential_order": 1,
+      "estimated_stories": null,
+      "sub_epics": [
+        {
+          "name": "",
+          "sequential_order": 1,
+          "estimated_stories": null,
+          "sub_epics": [],
+          "test_file": "",
+          "story_groups": [
+            {
+              "type": "and",
+              "connector": null,
+              "sequential_order": 1,
+              "stories": [
+                {
+                  "name": "",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "users": [],
+                  "story_type": "user",
+                  "test_file": "",
+                  "test_class": "",
+                  "background": [],
+                  "scenarios": [
+                    {
+                      "name": "Simple scenario without examples",
+                      "sequential_order": 1.0,
+                      "type": "happy_path",
+                      "background": [],
+                      "test_method": "",
+                      "context_source": {"file": "requirements.pdf", "page": "15", "section": "4.1 Basic Flow"},
+                      "steps": "Given {Concept} exists with valid state\nWhen admin performs action on {Concept}\nThen {Concept} is updated\nAnd confirmation is displayed"
+                    },
+                    {
+                      "name": "Scenario with flat examples",
+                      "sequential_order": 2.0,
+                      "type": "happy_path",
+                      "background": [],
+                      "test_method": "",
+                      "context_source": {"file": "requirements.pdf", "page": "15", "section": "4.1 Basic Flow"},
+                      "steps": "Given {Concept} is in state \"<state>\"\nWhen admin performs \"<action>\" on {Concept}\nThen {Concept} result is \"<expected_result>\"",
+                      "examples": [
+                        {
+                          "name": "Input",
+                          "columns": ["state", "action", "expected_result"],
+                          "rows": [
+                            ["active", "update", "updated successfully"],
+                            ["inactive", "activate", "activated successfully"]
+                          ],
+                          "context_source": {"file": "test-data.xlsx", "page": "Sheet1", "section": "Test Cases 1-2"}
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Error scenario",
+                      "sequential_order": 3.0,
+                      "type": "error_case",
+                      "background": [],
+                      "test_method": "",
+                      "context_source": {"file": "requirements.pdf", "page": "18", "section": "4.3 Error Handling"},
+                      "steps": "Given {Concept} has invalid data\nWhen admin submits {Concept}\nThen error message is displayed\nAnd {Concept} is not saved"
+                    },
+                    {
+                      "name": "Scenario with hierarchical domain-aligned examples",
+                      "sequential_order": 4.0,
+                      "type": "happy_path",
+                      "background": [],
+                      "test_method": "",
+                      "context_source": {"file": "requirements.pdf", "page": "20", "section": "5.2 Customer Account Lookup"},
+                      "steps": "Given Customer \"<customer_name>\" has account \"<account_number>\"\nAnd Account belongs to product \"<product_name>\"\nAnd Account has transactions shown in table\nWhen Customer looks up account\nThen Customer sees transactions for \"<product_name>\"\nAnd Customer sees \"<expected_outcome>\"",
+                      "examples": [
+                        {
+                          "name": "Customer",
+                          "columns": ["customer_name", "customer_type", "expected_outcome"],
+                          "rows": [
+                            ["Alice Smith", "premium", "transaction approved"],
+                            ["Bob Jones", "standard", "transaction pending review"]
+                          ],
+                          "context_source": {"file": "test-data.xlsx", "page": "Customers", "section": "Premium and Standard"}
+                        },
+                        {
+                          "name": "Account",
+                          "columns": ["customer_name", "account_number", "product_name", "balance"],
+                          "rows": [
+                            ["Alice Smith", "ACC-001", "Gold Savings", "50000"],
+                            ["Bob Jones", "ACC-002", "Basic Checking", "1500"]
+                          ],
+                          "context_source": {"file": "test-data.xlsx", "page": "Accounts", "section": "Test Accounts"}
+                        },
+                        {
+                          "name": "Transaction",
+                          "columns": ["account_number", "transaction_id", "amount", "type"],
+                          "rows": [
+                            ["ACC-001", "TXN-101", "500", "deposit"],
+                            ["ACC-001", "TXN-102", "200", "withdrawal"],
+                            ["ACC-001", "TXN-103", "1000", "transfer"],
+                            ["ACC-002", "TXN-201", "100", "deposit"],
+                            ["ACC-002", "TXN-202", "50", "withdrawal"]
+                          ],
+                          "context_source": {"file": "test-data.xlsx", "page": "Transactions", "section": "Sample Transactions"}
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "stories": []
+    }
+  ],
+  "increments": [
+    {
+      "name": "",
+      "priority": 1,
+      "stories": [
+        ""
+      ]
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+<mxfile host="65bd71144e">
+    <diagram id="story-map" name="Story Map">
+        <mxGraphModel dx="1238" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4000" pageHeight="3000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="e1f1" value="&lt;span style=&quot;color: rgb(5, 5, 5);&quot;&gt;Feature&lt;/span&gt;&lt;br style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5);&quot;&gt;&lt;font style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5); font-size: 8px;&quot;&gt;&lt;i style=&quot;border-color: rgb(218, 220, 224);&quot;&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;~##&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;stories&lt;/span&gt;&lt;/i&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1262" y="410" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1262" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1322" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1262" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="epic1" value="&lt;span style=&quot;color: rgb(5, 5, 5);&quot;&gt;Epic&lt;/span&gt;&lt;br style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5);&quot;&gt;&lt;i style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5); font-size: 8px;&quot;&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;~##&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;stories&lt;/span&gt;&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1262" y="340" width="668" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="missing_story_157" value="System Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#33FFFF;strokeColor=#6c8ebf;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1381" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="157" value="Sytem" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1381" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="158" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1381" y="769" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="159" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1587" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="163" value="System Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#33FFFF;strokeColor=#6c8ebf;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1647" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="167" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1849" y="548" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="168" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1789" y="548" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="170" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="709" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="171" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1320" y="769" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="172" value="Optional Story / Diff User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="769" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="173" value="System Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#33FFFF;strokeColor=#6c8ebf;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1441" y="769" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="174" value="&lt;span style=&quot;color: rgb(5, 5, 5);&quot;&gt;Feature&lt;/span&gt;&lt;br style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5);&quot;&gt;&lt;font style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5); font-size: 8px;&quot;&gt;&lt;i style=&quot;border-color: rgb(218, 220, 224);&quot;&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;~##&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;stories&lt;/span&gt;&lt;/i&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1582" y="410" width="350" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="176" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1323" y="611" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="177" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1586" y="611" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="181" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1587" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="182" value="Sytem" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1647" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="183" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1789" y="488" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="184" value="&lt;span style=&quot;color: rgb(5, 5, 5);&quot;&gt;Feature&lt;/span&gt;&lt;br style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5);&quot;&gt;&lt;font style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5); font-size: 8px;&quot;&gt;&lt;i style=&quot;border-color: rgb(218, 220, 224);&quot;&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;~##&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;stories&lt;/span&gt;&lt;/i&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1954" y="410" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="185" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1954" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="186" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2014" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="187" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1954" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="188" value="&lt;span style=&quot;color: rgb(5, 5, 5);&quot;&gt;Epic&lt;/span&gt;&lt;br style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5);&quot;&gt;&lt;i style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5); font-size: 8px;&quot;&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;~##&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;stories&lt;/span&gt;&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1954" y="340" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="189" value="System Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#33FFFF;strokeColor=#6c8ebf;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2073" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="191" value="Sytem" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2073" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="193" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2279" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="197" value="System Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#33FFFF;strokeColor=#6c8ebf;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2339" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="198" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2516" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="199" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2456" y="550" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="200" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1952" y="719" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="201" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2012" y="779" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="202" value="Optional Story / Diff User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="1952" y="779" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="204" value="&lt;span style=&quot;color: rgb(5, 5, 5);&quot;&gt;Feature&lt;/span&gt;&lt;br style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5);&quot;&gt;&lt;font style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5); font-size: 8px;&quot;&gt;&lt;i style=&quot;border-color: rgb(218, 220, 224);&quot;&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;~##&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;stories&lt;/span&gt;&lt;/i&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="2274" y="410" width="350" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="205" value="&lt;span style=&quot;color: rgb(5, 5, 5);&quot;&gt;Epic&lt;/span&gt;&lt;br style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5);&quot;&gt;&lt;i style=&quot;border-color: rgb(218, 220, 224); color: rgb(5, 5, 5); font-size: 8px;&quot;&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;~##&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;border-color: rgb(218, 220, 224); text-align: left;&quot;&gt;stories&lt;/span&gt;&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="2274" y="340" width="350" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="206" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2015" y="611" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="207" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2278" y="611" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="208" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2456" y="611" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="211" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2279" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="212" value="Sytem" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2339" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="213" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="2455" y="490" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="218" value="Iincrement&lt;br&gt;~## stories" style="whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#f8f7f7;" vertex="1" parent="1">
+                    <mxGeometry x="1090" y="510" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="223" value="Human" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="1261" y="861" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="224" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="1582" y="851" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="253" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="1260" y="914" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="254" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="1320" y="914" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="258" value="Optional Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="1321" y="975" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="259" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="2275" y="912" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="263" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="2551" y="912" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="264" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="2491" y="912" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="269" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="2275" y="852" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="271" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="2491" y="852" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="272" value="User Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="1648" y="911" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="273" value="User" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="1648" y="851" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="277" value="" style="endArrow=none;dashed=1;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1080" y="689" as="sourcePoint"/>
+                        <mxPoint x="2721.6843133223683" y="689" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="278" value="Increment&lt;br&gt;~## stories" style="whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#f8f7f7;" vertex="1" parent="1">
+                    <mxGeometry x="1100" y="520" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="279" value="Increment&lt;br&gt;~## stories" style="whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#f8f7f7;" vertex="1" parent="1">
+                    <mxGeometry x="1090" y="719" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="280" value="" style="endArrow=none;dashed=1;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1090" y="843" as="sourcePoint"/>
+                        <mxPoint x="2731.6843133223683" y="843" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="281" value="Increment&lt;br&gt;~## stories" style="whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#f8f7f7;" vertex="1" parent="1">
+                    <mxGeometry x="1100" y="869" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="283" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="1462" y="714" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="284" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="2164" y="709" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="285" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="2534" y="709" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="286" value="System Story" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#33FFFF;strokeColor=#6c8ebf;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="1381" y="914" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="287" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="1472" y="861" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="288" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="2151" y="857" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="289" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="2555" y="851" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="290" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="1843" y="851" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="291" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="1472" y="480" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="292" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="1843" y="480" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="293" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="2164" y="480" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="294" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;~## stories&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="2541" y="480" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="295" value="Increment&lt;br&gt;~## stories" style="whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#f8f7f7;" vertex="1" parent="1">
+                    <mxGeometry x="1100" y="1050" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="296" value="Increment&lt;br&gt;~## stories" style="whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#f8f7f7;" vertex="1" parent="1">
+                    <mxGeometry x="1100" y="1130" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="297" value="" style="endArrow=none;dashed=1;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1100" y="1047.5" as="sourcePoint"/>
+                        <mxPoint x="2741.6843133223683" y="1047.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="298" value="" style="endArrow=none;dashed=1;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1098" y="1132" as="sourcePoint"/>
+                        <mxPoint x="2739.6843133223683" y="1132" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

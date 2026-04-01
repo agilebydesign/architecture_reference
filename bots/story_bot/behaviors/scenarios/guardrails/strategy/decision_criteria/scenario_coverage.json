@@ -1,0 +1,37 @@
+{
+  "description": "What types of scenarios should be included for comprehensive coverage?",
+  "question": "Which scenario types should be covered?",
+  "options": [
+    {
+      "id": "happy_path",
+      "name": "Happy Path",
+      "description": "Standard successful flow through the feature",
+      "when_to_use": "Always include at least one happy path scenario"
+    },
+    {
+      "id": "edge_case",
+      "name": "Edge Cases",
+      "description": "Boundary conditions and unusual but valid inputs",
+      "when_to_use": "When input validation or limits are important"
+    },
+    {
+      "id": "error_handling",
+      "name": "Error Handling",
+      "description": "Expected error conditions and how they should be handled",
+      "when_to_use": "When failure modes need explicit documentation"
+    },
+    {
+      "id": "security",
+      "name": "Security Scenarios",
+      "description": "Authentication, authorization, and input sanitization",
+      "when_to_use": "When the feature handles sensitive data or access control"
+    },
+    {
+      "id": "performance",
+      "name": "Performance Scenarios",
+      "description": "Load handling, timeouts, and resource constraints",
+      "when_to_use": "When performance requirements are explicit"
+    }
+  ],
+  "outcome": "Selected scenario types guide the generation of comprehensive test coverage"
+}

@@ -1,0 +1,51 @@
+{
+  "description": "CRITICAL: Code must be organized by domain area and relationships, not by technical layers, object types, or architectural concerns.",
+  "scanner": "scanners.code.python.domain_grouping_code_scanner.DomainGroupingCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Organize code by domain area",
+        "content": [
+          "Group related classes together by domain area",
+          "Keep domain concepts in same module regardless of technical layer",
+          "Use domain-based package/module structure",
+          "",
+          "Correct Examples (grouped by domain):",
+          "# wealth_management/",
+          "#   wealth_advisor.py",
+          "#   client.py",
+          "#   portfolio.py",
+          "",
+          "# investment_planning/",
+          "#   rebalance_action.py",
+          "#   rebalance_recommendation.py"
+        ]
+      },
+      "dont": {
+        "description": "Don't organize by technical layers or object types",
+        "content": [
+          "Don't group by technical layers (presentation, business, data)",
+          "Don't group by object types (DTOs, services, repositories)",
+          "Don't group by architectural concerns",
+          "",
+          "Wrong Examples (grouped by technical layers):",
+          "# presentation/",
+          "#   portfolio_report.py",
+          "",
+          "# business/",
+          "#   wealth_advisor.py",
+          "",
+          "# data/",
+          "#   portfolio_repository.py",
+          "",
+          "Technical Grouping Indicators (REFACTOR):",
+          "- Packages/modules named 'layer', 'tier', 'service', 'repository', 'dto'",
+          "- Grouping by technical concerns instead of domain relationships",
+          "- Separating domain concepts by architectural layers"
+        ]
+      }
+    }
+  ]
+}
+
+

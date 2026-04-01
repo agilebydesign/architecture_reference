@@ -3,5 +3,5 @@ out/
 dist/
 *.vsix
 .vscode-test/
-counter.json
+persistence/*
 .wdio-vscode-service

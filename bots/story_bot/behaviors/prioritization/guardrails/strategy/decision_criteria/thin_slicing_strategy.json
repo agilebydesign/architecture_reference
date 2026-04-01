@@ -1,0 +1,14 @@
+{
+  "description": "Thin slicing strategy",
+  "question": "What dimension are you using to slice this increment thinner?",
+  "options": [
+    "Users - target specific roles or contexts first (e.g., tablet app for store associates only)",
+    "Workflow - implement simple workflow paths before complex variants (e.g., notify only successful applicants)",
+    "Interfaces - limit interaction channels (e.g., online only, no in-branch)",
+    "Data Variations - process one data type first (e.g., monitor only redemption rate)",
+    "Environment - target specific technology or physical means (e.g., out-of-store only)",
+    "Business Rule Variations - implement limited constraints initially (e.g., limited fraud rules)",
+    "Subjective Quality - reduce NFRs for early adopters (e.g., 50 users, lower performance targets)",
+    "Spike - extremely rough implementation thrown away after getting desired learning"
+  ]
+}

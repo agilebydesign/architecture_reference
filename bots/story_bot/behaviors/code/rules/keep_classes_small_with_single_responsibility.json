@@ -1,0 +1,60 @@
+{
+  "description": "CRITICAL: Classes should be small (under 200-300 lines) with a single responsibility. Keep classes cohesive (methods/data interdependent), eliminate dead code, and favor many small focused classes over few large ones.",
+  "examples": [
+    {
+      "do": {
+        "description": "Keep classes small and focused on single responsibility",
+        "content": [
+          "Keep classes under 200-300 lines",
+          "Keep classes cohesive (methods use shared instance variables)",
+          "Each class has ONE reason to change",
+          "Eliminate dead/unused code",
+          "Favor many small classes over few large ones",
+          "",
+          "Correct Examples (small, focused classes):",
+          "- class OrderValidator { validate(order) {...} }",
+          "- class OrderRepository { save(order) {...} find(id) {...} }",
+          "- class OrderCalculator { calculateTotal(order) {...} }",
+          "",
+          "Small + Single Responsibility Benefits:",
+          "- Easier to understand and maintain",
+          "- Easier to test in isolation",
+          "- High cohesion: methods share instance variables",
+          "- Clear, focused class name",
+          "- One reason to change"
+        ]
+      },
+      "dont": {
+        "description": "Don't create large god objects with multiple responsibilities",
+        "content": [
+          "Don't create 'god objects' doing everything",
+          "Don't let classes grow beyond 200-300 lines",
+          "Don't mix unrelated responsibilities",
+          "Don't keep commented-out code",
+          "",
+          "Wrong Examples (too large or multiple responsibilities):",
+          "class OrderManager {",
+          "  validate() {...}        // validation responsibility",
+          "  calculateTotal() {...}  // calculation responsibility",
+          "  save() {...}           // persistence responsibility",
+          "  sendEmail() {...}      // notification responsibility",
+          "}",
+          "",
+          "Refactoring Indicators:",
+          "- Class exceeds 200-300 lines",
+          "- Class name with 'Manager', 'Handler', 'Util', 'Helper'",
+          "- Low cohesion: methods use different subsets of instance variables",
+          "- Class changes for multiple reasons",
+          "- Many methods (15+) doing unrelated things",
+          "",
+          "Refactoring Strategy:",
+          "- Extract each responsibility into separate class",
+          "- Prefer 5 classes of 100 lines over 1 class of 500 lines",
+          "- Use composition to combine small classes"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.class_size_scanner.ClassSizeScanner"
+}
+

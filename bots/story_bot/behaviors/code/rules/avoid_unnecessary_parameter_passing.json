@@ -1,0 +1,58 @@
+{
+  "description": "Don't pass parameters to internal methods when the value is already accessible through instance variables. Access instance properties directly instead of passing them around unnecessarily.",
+  "examples": [
+    {
+      "do": {
+        "description": "Access instance properties directly in internal methods",
+        "content": [
+          "Use self.property_name directly in internal methods",
+          "Access instance variables through self",
+          "Only pass parameters when they're not available through self",
+          "",
+          "Correct Examples (direct access):",
+          "- self._load_render_instructions() instead of self._load_render_instructions(self.behavior.folder)",
+          "- self._find_render_folder() instead of self._find_render_folder(self.behavior.folder)",
+          "- Direct access: self.behavior.bot_paths instead of passing bot_paths parameter",
+          "",
+          "When Parameters Are Appropriate:",
+          "- External API methods that need explicit parameters",
+          "- Public methods that are part of the interface",
+          "- Methods that need different values than what's in self",
+          "- Methods that operate on passed-in data structures",
+          "",
+          "Internal Method Pattern:",
+          "- Private methods (_method_name) should use self directly",
+          "- Helper methods should access instance state through self",
+          "- Only pass parameters for values not in instance state"
+        ]
+      },
+      "dont": {
+        "description": "Don't pass instance properties as parameters to internal methods",
+        "content": [
+          "Don't pass self.property as parameter to internal method",
+          "Don't extract instance variable just to pass it to another method",
+          "Don't pass properties that are already accessible through self",
+          "",
+          "Wrong Examples (unnecessary passing):",
+          "- behavior_folder = self.behavior.folder; self._load(behavior_folder)",
+          "- bot_paths = self.behavior.bot_paths; self._process(bot_paths)",
+          "- working_dir = self.working_dir; self._do_something(working_dir)",
+          "",
+          "Unnecessary Parameter Passing Indicators:",
+          "- Variable extracted from self just before method call",
+          "- Parameter passed to method that could access self.property directly",
+          "- Internal method receives parameter that matches instance property",
+          "- Same value passed through multiple method calls",
+          "",
+          "Refactoring Strategies:",
+          "- Remove parameter from method signature",
+          "- Access property directly through self in method body",
+          "- Remove intermediate variable extraction",
+          "- Simplify method calls to not pass instance properties"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.unnecessary_parameter_passing_scanner.UnnecessaryParameterPassingScanner"
+}
+

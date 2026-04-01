@@ -1,0 +1,10 @@
+{
+  "name": "build_story_graph_explored",
+  "path": "docs/story",
+  "template": "story-graph-explored.json",
+  "output": "story-graph.json",
+  "parameters": {
+    "scope": "full"
+  }
+}
+

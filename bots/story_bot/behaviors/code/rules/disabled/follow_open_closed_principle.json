@@ -1,0 +1,67 @@
+{
+  "description": "Open for extension, closed for modification. Design for extension without modification, depend on interfaces/abstractions not concrete types, and use composition over inheritance.",
+  "examples": [
+    {
+      "do": {
+        "description": "Design classes open for extension, closed for modification",
+        "content": [
+          "Design for extension without modification",
+          "Depend on interfaces/abstractions, not concrete types",
+          "Use composition over inheritance",
+          "Program to interfaces, not implementations",
+          "",
+          "Correct Examples (open/closed):",
+          "interface PaymentProcessor {",
+          "  process(payment: Payment): Result;",
+          "}",
+          "",
+          "class OrderService {",
+          "  constructor(private processor: PaymentProcessor) {}",
+          "  // Can extend with new processors without modifying OrderService",
+          "}",
+          "",
+          "Open/Closed Requirements:",
+          "- New behavior through new classes, not modifying existing",
+          "- Depend on abstractions (interfaces) not concrete classes",
+          "- Use polymorphism instead of if/switch on type",
+          "- Composition over inheritance for flexibility"
+        ]
+      },
+      "dont": {
+        "description": "Don't hardcode dependencies on concrete classes",
+        "content": [
+          "Don't hardcode dependencies on concrete classes",
+          "Don't let derived classes leak into base classes",
+          "Don't create fragile inheritance hierarchies",
+          "",
+          "Wrong Examples (closed for extension):",
+          "class OrderService {",
+          "  process(payment: Payment) {",
+          "    if (payment.type === 'credit') {",
+          "      // credit card logic",
+          "    } else if (payment.type === 'paypal') {",
+          "      // paypal logic",
+          "    }",
+          "    // Must modify this code to add new payment type!",
+          "  }",
+          "}",
+          "",
+          "Violation Indicators (REFACTOR):",
+          "- if/switch statements on type checking",
+          "- Direct dependencies on concrete classes",
+          "- Must modify existing code to add new behavior",
+          "- Deep inheritance hierarchies",
+          "- Base class knows about derived classes",
+          "",
+          "Refactoring Strategy:",
+          "- Extract interface from concrete classes",
+          "- Use dependency injection with interfaces",
+          "- Replace type checks with polymorphism",
+          "- Use strategy pattern for varying algorithms",
+          "- Favor composition over inheritance"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.open_closed_principle_scanner.OpenClosedPrincipleScanner"
+}

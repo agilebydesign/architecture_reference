@@ -1,0 +1,53 @@
+{
+  "description": "CRITICAL: Functions should do one thing and do it well, with no hidden side effects. Each function must have a single, well-defined responsibility.",
+  "examples": [
+    {
+      "do": {
+        "description": "Keep functions focused on a single task",
+        "content": [
+          "Functions should do one thing and do it well",
+          "Extract multiple concerns into separate functions",
+          "Name functions to reveal their complete behavior",
+          "Make side effects explicit in function names",
+          "",
+          "Correct Examples (single responsibility):",
+          "- Function validates input → separate from function that processes it",
+          "- Function calculates result → separate from function that logs/saves it",
+          "- Function reads data → separate from function that transforms it",
+          "",
+          "Single Responsibility Requirements:",
+          "- Function performs ONE clear operation",
+          "- All code in function serves same purpose",
+          "- Function name clearly describes its complete behavior",
+          "- No hidden side effects (logging, I/O, mutations)"
+        ]
+      },
+      "dont": {
+        "description": "Don't mix business logic with side effects or multiple operations",
+        "content": [
+          "Don't mix business logic with side effects (logging, I/O, mutations)",
+          "Don't create functions that perform multiple unrelated operations",
+          "Don't hide side effects in function implementations",
+          "",
+          "Wrong Examples (multiple responsibilities):",
+          "- Function that validates AND saves data (split into validate() and save())",
+          "- Function that calculates AND logs result (split into calculate() and log())",
+          "- Function that reads AND transforms data (split into read() and transform())",
+          "",
+          "Multiple Responsibility Indicators (REFACTOR):",
+          "- Function has AND in its name (calculateAndSave, validateAndProcess)",
+          "- Function performs I/O while doing calculations",
+          "- Function modifies state while returning values",
+          "- Function mixes different abstraction levels",
+          "",
+          "Instead, ask:",
+          "- Does this function do ONE thing?",
+          "- Are there hidden side effects?",
+          "- Can I split this into smaller, focused functions?",
+          "- Does the function name reveal ALL its behavior?"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.single_responsibility_scanner.SingleResponsibilityScanner"
+}

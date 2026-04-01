@@ -1,0 +1,56 @@
+{
+    "priority":  4,
+    "description":  "Behavioral AC belongs at story level in story-graph.json. Use When/Then format (NO Given - save for scenarios). AC should describe behavioral outcomes, not technical implementation. Example: \"WHEN user enters name THEN system saves to character sheet\"",
+    "do":  {
+               "description":  "Use behavioral language describing user actions and system responses. Example: \"WHEN action completes THEN system saves state AND system shows success\"",
+               "guidance":  [
+                                {
+                                    "description":  "Use behavioral terms that describe what happens, not how it's implemented",
+                                    "example":  [
+                                                    "\"WHEN user enters name THEN system saves character information\" (behavioral)",
+                                                    "\"WHEN user submits form THEN system validates data AND system displays confirmation\" (behavioral)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Focus on user-observable outcomes and system responses",
+                                    "example":  [
+                                                    "\"WHEN user clicks save THEN system persists changes AND system shows success message\"",
+                                                    "\"WHEN user loads page THEN system displays saved data\""
+                                                ]
+                                },
+                                {
+                                    "description":  "WHEN/THEN/AND can be on separate lines in the array - this is acceptable",
+                                    "example":  [
+                                                    "[\"WHEN user enters name\", \"THEN system saves\", \"AND system displays confirmation\"] - This format is OK"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use technical implementation terms like config, json, api, sql, class, method. Example: \"WHEN system parses JSON config\" (technical - use behavioral language instead)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use technical file format terms",
+                                      "example":  [
+                                                      "\"THEN system saves to JSON file\" - WRONG: use \"system saves configuration data\"",
+                                                      "\"THEN system parses XML\" - WRONG: use \"system processes data\""
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use programming terms",
+                                      "example":  [
+                                                      "\"THEN system calls method\" - WRONG: use \"system performs action\"",
+                                                      "\"THEN class instantiates\" - WRONG: use \"system creates instance\""
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use database or API terminology",
+                                      "example":  [
+                                                      "\"THEN system executes SQL query\" - WRONG: use \"system retrieves data\"",
+                                                      "\"THEN API endpoint returns\" - WRONG: use \"system responds with data\""
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.behavioral_ac_scanner.BehavioralACScanner"
+}

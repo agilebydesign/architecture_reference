@@ -1,0 +1,62 @@
+{
+    "priority":  15,
+    "description":  "Place all imports at top of test file, after docstrings, before code. Group: stdlib, third-party, then local. Example: import json; import pytest; from mymodule import MyClass",
+    "do":  {
+               "description":  "All imports at top, grouped by type. Example: import json; import pytest; from agile_bot.bots... import X",
+               "guidance":  [
+                                {
+                                    "description":  "Place all imports at top after docstring",
+                                    "example":  [
+                                                    "\u0027\u0027\u0027Test module docstring.\u0027\u0027\u0027",
+                                                    "import pytest",
+                                                    "from pathlib import Path",
+                                                    "from agile_bot.bots.base_bot... import ClarifyAction"
+                                                ]
+                                },
+                                {
+                                    "description":  "Group imports: stdlib, third-party, local",
+                                    "example":  [
+                                                    "# Standard library",
+                                                    "import json",
+                                                    "from pathlib import Path",
+                                                    "",
+                                                    "# Third-party",
+                                                    "import pytest",
+                                                    "",
+                                                    "# Local",
+                                                    "from agile_bot... import MyClass"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t place imports inside functions or after code. Example: def test(): from pathlib import Path (wrong - import inside function)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t import inside test functions",
+                                      "example":  [
+                                                      "def test_something():",
+                                                      "    from pathlib import Path  # WRONG - put at top of file"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t place imports after code",
+                                      "example":  [
+                                                      "@pytest.fixture",
+                                                      "def fixture(): pass",
+                                                      "",
+                                                      "import pytest  # WRONG - should be at top"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mix import groups randomly",
+                                      "example":  [
+                                                      "import json",
+                                                      "from agile_bot... import X  # WRONG - local before third-party",
+                                                      "import pytest"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.import_placement_scanner.ImportPlacementScanner"
+}

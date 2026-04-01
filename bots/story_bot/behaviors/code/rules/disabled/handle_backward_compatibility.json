@@ -1,0 +1,103 @@
+{
+  "description": "When refactoring public interfaces, provide migration paths to avoid breaking existing code. Maintain backward compatibility during transitions and deprecate old interfaces gracefully.",
+  "examples": [
+    {
+      "do": {
+        "description": "Provide backward compatibility during interface changes",
+        "content": [
+          "Add new attribute alongside old one during migration",
+          "Provide aliases for renamed methods/attributes",
+          "Deprecate old interface with warnings (not immediate removal)",
+          "Document migration path in code comments",
+          "Give users time to migrate (deprecation period)",
+          "",
+          "Correct Examples (backward compatible):",
+          "# Renaming attribute but keeping compatibility",
+          "class Bot:",
+          "    def __init__(self, bot_name):",
+          "        self.name = bot_name",
+          "        self.bot_name = bot_name  # Keep old name for compatibility",
+          "",
+          "# Renaming method with deprecation",
+          "def get_user_data(self, user_id):  # New name",
+          "    return self._fetch_user(user_id)",
+          "",
+          "def getUserData(self, user_id):  # Old name - deprecated",
+          "    warnings.warn('getUserData is deprecated, use get_user_data', DeprecationWarning)",
+          "    return self.get_user_data(user_id)",
+          "",
+          "Backward Compatibility Requirements:",
+          "- Old interface still works during migration period",
+          "- Clear deprecation warnings with migration guidance",
+          "- Documentation shows old → new mapping",
+          "- CHANGELOG documents breaking changes",
+          "- Major version bump for breaking changes (semver)"
+        ]
+      },
+      "dont": {
+        "description": "Don't break existing code without migration path",
+        "content": [
+          "Don't rename/remove public interfaces without compatibility layer",
+          "Don't break existing code silently",
+          "Don't remove deprecated interfaces too quickly",
+          "Don't forget to document breaking changes",
+          "",
+          "Wrong Examples (breaks existing code):",
+          "# BAD: Renamed attribute breaks all existing code",
+          "class Bot:",
+          "    def __init__(self, bot_name):",
+          "        self.name = bot_name  # Old code expects self.bot_name!",
+          "",
+          "# BAD: Method renamed without deprecation",
+          "def get_user_data(self):  # Renamed from getUserData",
+          "    # All existing code calling getUserData() breaks!",
+          "",
+          "# BAD: Removed without warning",
+          "# def old_method():  # Just deleted - breaks everything!",
+          "",
+          "Breaking Change Indicators (ADD COMPATIBILITY):",
+          "- Renaming public methods/attributes",
+          "- Changing method signatures",
+          "- Moving classes to different modules",
+          "- Removing public interfaces",
+          "- Changing return types",
+          "",
+          "Migration Strategy:",
+          "1. Add new interface alongside old one",
+          "2. Add deprecation warnings to old interface",
+          "3. Update documentation with migration guide",
+          "4. Give deprecation period (e.g., 2 versions)",
+          "5. Remove old interface in major version bump",
+          "6. Document in CHANGELOG and migration guide"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

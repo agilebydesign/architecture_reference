@@ -151,12 +151,12 @@ describe("CounterServer", () => {
 
   class ServerCounterTest extends CounterTest {
     protected createCounter() {
-      return new CounterServer(path.join(tmpDir, "counter.json"));
+      return new CounterServer(path.join(tmpDir, "persistence", "counter.json"));
     }
     protected override assertTotal(counter: ICounter, expected: number): void {
       super.assertTotal(counter, expected);
       // Server domain adds: verify persistence
-      const c2 = new CounterServer(path.join(tmpDir, "counter.json"));
+      const c2 = new CounterServer(path.join(tmpDir, "persistence", "counter.json"));
       expect(c2.total).toBe(expected);
     }
   }

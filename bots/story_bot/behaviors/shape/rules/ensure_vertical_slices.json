@@ -1,0 +1,53 @@
+{
+    "priority":  9,
+    "description":  "Ensure increments remain vertical slices (end-to-end flows across multiple epics/features, NOT horizontal layers). Each increment must deliver a complete working flow.",
+    "do":  {
+               "description":  "Design increments as vertical slices with end-to-end flows",
+               "guidance":  [
+                                {
+                                    "description":  "Include partial features from multiple epics in each increment to create complete end-to-end working flow",
+                                    "example":  [
+                                                    "Increment 1: Basic Order Flow",
+                                                    "  Epic: Order Entry (2/5) - create order with name and item, validate basic info",
+                                                    "  Epic: Payment Processing (1/3) - process payment manually via admin tool",
+                                                    "  Epic: Order Storage (1/3) - save order to file",
+                                                    "  Epic: Order Display (1/4) - view order confirmation",
+                                                    "  Result: Complete flow from order entry through payment to confirmation"
+                                                ]
+                                },
+                                {
+                                    "description":  "Each increment demonstrates working software from start to finish, not just one layer",
+                                    "example":  [
+                                                    "Increment 1: Manual Character Creation",
+                                                    "  Epic: Character Creation (2/8) - enter character name, assign basic abilities manually",
+                                                    "  Epic: Character Storage (1/3) - save character to file",
+                                                    "  Epic: Character Display (1/5) - view basic character sheet",
+                                                    "  Result: Can create, save, and view a character (complete vertical slice)"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t create horizontal layer increments that complete one epic at a time",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t complete all features in one epic before moving to the next epic",
+                                      "example":  [
+                                                      "Increment 1: Complete Epic A (all features done)",
+                                                      "Increment 2: Complete Epic B (all features done)",
+                                                      "WRONG: This creates horizontal layers that can\u0027t be tested end-to-end until final increment"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t create increments that only touch one part of the system without complete flow",
+                                      "example":  [
+                                                      "Increment 1: Order Entry Complete",
+                                                      "  Epic: Order Entry (8/8) - all order entry features complete",
+                                                      "  NO payment, NO storage, NO confirmation",
+                                                      "WRONG: Can\u0027t deliver working software, can\u0027t test end-to-end flow"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.vertical_slice_scanner.VerticalSliceScanner"
+}

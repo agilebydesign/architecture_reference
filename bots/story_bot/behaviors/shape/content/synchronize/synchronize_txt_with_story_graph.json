@@ -1,0 +1,24 @@
+{
+  "name": "synchronize_txt_with_story_graph",
+  "description": "Review text story map and infer changes to story graph JSON. AI reads text, identifies differences, and proposes updates to story-graph.json with report.",
+  "templates": [
+    "templates/story-map-template.txt"
+  ],
+  "instructions": [
+    "1. User provides story-map.txt (text format story map)",
+    "2. AI reads both story-map.txt and story-graph.json",
+    "3. AI compares text with JSON structure, identifying:",
+    "   - New stories, epics, or sub-epics in text",
+    "   - Removed items (in JSON but not in text)",
+    "   - Changed user assignments, connectors, or sequential order",
+    "   - Changed story group types or connectors",
+    "   - New, update, remove increments and story assignment to increments",
+    "4. AI generates a report showing all differences",
+    "5. AI proposes specific changes to story-graph.json",
+    "6. User reviews and approves changes",
+    "7. AI updates story-graph.json preserving acceptance_criteria",
+    "",
+    "**TEXT FORMAT:** See templates/story-map-template.txt for format rules"
+  ]
+}
+

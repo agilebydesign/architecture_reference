@@ -1,0 +1,9 @@
+{
+  "description": "Structure exploration depth",
+  "question": "What level of acceptance criteria should be explored for structure-focused areas?",
+  "options": [
+    "Structure -> Explore structural AC only (data, relationships, constraints)",
+    "Behavioral -> Explore business and behavioral AC (user interactions, workflows, outcomes)"
+  ],
+  "note": "Structure focuses on data structure and relationships. Behavioral includes business behavior and outcomes."
+}

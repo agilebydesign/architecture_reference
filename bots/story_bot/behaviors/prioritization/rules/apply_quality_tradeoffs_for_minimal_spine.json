@@ -1,0 +1,67 @@
+{
+  "priority": 3,
+  "description": "Apply quality trade-offs to create thin slicing spine and later increments. Decide what quality the spine will have, what parts will be manual, what logic can be excluded, and how to prioritize adding quality in later increments.",
+  "do": {
+    "description": "Make deliberate quality trade-offs to minimize spine size",
+    "guidance": [
+      {
+        "description": "Start with completely manual processes in spine, then progressively add automation and edge case support in later increments",
+        "example": [
+          "Increment 1: Manual Phone Setup - setup phone manually, activate phone through shell script, track orders using spreadsheet",
+          "Increment 2: Basic Web Entry - setup phone online using web form, activate phone through web interface, view orders in basic web page",
+          "Increment 3: Service Catalog - browse phone catalog, select phone and plan, automated activation workflow, order management dashboard"
+        ]
+      },
+      {
+        "description": "Use hard-coded values and stubbed integrations in spine, then replace with real integrations and dynamic data in later increments",
+        "example": [
+          "Increment 1: Manual Order Processing - create order with hard-coded prices, manually approve payment via admin tool, generate invoice from spreadsheet template, send invoice via email manually",
+          "Increment 2: Automated Payment - create order with hard-coded prices, automatically process payment via gateway, generate invoice from spreadsheet template, send invoice via email manually",
+          "Increment 3: Dynamic Pricing - create order with calculated prices from pricing rules, automatically process payment via gateway, generate invoice programmatically, send invoice via automated email"
+        ]
+      },
+      {
+        "description": "Build bare bones forms with no validation in spine, then add validation and rich UX features in later increments",
+        "example": [
+          "Increment 1: Basic Form Entry - enter customer info in plain text fields with no validation, submit form, view confirmation message with order ID",
+          "Increment 2: Validated Form Entry - enter customer info with inline validation, submit form with error feedback, view confirmation page with order details and status",
+          "Increment 3: Rich Form Experience - enter customer info with autocomplete and suggestions, submit form with progress indicator, view interactive confirmation with order tracking and actions"
+        ]
+      },
+      {
+        "description": "Repeat the same stories across increments with different quality adjectives to show progression from manual to automated",
+        "example": [
+          "Increment 1: Manual Billing - manually create billing report, manually process invoice, manually send payment reminder",
+          "Increment 2: Automated Billing - automatically create billing report, automatically process invoice, manually send payment reminder",
+          "Increment 3: Fully Automated Billing - automatically create billing report, automatically process invoice, automatically send payment reminder"
+        ]
+      }
+    ]
+  },
+  "dont": {
+    "description": "Don't build full quality into thin slicing spine, don't skip documenting trade-offs",
+    "guidance": [
+      {
+        "description": "Don't include automation, dynamic data, validation, and error handling all in the first increment - that's too much quality for a spine",
+        "example": [
+          "Increment 1: Automated Order Processing - create order with dynamic pricing rules, automatically process payment with retry logic and error handling, generate invoice programmatically with PDF formatting, send invoice via automated email with templates and tracking (TOO MUCH - should be minimal manual spine first)"
+        ]
+      },
+      {
+        "description": "Don't organize increments by completing one feature area at a time - organize by quality levels that span multiple features end-to-end",
+        "example": [
+          "Increment 1: Order Creation - create order, validate order, save order (horizontal layer)",
+          "Increment 2: Payment Processing - process payment, handle payment errors, record payment (horizontal layer)",
+          "Should be: Increment 1: Manual Order Processing (end-to-end with manual payment), Increment 2: Automated Payment (replace manual payment with automated)"
+        ]
+      },
+      {
+        "description": "Don't use vague increment names - use names that explicitly describe the quality level being added",
+        "example": [
+          "Increment 1: Phase 1, Increment 2: Phase 2 (WRONG - use quality-based names like 'Manual Setup', 'Automated Processing')",
+          "Increment 1: Basic Features, Increment 2: Advanced Features (WRONG - use specific quality names like 'Stubbed Payment', 'Real Payment Gateway')"
+        ]
+      }
+    ]
+  }
+}

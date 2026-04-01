@@ -1,0 +1,22 @@
+{
+  "description": "Distinguish between spine (required sequential path) and ribs (optional/alternative paths). Use 'and' for spine, 'or' for ribs.",
+  "examples": [
+    {
+      "do": {
+        "description": "Mark spine vs optional paths clearly",
+        "content": [
+          "Spine: Required sequential path (and)",
+          "Ribs: Optional/alternative features (or)",
+          "Example: Load → Validate → Process (spine) OR Export → Print (ribs)"
+        ]
+      },
+      "dont": {
+        "description": "Don't mix spine and ribs",
+        "content": [
+          "Don't mark required steps as 'or'",
+          "Don't mark optional features as 'and'"
+        ]
+      }
+    }
+  ]
+}

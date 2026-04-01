@@ -1,5 +1,5 @@
 // test/context_folder/context_folder_test.ts
-import { it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { ContextFolder } from "../../src/context_folder/context_folder.js";
 import type { IContextFolder } from "../../src/context_folder/context_folder.js";
 
@@ -32,45 +32,55 @@ export abstract class ContextFolderTest {
    * Call inside a describe() block: `new MyContextFolderTest().registerTests()`
    */
   registerTests(): void {
-    it("starts with empty path", () => {
-      const cf = this.createContextFolder();
-      this.assertFolderPath(cf, "");
-    });
-
-    it("updatePath sets folder path", () => {
-      const cf = this.createContextFolder();
-      cf.updatePath("/projects/my-app");
-      this.assertFolderPath(cf, "/projects/my-app");
-    });
-
-    it("switchBot sets bot name", () => {
-      const cf = this.createContextFolder();
-      cf.hydrate?.({ availableBots: ["story_bot", "crc_bot"] });
-      cf.switchBot("story_bot");
-      this.assertBotName(cf, "story_bot");
-    });
-
-    it("reset clears state", () => {
-      const cf = this.createContextFolder();
-      cf.updatePath("/projects/my-app");
-      cf.switchBot("story_bot");
-      cf.reset();
-      this.assertFolderPath(cf, "");
-      this.assertBotName(cf, "");
-    });
-
-    it("hydrate restores all state", () => {
-      const cf = this.createContextFolder();
-      cf.hydrate?.({
-        folderPath: "/restored/path",
-        botName: "crc_bot",
-        botDirectory: "/bots/crc_bot",
-        availableBots: ["story_bot", "crc_bot"],
+    describe("Given the context folder is opened", () => {
+      it("Then it starts with an empty path", () => {
+        const cf = this.createContextFolder();
+        this.assertFolderPath(cf, "");
       });
-      this.assertFolderPath(cf, "/restored/path");
-      this.assertBotName(cf, "crc_bot");
-      expect(cf.botInfo.directory).toBe("/bots/crc_bot");
-      expect(cf.availableBots).toEqual(["story_bot", "crc_bot"]);
+
+      describe("When I set the folder path", () => {
+        it("Then the folder path is updated", () => {
+          const cf = this.createContextFolder();
+          cf.updatePath("/projects/my-app");
+          this.assertFolderPath(cf, "/projects/my-app");
+        });
+      });
+
+      describe("When I switch the bot", () => {
+        it("Then the bot name is updated", () => {
+          const cf = this.createContextFolder();
+          cf.hydrate?.({ availableBots: ["story_bot", "crc_bot"] });
+          cf.switchBot("story_bot");
+          this.assertBotName(cf, "story_bot");
+        });
+      });
+
+      describe("When I reset the context folder", () => {
+        it("Then state is cleared", () => {
+          const cf = this.createContextFolder();
+          cf.updatePath("/projects/my-app");
+          cf.switchBot("story_bot");
+          cf.reset();
+          this.assertFolderPath(cf, "");
+          this.assertBotName(cf, "");
+        });
+      });
+
+      describe("When I hydrate the context folder", () => {
+        it("Then all state is restored", () => {
+          const cf = this.createContextFolder();
+          cf.hydrate?.({
+            folderPath: "/restored/path",
+            botName: "crc_bot",
+            botDirectory: "/bots/crc_bot",
+            availableBots: ["story_bot", "crc_bot"],
+          });
+          this.assertFolderPath(cf, "/restored/path");
+          this.assertBotName(cf, "crc_bot");
+          expect(cf.botInfo.directory).toBe("/bots/crc_bot");
+          expect(cf.availableBots).toEqual(["story_bot", "crc_bot"]);
+        });
+      });
     });
   }
 }

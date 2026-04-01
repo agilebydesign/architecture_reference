@@ -1,0 +1,62 @@
+{
+  "description": "CRITICAL: Code must chain dependencies properly with constructor injection. Map dependencies in a chain: highest-level object → collaborator → sub-collaborator. Inject collaborators at construction time so methods can use them without passing them as parameters. Access sub-collaborators through their owning objects.",
+  "scanner": "scanners.dependency_chaining_scanner.DependencyChainingScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Chain dependencies properly with constructor injection",
+        "content": [
+          "Inject collaborators at construction time (__init__)",
+          "Methods use injected collaborators without re-passing them",
+          "Access sub-collaborators through owning objects",
+          "",
+          "Correct Examples (constructor injection):",
+          "class WealthAdvisor:",
+          "    def __init__(self, client: Client, investment_strategy: InvestmentStrategy):",
+          "        self.client = client  # injected at construction",
+          "        self.investment_strategy = investment_strategy",
+          "",
+          "    def create_portfolio(self) -> Portfolio:",
+          "        # Uses injected collaborators - dependencies shown here",
+          "        account_id = self.client.account_id",
+          "        risk_tolerance = self.get_risk_tolerance()",
+          "        return Portfolio(account_id, risk_tolerance)",
+          "",
+          "    def get_portfolio(self) -> Portfolio:",
+          "        # No dependencies needed - portfolio already created",
+          "        return self._portfolio",
+          "",
+          "    def get_risk_tolerance(self) -> RiskTolerance:",
+          "        # Gets strategy from client (client owns it)",
+          "        client_strategy = self.client.investment_strategy",
+          "        return self._calculate_risk_tolerance(",
+          "            self.client.risk_profile,",
+          "            client_strategy.risk_tolerance",
+          "        )"
+        ]
+      },
+      "dont": {
+        "description": "Don't skip levels or expose all dependencies in every method",
+        "content": [
+          "Don't skip levels in dependency chain",
+          "Don't list every dependency in every method signature",
+          "Don't access sub-collaborators directly when they belong to another object",
+          "",
+          "Wrong Examples (skipping levels):",
+          "class WealthAdvisor:",
+          "    def create_portfolio(self, account_id: AccountId, risk_tolerance: RiskTolerance,",
+          "                        asset_allocation: AssetAllocation):",
+          "        # Too many dependencies, skipping Client and InvestmentStrategy levels",
+          "        return Portfolio(account_id, risk_tolerance)",
+          "",
+          "Dependency Chain Violation Indicators (REFACTOR):",
+          "- Methods taking dependencies that should be accessed through owning objects",
+          "- Skipping levels in dependency chain (A → C instead of A → B → C)",
+          "- Every method listing all dependencies instead of using injected collaborators"
+        ]
+      }
+    }
+  ]
+}
+
+

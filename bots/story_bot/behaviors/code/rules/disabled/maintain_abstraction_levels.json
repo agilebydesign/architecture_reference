@@ -1,0 +1,60 @@
+{
+  "description": "Code should flow from high-level concepts down to details. Follow 'newspaper metaphor' (high-level first), keep related functions close together, and step down one abstraction level at a time.",
+  "examples": [
+    {
+      "do": {
+        "description": "Maintain consistent abstraction levels",
+        "content": [
+          "Follow 'newspaper metaphor' (high-level first, details below)",
+          "Keep related functions close together",
+          "Step down one abstraction level at a time",
+          "Each function should stay at single abstraction level",
+          "",
+          "Correct Examples (proper abstraction):",
+          "- High level: processOrder(order) calls validateOrder, calculateTotal, saveOrder",
+          "- Mid level: validateOrder(order) calls checkInventory, validatePayment",
+          "- Low level: checkInventory(item) accesses database",
+          "",
+          "Abstraction Level Structure:",
+          "function processOrder(order) {",
+          "  validateOrder(order);     // high-level steps",
+          "  calculateTotal(order);",
+          "  saveOrder(order);",
+          "}",
+          "",
+          "Each function reads like prose at its abstraction level"
+        ]
+      },
+      "dont": {
+        "description": "Don't mix low-level details with high-level concepts",
+        "content": [
+          "Don't mix low-level details with high-level concepts",
+          "Don't jump between abstraction levels randomly",
+          "Don't scatter related logic across file",
+          "",
+          "Wrong Examples (mixed abstractions):",
+          "function processOrder(order) {",
+          "  validateOrder(order);           // high-level",
+          "  const sql = 'SELECT * FROM...'; // LOW-LEVEL DETAIL",
+          "  db.query(sql);                  // LOW-LEVEL DETAIL",
+          "  calculateTotal(order);          // high-level",
+          "}",
+          "",
+          "Mixed Abstraction Indicators (REFACTOR):",
+          "- Function mixes high-level operations with low-level details",
+          "- Direct database/file access in business logic functions",
+          "- String manipulation mixed with business operations",
+          "- Infrastructure code mixed with domain code",
+          "",
+          "Refactoring Strategy:",
+          "- Extract low-level details into separate functions",
+          "- Create intermediate functions for mid-level operations",
+          "- Keep each function at single abstraction level",
+          "- Organize code top-down: high → mid → low",
+          "- Reader should be able to drill down gradually"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.abstraction_levels_scanner.AbstractionLevelsScanner"
+}

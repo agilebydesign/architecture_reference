@@ -1,0 +1,134 @@
+{
+  "_explanation": {
+    "purpose": "Exploration phase - elaborates each story with detailed steps, acceptance criteria, optional flag, and priority",
+    "story_additions": "Adds to each story: Steps (array of action strings), acceptance_criteria (array of WHEN/THEN strings), optional (boolean), priority (number)",
+    "acceptance_criteria_format": "Each acceptance criteria is an object: {name, text, sequential_order}. name and text hold the criterion text. sequential_order is numeric.",
+    "steps_format": "Steps array contains action strings describing what the actor does in sequence (e.g., [\"Navigate to settings page\", \"Click export button\", \"Select CSV format\"])",
+    "structure": "Inherits full story graph (epics, sub_epics, story_groups). Story groups replace features. ONLY adds exploration fields to stories",
+    "context_source": "REQUIRED on all elements and acceptance_criteria - traces knowledge to source document, page, section, or conversation. Format: {file, page, section} or {type: 'chat'|'code'|'inferred', description}"
+  },
+  "epics": [
+    {
+      "name": "",
+      "sequential_order": 1,
+      "estimated_stories": null,
+      "notes": "",
+      "sub_epics": [
+        {
+          "name": "",
+          "sequential_order": 1,
+          "estimated_stories": null,
+          "notes": "",
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "type": "and",
+              "connector": null,
+              "sequential_order": 1,
+              "notes": "",
+              "stories": [
+                {
+                  "name": "",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "users": [],
+                  "story_type": "user",
+                  "optional": false,
+                  "priority": 1,
+                  "notes": "",
+                  "context_source": {
+                    "file": "source.pdf",
+                    "page": "10",
+                    "section": "3.1 Feature Flow"
+                  },
+                  "Steps": null,
+                  "acceptance_criteria": [
+                    {
+                      "name": "WHEN [condition]\nTHEN [outcome]",
+                      "text": "WHEN [condition]\nTHEN [outcome]",
+                      "sequential_order": 1.0
+                    },
+                    {
+                      "name": "WHEN [condition]\nTHEN [outcome] AND [additional outcome]",
+                      "text": "WHEN [condition]\nTHEN [outcome] AND [additional outcome]",
+                      "sequential_order": 2.0
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "sequential_order": 2,
+                  "connector": "and",
+                  "users": [],
+                  "story_type": "user",
+                  "optional": false,
+                  "priority": 1,
+                  "notes": "",
+                  "context_source": {
+                    "file": "source.pdf",
+                    "page": "12",
+                    "section": "3.2 Alternate Flow"
+                  },
+                  "Steps": null,
+                  "acceptance_criteria": [
+                    {
+                      "name": "WHEN [condition]\nTHEN [outcome]",
+                      "text": "WHEN [condition]\nTHEN [outcome]",
+                      "sequential_order": 1.0
+                    },
+                    {
+                      "name": "WHEN [condition]\nTHEN [outcome] AND [additional outcome]",
+                      "text": "WHEN [condition]\nTHEN [outcome] AND [additional outcome]",
+                      "sequential_order": 2.0
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "and",
+              "connector": "or",
+              "sequential_order": 2,
+              "notes": "",
+              "stories": [
+                {
+                  "name": "",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "users": [],
+                  "story_type": "user",
+                  "optional": false,
+                  "priority": 1,
+                  "notes": "",
+                  "Steps": null,
+                  "acceptance_criteria": [
+                    {
+                      "name": "WHEN [condition]\nTHEN [outcome]",
+                      "text": "WHEN [condition]\nTHEN [outcome]",
+                      "sequential_order": 1.0
+                    },
+                    {
+                      "name": "WHEN [condition]\nTHEN [outcome] AND [additional outcome]",
+                      "text": "WHEN [condition]\nTHEN [outcome] AND [additional outcome]",
+                      "sequential_order": 2.0
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "story_groups": []
+    }
+  ],
+  "increments": [
+    {
+      "name": "",
+      "priority": 1,
+      "stories": [
+        ""
+      ]
+    }
+  ]
+}

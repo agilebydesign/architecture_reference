@@ -1,0 +1,56 @@
+{
+  "behaviorName": "code",
+  "order": 7,
+  "description": "Generate production source code that implements story behavior using domain language and patterns",
+  "goal": "Create clean, maintainable production code that implements story behavior using domain concepts",
+  "inputs": "Story specifications, test files, and domain language/patterns",
+  "outputs": "Source code files (.py, .js, etc.) with production implementation",
+  "baseActionsPath": "base_actions",
+  "instructions": [
+    "Create clean, maintainable production code that implements story behavior",
+    "**CODE MUST FOLLOW CLEAN CODE PRINCIPLES:**"
+  ],
+  "actions_workflow": {
+    "actions": [
+     
+      {
+        "name": "build",
+        "order": 3,
+        "next_action": "validate",
+        "instructions": [
+          "code: render code required to implement all tests that have been recently built or updated"
+        ]
+      },
+      {
+        "name": "validate",
+        "order": 4,
+        "next_action": "render",
+        "instructions": [
+          "code: validate source code quality and domain language usage",
+          "Validate that code uses proper domain terminology and follows domain patterns",
+          "Validate that all source files, classes, and functions are properly mapped to story-graph.json",
+          "MANDATORY: Discover and pass code_files parameter - CodeScanner requires explicit file paths to scan for violations"
+        ]
+      }
+    ]
+  },
+  "trigger_words": {
+    "description": "Behavior-level trigger words - specific to production code generation behavior",
+    "patterns": [
+      "generate.*source.*code",
+      "create.*production.*code",
+      "write.*source.*files",
+      "implement.*production.*code",
+      "generate.*implementation",
+      "create.*source.*files",
+      "write.*production.*code",
+      "implement.*source.*code",
+      "generate.*code",
+      "create.*code",
+      "write.*code",
+      "implement.*code",
+      "production.*code",
+      "source.*code.*generation"
+    ]
+  }
+}

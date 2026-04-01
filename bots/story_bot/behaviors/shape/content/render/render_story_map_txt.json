@@ -1,0 +1,1 @@
+{"name": "render_story_map_txt", "type": "template", "path": "docs/story/shape", "input": "story-graph.json", "template": "templates/story-map.txt", "output": "story-map.txt", "instructions": "Render story-graph.json to story-map.txt format"}

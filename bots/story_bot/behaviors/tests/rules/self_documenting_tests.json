@@ -1,0 +1,64 @@
+{
+    "priority":  17,
+    "description":  "Tests are self-documenting through code structure. Don\u0027t add verbose comments explaining failures. Imports, calls, and assertions show the API design. Let code speak for itself. Example: generator = MCPServerGenerator(bot_name, config_path); server = generator.generate_server()",
+    "do":  {
+               "description":  "Let code structure document the test. Example: generator = MCPServerGenerator(name, config); file = generator.generate() - API is clear",
+               "guidance":  [
+                                {
+                                    "description":  "Imports show required modules",
+                                    "example":  [
+                                                    "from agile_bot.bots.base_bot.src.mcp_generator import MCPServerGenerator",
+                                                    "# Import documents what module is needed"
+                                                ]
+                                },
+                                {
+                                    "description":  "Constructor calls show required parameters",
+                                    "example":  [
+                                                    "generator = MCPServerGenerator(bot_name=name, config_path=path, workspace_root=root)",
+                                                    "# Parameters document the API contract"
+                                                ]
+                                },
+                                {
+                                    "description":  "Method calls show available operations",
+                                    "example":  [
+                                                    "server_file = generator.generate_server()",
+                                                    "# Method name documents the capability"
+                                                ]
+                                },
+                                {
+                                    "description":  "Assertions show expected behavior",
+                                    "example":  [
+                                                    "assert server_file.exists()",
+                                                    "assert \u0027test_bot\u0027 in server_file.read_text()",
+                                                    "# Assertions document what should happen"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t add verbose comments explaining obvious things. Example: # This will fail because API doesn\u0027t exist yet (unnecessary)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t state the obvious in comments",
+                                      "example":  [
+                                                      "# This test will fail because the method doesn\u0027t exist  # WRONG - unnecessary",
+                                                      "# The import will fail  # WRONG - let it fail"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t explain what the code already shows",
+                                      "example":  [
+                                                      "# Create an agent with the name \u0027bot\u0027",
+                                                      "agent = Agent(name=\u0027bot\u0027)  # WRONG - code is self-explanatory"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t add TODO comments for obvious API needs",
+                                      "example":  [
+                                                      "# TODO: Need to implement generate_server method  # WRONG - failing test shows this"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.intention_revealing_names_scanner.IntentionRevealingNamesScanner"
+}

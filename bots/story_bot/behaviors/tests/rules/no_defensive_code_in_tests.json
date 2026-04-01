@@ -1,0 +1,65 @@
+{
+    "priority":  3,
+    "description":  "Tests must NEVER contain guard clauses, defensive conditionals, or fallback paths. We control test setup - if it\u0027s wrong, the test MUST fail immediately. Guard clauses hide problems. Tests should assume positive outcomes. Example: Just call the code directly, don\u0027t wrap in if-checks",
+    "do":  {
+               "description":  "Assume correct setup - let test fail if wrong. Example: behavior = Behavior(name=\u0027shape\u0027) then assert behavior.name == \u0027shape\u0027",
+               "guidance":  [
+                                {
+                                    "description":  "Call code directly without checking preconditions",
+                                    "example":  [
+                                                    "behavior = Behavior(name=\u0027shape\u0027, bot_paths=bot_paths)",
+                                                    "assert behavior.name == \u0027shape\u0027"
+                                                ]
+                                },
+                                {
+                                    "description":  "Assert the specific behavior path is taken",
+                                    "example":  [
+                                                    "result = execute_behavior(mode=\u0027agile\u0027)",
+                                                    "assert result.mode == \u0027agile\u0027",
+                                                    "assert result.used_fallback is False"
+                                                ]
+                                },
+                                {
+                                    "description":  "Let test fail if setup is wrong - this is valuable information",
+                                    "example":  [
+                                                    "config = agent.load_config(config_file)  # Will fail if file missing - GOOD"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t add if-checks, type guards, or fallback handling in tests. Example: if behavior_file.exists(): (wrong - test should fail if it doesn\u0027t)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t check file existence before using file",
+                                      "example":  [
+                                                      "if behavior_file.exists():  # WRONG",
+                                                      "    behavior = Behavior(...)  # Test should fail if file missing!"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t check variable types in tests",
+                                      "example":  [
+                                                      "if isinstance(behavior_obj, Behavior):  # WRONG",
+                                                      "    assert len(behavior_obj.actions) \u003e 0  # Test should fail if wrong type!"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t let fallback paths pass tests",
+                                      "example":  [
+                                                      "result = execute_behavior(mode=None)",
+                                                      "assert result.stage == \u0027default_flow\u0027  # WRONG - testing fallback not requirement"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t add try/except around test code",
+                                      "example":  [
+                                                      "try:  # WRONG",
+                                                      "    result = process()",
+                                                      "except:  # Don\u0027t catch - let test fail!"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.excessive_guards_scanner.ExcessiveGuardsScanner"
+}

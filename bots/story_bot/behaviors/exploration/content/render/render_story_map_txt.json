@@ -1,0 +1,6 @@
+{
+  "name": "render_story_map",
+  "path": "docs/story/exploration",
+  "template": "story-map.txt",
+  "output": "story-map.txt"
+}

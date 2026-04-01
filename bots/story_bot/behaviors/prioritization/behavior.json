@@ -1,0 +1,89 @@
+{
+  "behaviorName": "prioritization",
+  "order": 2,
+  "description": "Organize stories into delivery increments based on business value, dependencies, and risk",
+  "goal": "Prioritize and sequence stories into actionable delivery increments",
+  "inputs": "Story map from shape phase",
+  "outputs": "Prioritized story map with delivery increments defined",
+  "baseActionsPath": "base_actions",
+  "instructions": [
+    "Organize stories into delivery increments based on business value, dependencies, and risk"
+  ],
+  "actions_workflow": {
+    "actions": [
+      {
+        "name": "clarify",
+        "order": 1,
+        "next_action": "strategy",
+        "instructions": []
+      },
+      {
+        "name": "strategy",
+        "order": 2,
+        "next_action": "build",
+        "instructions": []
+      },
+      {
+        "name": "build",
+        "order": 3,
+        "next_action": "validate",
+        "instructions": [
+          "prioritization: build delivery increments by organizing stories into sequenced slices",
+          "Each epic, sub_epic, story_group, and story has an optional notes field. Use notes in two situations: (1) Context below current level: When you find context that maps to something more detailed than what we're building (e.g., acceptance criteria when only shaping), put it in the notes field of the most locally specific node—do not discard it. (2) Explicit level cap: When the lowest level is specified (e.g., sub-epic only), if you want to capture detail that would go lower, put it in notes instead of creating child nodes. When adding notes, cite the source (what context it came from; include page number or paragraph if appropriate). When doing lower-level work (e.g., exploration, scenarios, tests), refer to the notes in the nodes—not just external context—as a primary source of detail.",
+          "",
+          "**STORY GRAPH UPDATE STRATEGY (use when story-graph.json already exists):**",
+          "",
+          "When updating an existing story graph, do NOT read and rewrite the entire story-graph.json manually.",
+          "Choose one of these approaches in order of preference:",
+          "",
+          "1. **API approach (preferred for targeted changes):**",
+          "   Use the StoryMap node API via CLI dot-notation to make surgical changes.",
+          "   - Navigate: story_map.filter_by_name name:\"Sub Epic Name\" to read only the relevant subtree",
+          "   - Create:  story_map.create_epic name:\"Epic Name\"",
+          "   - Create:  story_map.\"Epic\".create_sub_epic name:\"Sub Epic Name\"",
+          "   - Create:  story_map.\"Epic\".\"SubEpic\".create_story name:\"Story Name\"",
+          "   - Rename:  story_map.\"Epic\".\"SubEpic\".rename name:\"New Name\"",
+          "   - Move:    story_map.\"Epic\".\"SubEpic\".\"Story\".move_to target:\"Other SubEpic\"",
+          "   - Reorder: story_map.\"Epic\".\"SubEpic\".\"Story\".move_to at_position:2",
+          "   - Delete:  story_map.\"Epic\".\"SubEpic\".delete",
+          "   Each call auto-saves the full graph safely through in-memory tree serialization.",
+          "",
+          "2. **Bulk approach (for sweeping changes across many stories):**",
+          "   Build a temporary StoryMap with just your changes using the same create API (without bot context),",
+          "   then use generate_merge_report() to compare against the original, and merge_story_graphs() to apply.",
+          "   The merge preserves all original data (acceptance_criteria, scenarios, steps, metadata) you did not change.",
+          "",
+          "3. **Manual JSON edit (last resort only):**",
+          "   Only if the API and bulk approaches cannot handle the situation.",
+          "   Use filter_by_name to read a scoped subtree rather than the full file.",
+          "   Write changes back through the StoryMap.save() method, as opposed to by editing story-graph.json directly."
+        ]
+      },
+      {
+        "name": "validate",
+        "order": 4,
+        "next_action": "render",
+        "instructions": [
+          "prioritization: validate increment organization and dependencies"
+        ]
+      },
+      {
+        "name": "render",
+        "order": 5,
+        "instructions": [
+          "prioritization: render increment documentation"
+        ]
+      }
+    ]
+  },
+  "trigger_words": {
+    "description": "Behavior-level trigger words - specific to prioritization behavior",
+    "patterns": [
+      "prioritize.*stories",
+      "organize.*increments",
+      "sequence.*delivery",
+      "plan.*increments",
+      "rank.*stories"
+    ]
+  }
+}

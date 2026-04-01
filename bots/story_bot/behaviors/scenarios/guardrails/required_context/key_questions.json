@@ -1,0 +1,23 @@
+{
+  "description": "Key questions that must be answered before this behavior can proceed",
+  "questions": [
+    "What system and user actions initiate this story's flow?",
+    "What is the intended system response after each user action?",
+    "What preconditions or data states are required before this story can begin?",
+    "What are the success criteria for the story (from a domain and user perspective)?",
+    "What are the expected alternate flows, error paths, and edge cases?",
+    "Are there any mandatory sequencing constraints within or across stories?",
+    "What domain rules, calculations, or business policies does this story validate?",
+    "Is the story testable independently (including setup and teardown conditions)?",
+    "What external systems or services does this story need to interact with?",
+    "What requests, responses, or contracts are involved in those system interactions?",
+    "Are there system integration points that require validation or simulation?",
+    "How do we handle failures, timeouts, or retries for those system calls?",
+    "What data variations (e.g., boundary conditions, common examples) are required for test coverage?",
+    "What are the input values needed to test each scenario?",
+    "What are the expected output values for each input?",
+    "Are there formulas or calculations that need multiple data points to validate?",
+    "Are there domain entities with named values that should be tested?",
+    "What are the boundary conditions (min, max, edge cases) for each data point?"
+  ]
+}

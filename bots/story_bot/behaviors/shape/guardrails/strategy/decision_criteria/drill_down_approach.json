@@ -1,0 +1,12 @@
+{
+  "description": "drill down approach",
+  "question": "What areas of the story map do you want to explore more deeply as a part of shaping?",
+  "options": [
+    "Dig deep on logic complexity",
+    "Dig deep on system interactions",
+    "Dig deep on architectural pieces",
+    "Dig deep on workflow complexity",
+    "Focus on highest value areas"
+  ]
+}
+

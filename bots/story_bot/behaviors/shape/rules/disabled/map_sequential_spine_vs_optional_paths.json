@@ -1,0 +1,78 @@
+{
+  "description": "When mapping stories, carefully distinguish between sequential spine (essential path) and optional paths, alternate routes, or additional functionality that is not strictly essential. Sequential stories form the mandatory flow; optional stories are alternatives, enhancements, or non-essential features.",
+  "do": {
+    "examples": [
+      {
+        "description": "Identify the essential spine first",
+        "content": [
+          "Start by identifying the minimal essential path that delivers core value",
+          "The spine represents the mandatory sequence: Story1 AND Story2 AND Story3",
+          "Spine stories get sequential_order numbers (1, 2, 3, etc.)",
+          "Spine stories are required for the feature to deliver its core purpose",
+          "Ask: 'What is the minimum path to deliver value?'"
+        ]
+      },
+      {
+        "description": "Mark optional paths clearly",
+        "content": [
+          "Optional stories branch from or enhance the spine but are not required",
+          "Mark optional stories with 'optional: true' in the story structure",
+          "Optional stories may have sequential_order if they're part of an alternative flow",
+          "Optional stories represent: alternate routes, enhancements, nice-to-have features",
+          "Ask: 'Can the feature deliver value without this story?'"
+        ]
+      },
+      {
+        "description": "Distinguish types of optional paths with concrete examples",
+        "content": [
+          "Alternate routes: User logs in with email (sequential_order: 2) OR User logs in with social media (sequential_order: 2.1, optional: true)",
+          "Enhancements: User views dashboard (sequential_order: 3) AND User customizes dashboard (sequential_order: 3.1, optional: true)",
+          "Additional functionality: User views dashboard (sequential_order: 3) AND User shares dashboard (sequential_order: 3.2, optional: true)",
+          "Error handling: User enters invalid data (sequential_order: 4) AND System shows error message (sequential_order: 4.1, optional: true)"
+        ]
+      },
+      {
+        "description": "Correct mapping examples",
+        "content": [
+          "Spine: User creates account (sequential_order: 1) AND User logs in (sequential_order: 2) AND User views dashboard (sequential_order: 3)",
+          "Optional alternate: User logs in with email (sequential_order: 2) OR User logs in with social media (sequential_order: 2, optional: true)",
+          "Optional enhancement: User views dashboard (sequential_order: 3) AND User customizes dashboard (optional: true, priority: 1)",
+          "Additional functionality: User views dashboard (sequential_order: 3) AND User shares dashboard (optional: true, priority: 2)"
+        ]
+      }
+    ]
+  },
+  "dont": {
+    "examples": [
+      {
+        "description": "Don't mark everything as sequential",
+        "content": [
+          "Don't assign sequential_order to all stories when some are optional",
+          "Don't treat alternate routes as part of the spine",
+          "Don't include enhancements in the mandatory sequential flow",
+          "Don't confuse 'nice to have' with 'must have'"
+        ]
+      },
+      {
+        "description": "Don't omit optional markers",
+        "content": [
+          "Don't leave optional stories unmarked - be explicit",
+          "Don't assume all stories in a feature are mandatory",
+          "Don't mix optional and mandatory without clear distinction",
+          "Don't fail to identify the spine before adding optional paths"
+        ]
+      },
+      {
+        "description": "Wrong mapping examples",
+        "content": [
+          "Wrong: User creates account (1) AND User logs in with email (2) AND User logs in with social media (3) - social media should be optional",
+          "Wrong: User views dashboard (1) AND User customizes dashboard (2) AND User shares dashboard (3) - customization and sharing should be optional",
+          "Wrong: All stories marked mandatory when some are clearly alternatives or enhancements",
+          "Wrong: No distinction between essential path and optional features"
+        ]
+      }
+    ]
+  },
+  "scanner": "scanners.spine_optional_scanner.SpineOptionalScanner"
+}
+

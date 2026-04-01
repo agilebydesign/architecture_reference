@@ -1,0 +1,56 @@
+{
+    "priority":  4,
+    "description":  "Use \u0027And\u0027 to chain multiple system reactions to a single event. When system responds with more than one action, connect them with And. Example: When user submits â†’ Then system validates And system saves And system sends notification.",
+    "do":  {
+               "description":  "Chain multiple reactions with And. Example: Then system validates And system saves And system notifies",
+               "guidance":  [
+                                {
+                                    "description":  "Use And to connect multiple system reactions to one user action",
+                                    "example":  [
+                                                    "When user submits order",
+                                                    "Then system validates payment",
+                                                    "And system reserves inventory",
+                                                    "And system sends confirmation email"
+                                                ]
+                                },
+                                {
+                                    "description":  "Group related system reactions together",
+                                    "example":  [
+                                                    "When user clicks save",
+                                                    "Then system validates data",
+                                                    "And system persists changes",
+                                                    "And system displays success message"
+                                                ]
+                                },
+                                {
+                                    "description":  "Keep And chains to 2-4 reactions for readability",
+                                    "example":  [
+                                                    "Then system processes request",
+                                                    "And system updates status",
+                                                    "And system notifies user"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t write separate When/Then for each system reaction. Example: When user submits / Then system validates / When system validates / Then system saves (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t create separate Given/When/Then blocks for sequential system actions",
+                                      "example":  [
+                                                      "When user submits",
+                                                      "Then system validates",
+                                                      "When system validates",
+                                                      "Then system saves - WRONG: should use And system saves"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t have excessively long And chains (more than 4 reactions)",
+                                      "example":  [
+                                                      "Then system does A And B And C And D And E And F - TOO MANY: split into separate scenarios or steps"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.reaction_chaining_scanner.ReactionChainingScanner"
+}

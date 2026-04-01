@@ -1,0 +1,39 @@
+{
+    "priority":  6,
+    "description":  "Use Scenario Outline with Examples when story warrants concrete data: formulas need validation, domain has named entities, parameter variations exist. Example: Calculate ability modifier with Examples table Rank 10→0, Rank 12→+1, Rank 14→+2.",
+    "do":  {
+               "description":  "Scenario Outline for formulas, domain entities, or data variations. Example: Scenario Outline: Calculate modifier with Examples table showing input→output pairs",
+               "guidance":  [
+                                {
+                                    "description":  "Use for formula validation with concrete values",
+                                    "example":  [
+                                                    "Scenario Outline: Calculate ability modifier - Examples: | Rank | Modifier | | 10 | 0 | | 12 | +1 | | 14 | +2 |"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use for domain entities with named variations",
+                                    "example":  [
+                                                    "Scenario Outline: Process payment - Examples: | Payment Type | Fee | | credit_card | 2.9% | | bank_transfer | 0.5% |"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use Scenario Outline for simple behaviors. Example: Scenario Outline: User clicks button (too simple - use regular scenario)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use Outline for single-case scenarios",
+                                      "example":  [
+                                                      "Scenario Outline: User clicks button (WRONG - too simple, no data variations)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use Outline when there\u0027s only one example",
+                                      "example":  [
+                                                      "Scenario Outline with Examples table having only 1 row - just use regular Scenario"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.scenarios.scenario_outline_scanner.ScenarioOutlineScanner"
+}

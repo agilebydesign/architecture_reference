@@ -1,0 +1,108 @@
+{
+  "description": "CRITICAL: Prefer passing objects to objects and returning objects. Work with primitives inside methods, not between objects. Primitives are acceptable only at presentation boundaries (user interfaces, command-line interfaces, serialization for display), but all internal object-to-object communication including APIs should use domain objects.",
+  "examples": [
+    {
+      "do": {
+        "description": "Pass objects between objects, work with primitives inside methods and at presentation boundaries",
+        "content": [
+          "Pass domain objects as parameters and return domain objects",
+          "Extract primitives from objects inside methods for computation",
+          "Construct objects from primitives inside methods when needed",
+          "Use primitives at presentation boundaries (UI rendering, CLI output, serialization for display)",
+          "APIs should accept and return domain objects, not primitives",
+          "",
+          "Correct Examples (object-oriented communication):",
+          "class OrderProcessor:",
+          "    def process_order(self, order: Order) -> ProcessedOrder:",
+          "        # Extract primitives inside method for computation",
+          "        total = sum(item.price for item in order.items)",
+          "        tax = self._calculate_tax(total, order.customer.state)",
+          "        # Return domain object, not primitives",
+          "        return ProcessedOrder(order, total, tax)",
+          "",
+          "class OrderAPI:",
+          "    def create_order(self, order: Order) -> Order:",
+          "        # API accepts and returns objects",
+          "        return self.order_processor.process_order(order)",
+          "",
+          "class Order:",
+          "    def __init__(self, customer: Customer, items: List[Item]):",
+          "        self._customer = customer  # Object, not customer_id",
+          "        self._items = items  # Objects, not item_ids",
+          "",
+          "Presentation Boundary Examples (primitives OK):",
+          "- UI rendering: def render_order(order: Order) -> str: return f'{order.id}: {order.total}'",
+          "- CLI output: def format_for_cli(order: Order) -> str: return f'Order {order.id}'",
+          "- Display serialization: def to_display_dict(self) -> Dict[str, str]: return {'id': str(self.id), 'total': f'${self.total}'}",
+          "- File I/O for display: def save_report(order: Order, file_path: str): ..."
+        ]
+      },
+      "dont": {
+        "description": "Don't pass primitives between objects when domain objects exist, including in APIs",
+        "content": [
+          "Don't pass primitive IDs when you could pass the object",
+          "Don't extract primitives from objects just to pass them to another object",
+          "Don't return primitives when you could return a domain object",
+          "Don't pass multiple related primitives when a single object would work",
+          "Don't use primitives in API signatures - APIs should use objects",
+          "",
+          "Wrong Examples (primitive passing):",
+          "class OrderAPI:",
+          "    def create_order(self, customer_id: str, item_ids: List[str], order_date: str) -> Dict[str, float]:",
+          "        # API using primitives instead of objects",
+          "        customer = self._load_customer(customer_id)",
+          "        items = [self._load_item(id) for id in item_ids]",
+          "        return {'total': total, 'tax': tax}  # Returning primitives",
+          "",
+          "class OrderProcessor:",
+          "    def process_order(self, customer_id: str, item_ids: List[str], order_date: str) -> Dict[str, float]:",
+          "        # Passing primitives instead of objects",
+          "        customer = self._load_customer(customer_id)",
+          "        items = [self._load_item(id) for id in item_ids]",
+          "        total = sum(item.price for item in items)",
+          "        return {'total': total, 'tax': tax}  # Returning primitives",
+          "",
+          "class Order:",
+          "    def __init__(self, customer_id: str, item_ids: List[str]):",
+          "        self._customer_id = customer_id  # Primitive instead of object",
+          "        self._item_ids = item_ids  # Primitives instead of objects",
+          "",
+          "Primitive Passing Indicators (REFACTOR):",
+          "- APIs taking IDs (str/int) when objects exist",
+          "- APIs returning dictionaries/primitive tuples instead of objects",
+          "- Methods taking IDs (str/int) when objects exist",
+          "- Methods returning dictionaries/primitive tuples instead of objects",
+          "- Multiple related primitive parameters (customer_id, customer_name, customer_email)",
+          "- Extracting primitives from objects just to pass to another method",
+          "- Methods that load objects internally but take primitives as parameters",
+          "",
+          "Refactoring Strategies:",
+          "- Replace primitive IDs with domain objects in API signatures",
+          "- Replace primitive IDs with domain objects in method signatures",
+          "- Return domain objects instead of dictionaries/primitives",
+          "- Group related primitives into a domain object",
+          "- Extract primitives inside methods, not in calling code",
+          "- Create objects from primitives at presentation boundaries, pass objects everywhere else",
+          "- Keep primitives only for UI/CLI rendering and display serialization"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.primitive_vs_object_scanner.PrimitiveVsObjectScanner"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

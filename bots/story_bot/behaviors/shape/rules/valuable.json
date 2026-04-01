@@ -1,0 +1,33 @@
+{
+  "priority": 5,
+  "description": "Stories must capture discrete behavior that can be described in system or business terms. Each story represents a distinct behavioral unit — not raw data access or isolated operations, but a recognizable action with a describable outcome.",
+  "do": {
+    "description": "Create stories that capture discrete behavior describable in system/business terms. Example: 'User --> load story graph' (behavior: retrieve and display story structure)",
+    "guidance": [
+      {
+        "description": "Each story must represent a discrete behavior — a recognizable action that can be described in business or system terms. Order by user journey flow, not technical sequence. The test: can you describe what this story DOES as a behavior someone would recognize? If yes, it's a valid story.",
+        "example": ["User --> load story graph (behavior: retrieve and display story structure)", "Developer --> edit epic name (behavior: modify story map element)", "User --> generate DrawIO diagram (behavior: produce visual diagram output)", "System --> initialize configuration on startup (behavior: prepare system for use)", "System --> display recipient bank details (behavior: show bank information after recipient selection)"]
+      }
+    ]
+  },
+  "dont": {
+    "description": "Don't create stories that are raw data operations with no describable behavior. Example: 'System --> read all epics from diagram' (no behavior - just data access, what happens next?)",
+    "guidance": [
+      {
+        "description": "Don't create raw data access operations that lack describable behavior — these are implementation steps, not stories",
+        "example": ["System --> read all epics from diagram (no behavior - just data access, then what?)", "System --> load all features in graph epic (no describable outcome)", "System --> serialize components to JSON (implementation step, not behavior)", "System --> convert diagram to StoryGraph format (data transformation, not behavior)", "System --> calculate component positions (computation, not behavior)"]
+      },
+      {
+        "description": "Don't create stories too large to describe as a single behavior - split into discrete behavioral units",
+        "example": ["User --> manage entire order lifecycle (multiple behaviors bundled - split)", "System --> process complete checkout workflow (multiple behaviors bundled - split)"]
+      },
+      {
+        "description": "Don't order stories by technical sequence instead of user journey flow - stories should follow the user's journey, not implementation order"
+      },
+      {
+        "description": "No-behavior indicators to reject - these patterns indicate stories lack describable behavior",
+        "example": ["Just reads/loads data without describable outcome", "Just converts/formats data as an implementation step", "Just calculates/computes as an intermediate operation"]
+      }
+    ]
+  }
+}

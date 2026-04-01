@@ -1,0 +1,56 @@
+{
+    "priority":  18,
+    "description":  "All test code must use ASCII-only characters. No Unicode symbols, emojis, or special characters. Use plain ASCII alternatives. Example: print(\u0027[PASS] Success\u0027) not print(\u0027[checkmark] Success\u0027)",
+    "do":  {
+               "description":  "Use ASCII-only characters. Example: print(\u0027[PASS] Agent initialized\u0027); print(\u0027[ERROR] Config not found\u0027)",
+               "guidance":  [
+                                {
+                                    "description":  "Use ASCII status indicators",
+                                    "example":  [
+                                                    "print(\u0027[PASS] Agent initialized successfully\u0027)",
+                                                    "print(\u0027[ERROR] Configuration file not found\u0027)",
+                                                    "print(\u0027[FAIL] Test assertion failed\u0027)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use ASCII in assertions",
+                                    "example":  [
+                                                    "assert result.status == \u0027success\u0027",
+                                                    "assert result.message == \u0027Agent initialized\u0027"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use ASCII arrows and bullets",
+                                    "example":  [
+                                                    "print(\u0027-\u003e Next step\u0027)",
+                                                    "print(\u0027* Item 1\u0027)",
+                                                    "print(\u0027- Bullet point\u0027)"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use Unicode or emojis. Example: print(\u0027[checkmark] Done\u0027) (wrong); print(\u0027[green_check] OK\u0027) (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use Unicode checkmarks",
+                                      "example":  [
+                                                      "print(\u0027[checkmark] Agent initialized\u0027)  # WRONG - use [PASS]"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use emojis",
+                                      "example":  [
+                                                      "print(\u0027[check_emoji] Configuration loaded\u0027)  # WRONG - use [OK]"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use Unicode arrows or symbols",
+                                      "example":  [
+                                                      "print(\u0027[arrow] Next step\u0027)  # WRONG - use \u0027-\u003e\u0027"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.ascii_only_scanner.AsciiOnlyScanner"
+}

@@ -1,0 +1,12 @@
+{
+  "description": "Key questions that must be answered before this behavior can proceed",
+  "questions": [
+    "Which areas of the story map carry the most business or delivery risk?",
+    "Which areas are expected to deliver the most value if delivered early?",
+    "Which areas are the most complex or hardest to implement, relative to their value?",
+    "Do you want thin slices to be as end-to-end as possible?",
+    "Are there any components, capabilities, or services that need to be reused across multiple stories or features?",
+    "Are there any project or program constraints that impact delivery order?",
+    "Are there users or groups that must go first to enable others to follow?"
+  ]
+}

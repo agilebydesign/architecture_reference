@@ -1,0 +1,11 @@
+{
+  "description": "Key questions that must be answered before this behavior can proceed",
+  "questions": [
+    "What test framework should be used (pytest-bdd, pytest, etc.)?",
+    "Should tests use real implementations or mocks (e2e vs unit tests)?",
+    "What fixtures or helpers are needed for test setup?",
+    "Are there any specific test data requirements beyond what's in Examples tables?",
+    "What is the expected test file structure and location?",
+    "Are there any existing test patterns or conventions to follow?"
+  ]
+}

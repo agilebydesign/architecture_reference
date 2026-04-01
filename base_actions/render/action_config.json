@@ -1,0 +1,30 @@
+{
+  "name": "render_output",
+  "description": "Render output documents and artifacts from story graph using templates and synchronizers",
+  "workflow": true,
+  "order": 6,
+  "auto_confirm": true,
+  "instructions": [
+    "IMPORTANT: Follow these action instructions specifically. Frame the behavior instructions above within the context of this action.",
+    "",
+    "Please follow the instructions below in order to manually render output documents using templates",
+    "",
+    "All render configurations are automatically loaded and injected below. Process ALL configs - do not skip any.",
+    "",
+    "{{render_configs}}",
+    "",
+    "**Final Steps:**",
+    "- Process ALL configs above - do not skip any",
+    "- Priority order: synchronizer > template",
+    "- Verify each output file exists after execution",
+    "- If execution fails, report the error and continue with other outputs",
+    "- After completing all renders, pause and wait for human confirmation before proceeding to next behavior",
+    "",
+    "**Creating New Render Outputs:**",
+    "If you need to create code to render a new output format:",
+    "1. Create a new synchronizer file in {workspace}/synchronizers/ (create folder if it doesn't exist)",
+    "2. Follow this signature pattern: output_file = synchronizer.render(story_graph_file)",
+    "3. The synchronizer should read the story-graph.json and produce the desired output file",
+    "4. Add the new synchronizer to the behavior's render config to include it in future renders"
+  ]
+}

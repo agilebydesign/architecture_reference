@@ -1,0 +1,39 @@
+{
+    "priority": 8,
+    "description": "Scenarios must be in story-graph.json (in scenarios or scenario_outlines fields), NOT in separate markdown files. NEVER create feature specification documents. Example: story-graph.json epics[].stories[].scenarios[], not docs/story/scenarios.md.",
+    "do": {
+        "description": "Add scenarios to story-graph.json. Example: story-graph.json epics[].stories[].scenarios[] array",
+        "guidance": [
+            {
+                "description": "Add scenarios to story-graph.json scenarios array",
+                "example": [
+                    "story-graph.json epics[].sub_epics[].story_groups[].stories[].scenarios[]"
+                ]
+            },
+            {
+                "description": "Add Scenario Outlines with Examples to story-graph.json",
+                "example": [
+                    "story-graph.json epics[].sub_epics[].story_groups[].stories[].scenario_outlines[]"
+                ]
+            }
+        ]
+    },
+    "dont": {
+        "description": "Dont create separate scenario files or feature specifications. Example: docs/story/Epic/Feature/Feature Specification.md (wrong)",
+        "guidance": [
+            {
+                "description": "Dont create feature specification documents",
+                "example": [
+                    "docs/story/Epic/Feature/Feature Specification.md (WRONG - scenarios go in story-graph.json)"
+                ]
+            },
+            {
+                "description": "Dont create separate scenario markdown files",
+                "example": [
+                    "docs/story/scenarios.md (WRONG - scenarios go in story-graph.json)"
+                ]
+            }
+        ]
+    },
+    "scanner": "scanners.scenarios.scenarios_on_story_docs_scanner.ScenariosOnStoryDocsScanner"
+}

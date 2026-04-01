@@ -1,0 +1,66 @@
+{
+  "rule_name": "prefer_object_model_over_config",
+  "description": "Use existing object model to access information instead of directly accessing configuration files",
+  "severity": "error",
+  "category": "architecture",
+  "context": "when writing code",
+  "scanner": "scanners.code.python.prefer_object_model_over_config_scanner.PreferObjectModelOverConfigScanner",
+  "rationale": "Objects provide encapsulation and abstraction. Accessing configuration files directly bypasses the object model, creates tight coupling, and makes code harder to maintain and test.",
+  "examples": {
+    "bad": [
+      {
+        "description": "Accessing config directly when object exists",
+        "code": "behavior = bot.behaviors.find_by_name(name)\nif behavior and hasattr(behavior, '_config'):\n    description = behavior._config.get('description')"
+      },
+      {
+        "description": "Reading config file when object property exists",
+        "code": "config_file = action_dir / 'action_config.json'\nconfig = read_json_file(config_file)\nname = config.get('name')"
+      },
+      {
+        "description": "Accessing private config attribute",
+        "code": "bot_config = bot._config.get('behaviors', [])"
+      }
+    ],
+    "good": [
+      {
+        "description": "Using object property",
+        "code": "behavior = bot.behaviors.find_by_name(name)\nif behavior:\n    description = behavior.description"
+      },
+      {
+        "description": "Using object method or property",
+        "code": "action = behavior.actions.find_by_name(action_name)\nif action:\n    name = action.name\n    description = action.description"
+      },
+      {
+        "description": "Iterating through object collections",
+        "code": "for behavior in bot.behaviors:\n    print(f'{behavior.name}: {behavior.description}')"
+      }
+    ]
+  },
+  "detection_patterns": [
+    {
+      "pattern": "\\._config\\[",
+      "description": "Direct access to _config dictionary"
+    },
+    {
+      "pattern": "\\._config\\.get\\(",
+      "description": "Using .get() on _config attribute"
+    },
+    {
+      "pattern": "hasattr\\([^,]+,\\s*['\"]_config['\"]\\)",
+      "description": "Checking for _config attribute existence"
+    },
+    {
+      "pattern": "read_json_file\\([^)]*config\\.json[^)]*\\)",
+      "description": "Reading config.json files directly when objects may exist"
+    }
+  ],
+  "exceptions": [
+    "When initializing or constructing objects (e.g., in __init__ methods)",
+    "When no object model exists for the configuration",
+    "In configuration loading utilities or factories",
+    "In migration or setup scripts",
+    "When the object explicitly exposes config as part of its public API"
+  ],
+  "fix_guidance": "Replace direct config access with object properties or methods. If the property doesn't exist on the object, add it to the object's interface rather than accessing config directly."
+}
+

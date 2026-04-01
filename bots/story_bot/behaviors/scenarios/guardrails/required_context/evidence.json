@@ -1,0 +1,10 @@
+{
+  "description": "Evidence or artifacts that must be present or validated before this behavior can proceed",
+  "evidence": [
+    "Acceptance criteria from Exploration stage (Domain AC at feature level, Behavioral AC at story level)",
+    "High fidelity UX flows",
+    "Cross-functional walkthrough outputs",
+    "Integration contracts or API mocks",
+    "Behavior diagrams (state, sequence)"
+  ]
+}

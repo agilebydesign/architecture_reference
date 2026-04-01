@@ -1,0 +1,108 @@
+{
+  "description": "CRITICAL: Names should clearly communicate purpose and usage. Use names that answer 'why does this exist?' and make them searchable and pronounceable.",
+  "scanner": "scanners.code.python.intention_revealing_names_scanner.IntentionRevealingNamesScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Use names that reveal intent and purpose",
+        "content": [
+          "Use names that answer 'why does this exist?'",
+          "Make names searchable and pronounceable",
+          "Choose names that reveal the problem domain",
+          "Use full words instead of abbreviations",
+          "",
+          "Correct Examples (intention-revealing):",
+          "- elapsedTimeInDays instead of d",
+          "- userAccountList instead of list1",
+          "- isValidEmailFormat instead of check",
+          "- calculateMonthlyPayment instead of calc",
+          "",
+          "Intention-Revealing Requirements:",
+          "- Name explains why variable/function exists",
+          "- Name can be spoken naturally in conversation",
+          "- Name can be easily searched in codebase",
+          "- Name uses domain language",
+          "- No mental translation required"
+        ]
+      },
+      "dont": {
+        "description": "Don't use cryptic, abbreviated, or unclear names",
+        "content": [
+          "Don't use single-letter names (except loop counters in tiny scopes)",
+          "Don't rely on mental mapping or cryptic abbreviations",
+          "Don't use cute or clever names that obscure meaning",
+          "",
+          "Wrong Examples (unclear intent):",
+          "- d, x, temp, data (what are they?)",
+          "- acct, addr, mgr (requires mental translation)",
+          "- theList, thing, stuff (meaningless)",
+          "- DontCallMeEvil, whack(), eatMyShorts() (cute but unclear)",
+          "",
+          "Poor Naming Indicators (REFACTOR):",
+          "- Single letters (except i, j in small loops)",
+          "- Generic names (data, info, value, thing)",
+          "- Abbreviations requiring domain knowledge",
+          "- Clever wordplay obscuring meaning",
+          "- Names requiring comments to explain",
+          "",
+          "Instead, ask:",
+          "- Can I explain this variable in conversation without showing code?",
+          "- Would a new team member understand this name?",
+          "- Does this name reflect domain language?",
+          "- Can I search for this name effectively?"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

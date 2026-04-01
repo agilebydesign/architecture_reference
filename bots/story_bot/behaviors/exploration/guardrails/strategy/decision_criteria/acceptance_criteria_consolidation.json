@@ -1,0 +1,10 @@
+{
+  "description": "Acceptance criteria consolidation",
+  "question": "When should we reuse or split acceptance criteria based on the same/Similar logic/formula?",
+  "outcome": "Determines AC consolidation candidates",
+  "options": [
+    "Same logic, different data → Consolidate",
+    "Different formulas → Keep separate",
+    "Different validation rules → Keep separate"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "description": "Evidence or artifacts that must be present or validated before this behavior can proceed",
+  "evidence": [
+    "Story map from Shape stage (overarching epics, features, and stories)",
+    "Discovery refinements from Discovery stage (enumerated stories for increment in focus)",
+    "User interaction diagrams",
+    "Low fidelity UX flows",
+    "User Journeys or Workflow Diagrams",
+    "Domain Models or Business Rules Documentation",
+    "Behavior Maps or Interaction Scenarios",
+    "Assumptions and Known Risks Logged from Earlier Phases"
+  ]
+}

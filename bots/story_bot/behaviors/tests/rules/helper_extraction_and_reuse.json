@@ -1,0 +1,66 @@
+{
+    "priority":  13,
+    "description":  "Extract duplicate test setup to reusable helper functions. Keep test bodies focused on specific behavior. Example: create_agent_with_config(), create_config_file(), verify_agent_initialized() - reusable across tests",
+    "do":  {
+               "description":  "Extract duplicate setup to reusable helpers. Example: create_agent_with_config(name, workspace, config) returns initialized Agent",
+               "guidance":  [
+                                {
+                                    "description":  "Create factory helpers for common object creation",
+                                    "example":  [
+                                                    "def create_agent_with_config(name, workspace, config):",
+                                                    "    agent = Agent(name, workspace); agent.set_config(config); agent.initialize(); return agent"
+                                                ]
+                                },
+                                {
+                                    "description":  "Create file setup helpers",
+                                    "example":  [
+                                                    "def create_config_file(workspace, agent_name):",
+                                                    "    path = workspace / \u0027config.json\u0027; path.write_text(json.dumps({\u0027name\u0027: agent_name})); return path"
+                                                ]
+                                },
+                                {
+                                    "description":  "Create verification helpers for common assertions",
+                                    "example":  [
+                                                    "def verify_agent_initialized(agent, expected_name):",
+                                                    "    assert agent.is_initialized; assert agent.name == expected_name"
+                                                ]
+                                },
+                                {
+                                    "description":  "Keep test bodies focused using helpers",
+                                    "example":  [
+                                                    "def test_agent_loads_config():",
+                                                    "    agent = create_agent_with_config(\u0027bot\u0027, workspace, {})",
+                                                    "    verify_agent_initialized(agent, \u0027bot\u0027)"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t duplicate setup code across tests. Example: Same 10 lines of setup in every test method (wrong - extract to helper)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t duplicate setup code in every test",
+                                      "example":  [
+                                                      "# WRONG: Same setup in 5 tests",
+                                                      "def test_1(): workspace = tmp_path / \u0027w\u0027; workspace.mkdir(); agent = Agent(w)...",
+                                                      "def test_2(): workspace = tmp_path / \u0027w\u0027; workspace.mkdir(); agent = Agent(w)..."
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t inline complex setup in test body",
+                                      "example":  [
+                                                      "def test_loads_config():",
+                                                      "    # WRONG: 20 lines of setup inline",
+                                                      "    config_dir = workspace / \u0027agents\u0027 / \u0027base\u0027; config_dir.mkdir(parents=True)..."
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mix setup and assertions",
+                                      "example":  [
+                                                      "# WRONG: Setup, assert, more setup, assert, mixed together"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.helper_extraction_scanner.HelperExtractionScanner"
+}

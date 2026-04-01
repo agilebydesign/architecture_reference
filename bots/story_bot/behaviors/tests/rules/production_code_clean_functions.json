@@ -1,0 +1,77 @@
+{
+    "priority":  4,
+    "description":  "Production code functions should do ONE thing, be under 20 lines, and have one level of abstraction. No hidden side effects. Name reveals complete behavior. Extract multiple concerns into separate functions. Example: load_config(), validate_config(), apply_config() - each does one thing",
+    "do":  {
+               "description":  "Single responsibility, small focused functions. Example: initialize_from_config() calls validate_exists(), load_config(), validate_structure(), apply_config()",
+               "guidance":  [
+                                {
+                                    "description":  "Each function does ONE thing",
+                                    "example":  [
+                                                    "def load_config(path): return json.loads(path.read_text())",
+                                                    "def validate_config(config): return all(k in config for k in required)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Keep functions under 20 lines",
+                                    "example":  [
+                                                    "def initialize_from_config(path):",
+                                                    "    validate_file_exists(path)",
+                                                    "    config = load_config(path)",
+                                                    "    validate_structure(config)",
+                                                    "    apply_config(config)"
+                                                ]
+                                },
+                                {
+                                    "description":  "One level of abstraction per function",
+                                    "example":  [
+                                                    "# High level: initialize_from_config()",
+                                                    "# Low level: _load_config(), _validate_structure(), _apply_config()"
+                                                ]
+                                },
+                                {
+                                    "description":  "Extract complex logic into named helper functions",
+                                    "example":  [
+                                                    "def _validate_config_structure(config):",
+                                                    "    missing = [f for f in required if f not in config]",
+                                                    "    if missing: raise ValueError(f\u0027Missing: {missing}\u0027)"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t make functions that do multiple unrelated things or are too long. Example: 50-line function that loads, validates, and applies config",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t do multiple things in one function",
+                                      "example":  [
+                                                      "def initialize(path):  # WRONG - does too much",
+                                                      "    # loads file, parses JSON, validates schema,",
+                                                      "    # checks fields, creates objects, saves state..."
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t exceed 20 lines",
+                                      "example":  [
+                                                      "def process_everything():  # WRONG - 50+ lines",
+                                                      "    # ... huge monolithic function ..."
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mix abstraction levels",
+                                      "example":  [
+                                                      "def initialize():",
+                                                      "    if path.exists():  # Low level",
+                                                      "        self.orchestrate_full_workflow()  # High level - WRONG mix"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t hide side effects - name should reveal all behavior",
+                                      "example":  [
+                                                      "def get_config():  # WRONG - also writes cache file secretly",
+                                                      "    config = load(); cache.write(config); return config"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.function_size_scanner.FunctionSizeScanner"
+}

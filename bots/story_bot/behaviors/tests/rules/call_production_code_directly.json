@@ -1,0 +1,61 @@
+{
+    "priority":  6,
+    "description":  "Call production code directly in tests. Let tests fail naturally if code doesn\u0027t exist. Don\u0027t comment out calls, mock business logic, or fake state. Only mock external boundaries. Example: agent = Agent(); agent.initialize() (not agent = Mock())",
+    "do":  {
+               "description":  "Call production code directly, let it fail naturally. Example: agent = Agent(workspace); agent.initialize(config); assert agent.is_initialized",
+               "guidance":  [
+                                {
+                                    "description":  "Call production code directly in tests",
+                                    "example":  [
+                                                    "agent = Agent(agent_name=\u0027story_bot\u0027, workspace_root=workspace)",
+                                                    "agent.initialize(config)",
+                                                    "assert agent.is_initialized"
+                                                ]
+                                },
+                                {
+                                    "description":  "Let tests fail with clear errors if code doesn\u0027t exist",
+                                    "example":  [
+                                                    "# If initialize() doesn\u0027t exist: AttributeError: \u0027Agent\u0027 has no attribute \u0027initialize\u0027",
+                                                    "# This drives creation of the method"
+                                                ]
+                                },
+                                {
+                                    "description":  "Only mock external boundaries when necessary",
+                                    "example":  [
+                                                    "with patch(\u0027requests.get\u0027) as mock_get:  # External API - OK to mock",
+                                                    "    mock_get.return_value.json.return_value = {\u0027name\u0027: \u0027bot\u0027}"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t mock class under test, comment out calls, or fake state. Example: agent = Mock(spec=Agent) (wrong); agent._initialized = True (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t mock the class you\u0027re testing",
+                                      "example":  [
+                                                      "agent = Mock(spec=Agent)  # WRONG - defeats purpose of test"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t comment out production code calls",
+                                      "example":  [
+                                                      "# agent.initialize()  # WRONG - test should fail!"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t fake internal state",
+                                      "example":  [
+                                                      "agent._initialized = True  # WRONG - bypasses the logic you\u0027re testing"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mock business logic",
+                                      "example":  [
+                                                      "with patch(\u0027agent.validate_config\u0027):  # WRONG - test the logic!"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.real_implementations_scanner.RealImplementationsScanner"
+}

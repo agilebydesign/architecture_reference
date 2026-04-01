@@ -1,0 +1,61 @@
+{
+    "priority":  14,
+    "description":  "Tests must match specification scenarios exactly. Test names, steps, and assertions verify exactly what the scenario states. Use exact variable names and terminology from specification. Example: agent_name=\u0027story_bot\u0027 (from spec), not name=\u0027bot\u0027",
+    "do":  {
+               "description":  "Test matches specification exactly. Example: GIVEN config exists, WHEN Agent(agent_name=\u0027story_bot\u0027), THEN config_path == agents/base/agent.json",
+               "guidance":  [
+                                {
+                                    "description":  "Test name and docstring match scenario",
+                                    "example":  [
+                                                    "def test_agent_initializes_with_base_config():",
+                                                    "    \u0027\u0027\u0027SCENARIO: Agent initializes with base configuration",
+                                                    "    GIVEN: Base agent configuration exists",
+                                                    "    WHEN: Agent is initialized with agent_name=\u0027story_bot\u0027",
+                                                    "    THEN: Agent sets up config path at agents/base/agent.json\u0027\u0027\u0027"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use exact variable names from specification",
+                                    "example":  [
+                                                    "# Spec says: agent_name=\u0027story_bot\u0027, workspace_root=\u0027/test\u0027",
+                                                    "agent = Agent(agent_name=\u0027story_bot\u0027, workspace_root=workspace_root)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Assert exactly what scenario states - no more, no less",
+                                    "example":  [
+                                                    "# Spec THEN: \u0027config_path at agents/base/agent.json\u0027",
+                                                    "expected = workspace_root / \u0027agents\u0027 / \u0027base\u0027 / \u0027agent.json\u0027",
+                                                    "assert agent.config_path == expected"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use different terminology or assert things not in specification. Example: assert agent._internal_flag (not in spec - wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use vague or different terminology",
+                                      "example":  [
+                                                      "def test_agent_init():  # WRONG - spec says \u0027initializes with base config\u0027",
+                                                      "    \u0027\u0027\u0027Test agent\u0027\u0027\u0027  # WRONG - doesn\u0027t match spec"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use different variable names",
+                                      "example":  [
+                                                      "name = \u0027story_bot\u0027  # WRONG - spec says \u0027agent_name\u0027",
+                                                      "root = Path(\u0027/test\u0027)  # WRONG - spec says \u0027workspace_root\u0027"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t assert implementation details not in spec",
+                                      "example":  [
+                                                      "assert agent._internal_flag == True  # WRONG - not in spec",
+                                                      "assert agent.validate.called  # WRONG - implementation detail"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.specification_match_scanner.SpecificationMatchScanner"
+}

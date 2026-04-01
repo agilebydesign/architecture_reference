@@ -1,0 +1,65 @@
+{
+    "priority":  22,
+    "description":  "Use reusable helper functions instead of inline code blocks of 4+ lines. Optimize for reusability, not exact step names. Place helpers at correct scope: story-level in class, sub-epic in module, epic in separate file. Example: given_config_exists(), when_agent_initialized(), then_agent_is_configured()",
+    "do":  {
+               "description":  "Use Given/When/Then helper functions for setup, action, assertion. Example: given_bot_config_exists(); bot = when_bot_instantiated(); then_bot_uses_correct_directories(bot)",
+               "guidance":  [
+                                {
+                                    "description":  "Given helpers for setup",
+                                    "example":  [
+                                                    "config_path = given_bot_config_exists(workspace, \u0027test_bot\u0027, [\u0027shape\u0027])"
+                                                ]
+                                },
+                                {
+                                    "description":  "When helpers for actions",
+                                    "example":  [
+                                                    "bot = when_bot_is_instantiated(\u0027test_bot\u0027, bot_directory, config_path)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Then helpers for assertions",
+                                    "example":  [
+                                                    "then_bot_uses_correct_directories(bot, bot_directory, workspace)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Place helpers at correct scope level",
+                                    "example":  [
+                                                    "# Story-level: in test class",
+                                                    "# Sub-epic: module level in test file",
+                                                    "# Epic: separate test_\u003cepic\u003e_helpers.py file",
+                                                    "# Global: conftest.py"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use inline operations of 4+ lines. Example: config_dir = ...; config_dir.mkdir(); config_file = ...; config_file.write_text() (wrong - extract to helper)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use inline setup blocks of 4+ lines",
+                                      "example":  [
+                                                      "# WRONG: 4+ lines inline",
+                                                      "config_dir = workspace / \u0027config\u0027; config_dir.mkdir()",
+                                                      "config_file = config_dir / \u0027bot.json\u0027; config_file.write_text(\u0027{}\u0027)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use inline assertions of 4+ lines",
+                                      "example":  [
+                                                      "# WRONG: 4+ lines inline",
+                                                      "file = workspace / \u0027out.json\u0027; data = json.loads(file.read_text())",
+                                                      "assert \u0027key\u0027 in data; assert data[\u0027key\u0027] == \u0027value\u0027"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t place helpers at wrong scope",
+                                      "example":  [
+                                                      "# WRONG: Story-level helper in conftest.py",
+                                                      "# WRONG: Epic-level helper in test class"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.given_when_then_helpers_scanner.GivenWhenThenHelpersScanner"
+}

@@ -1,0 +1,72 @@
+{
+  "description": "CRITICAL: Code must stay at the domain level, even if concrete. Don't separate technical details from domain concepts—they should be the same (class vs object vs file—all represent the same domain concept).",
+  "scanner": "scanners.code.python.technical_abstraction_code_scanner.TechnicalAbstractionCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Stay at domain level, even if concrete",
+        "content": [
+          "Domain classes should represent domain objects directly",
+          "Technical details (saving, loading) are part of domain concepts",
+          "Class vs object vs file - all represent the same domain concept",
+          "",
+          "Correct Examples (domain level):",
+          "class Portfolio:",
+          "    def __init__(self, account_id: AccountId, risk_tolerance: RiskTolerance):",
+          "        self.account_id = account_id",
+          "        self.risk_tolerance = risk_tolerance",
+          "",
+          "    def save(self):",
+          "        # Saves to file/database - technical detail hidden",
+          "        # Domain concept: 'save portfolio'",
+          "        self._persist_to_storage()",
+          "",
+          "    @classmethod",
+          "    def load(cls, account_id: AccountId) -> Portfolio:",
+          "        # Loads from file/database - technical detail hidden",
+          "        # Domain concept: 'load portfolio'",
+          "        return cls._load_from_storage(account_id)",
+          "",
+          "class PortfolioRepository:",
+          "    def __init__(self, database):",
+          "        self.database = database",
+          "",
+          "    def save_portfolio(self, portfolio: Portfolio):",
+          "        pass",
+          "",
+          "    def load_portfolio(self, account_id: AccountId) -> Portfolio:",
+          "        pass"
+        ]
+      },
+      "dont": {
+        "description": "Don't create unnecessary technical abstractions",
+        "content": [
+          "Don't create separate 'Saver', 'Loader' classes",
+          "Don't separate persistence logic from domain objects unnecessarily",
+          "",
+          "Wrong Examples (technical abstractions separated):",
+          "class Portfolio:",
+          "    def __init__(self, account_id: AccountId):",
+          "        self.account_id = account_id",
+          "",
+          "class PortfolioSaver:",
+          "    def save_to_file(self, portfolio: Portfolio, file_path: Path):",
+          "        # Technical detail exposed: 'file', 'save to file'",
+          "        pass",
+          "",
+          "class PortfolioLoader:",
+          "    def load_from_file(self, file_path: Path) -> Portfolio:",
+          "        # Technical detail exposed: 'file', 'load from file'",
+          "        pass",
+          "",
+          "Technical Abstraction Indicators (REFACTOR):",
+          "- Classes ending in 'Saver', 'Loader', 'Storage' that separate technical concerns",
+          "- Methods mentioning 'file', 'database', 'storage' as separate concepts",
+          "- Separating persistence logic from domain objects unnecessarily"
+        ]
+      }
+    }
+  ]
+}
+
+

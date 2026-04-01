@@ -1,0 +1,55 @@
+{
+  "description": "Keep nesting minimal and control flow straightforward. Use guard clauses to reduce nesting and extract nested blocks into separate functions.",
+  "examples": [
+    {
+      "do": {
+        "description": "Keep control flow simple and readable",
+        "content": [
+          "Use guard clauses to reduce nesting",
+          "Extract nested blocks into separate functions",
+          "Prefer early returns for edge cases",
+          "Keep nesting to 2-3 levels maximum",
+          "",
+          "Correct Examples (simple control flow):",
+          "- if (!valid) return; // guard clause",
+          "- if (error) throw error; // early return",
+          "- Use polymorphism instead of complex switch statements",
+          "",
+          "Guard Clause Pattern:",
+          "function process(data) {",
+          "  if (!data) return null; // guard",
+          "  if (data.isEmpty()) return []; // guard",
+          "  // main logic here (not nested)",
+          "}"
+        ]
+      },
+      "dont": {
+        "description": "Don't create deeply nested control structures",
+        "content": [
+          "Don't nest conditionals more than 2-3 levels deep",
+          "Don't use complex switch statements outside factory methods",
+          "Don't mix multiple control flow patterns in one function",
+          "",
+          "Wrong Examples (complex control flow):",
+          "- 5 levels of nested if/else statements",
+          "- Switch statement with business logic in each case",
+          "- Mixed for loops with nested if/else/switch",
+          "",
+          "Complex Control Flow Indicators (REFACTOR):",
+          "- Nesting exceeds 3 levels deep",
+          "- Arrow-shaped code (increasing indentation)",
+          "- Multiple exit points deep in nested blocks",
+          "- Switch statements with complex logic per case",
+          "",
+          "Refactoring Strategies:",
+          "- Use guard clauses at function start",
+          "- Extract nested blocks into functions",
+          "- Replace switch with polymorphism or lookup tables",
+          "- Use early returns to flatten structure",
+          "- Consider strategy pattern for complex branching"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.simplify_control_flow_scanner.SimplifyControlFlowScanner"
+}

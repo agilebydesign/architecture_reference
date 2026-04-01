@@ -1,0 +1,27 @@
+{
+  "description": "Key questions that must be answered before this behavior can proceed",
+  "questions": [
+    "Who are the distinct types of users (e.g., operational users, power users, compliance consumers, content creators, producers)?",
+    "What are the key goals, behaviors, or decisions each group is trying to accomplish using this capability?",
+    "Who are the primary users or stakeholder groups impacted?",
+    "What is the first thing users will try to do with this new capability or system?",
+    "What problems, inefficiencies, or workarounds is this request trying to eliminate?",
+    "Where are users currently struggling, getting stuck, or experiencing delays in the process we're aiming to improve?",
+    "What are the key drivers for customer value or business value that this capability addresses?",
+    "What specific customer or business outcomes are we trying to achieve?",
+    "What is the user journey from start to finish for the primary use case?",
+    "What are the key stages or steps in the user journey?",
+    "Where in the user journey are users experiencing frustration, friction, or unhappiness?",
+    "What moments of delight or value should users experience during their journey?",
+    "What are the critical pain points that prevent users from achieving their goals?",
+    "What other systems, data sources, or tools does this capability need to interact with in order to deliver value?",
+    "What are the key behaviors or integration points that define how these systems support or depend on one another?",
+    "What is the business domain we are modeling?",
+    "What are the core business concepts and their relationships?",
+    "What are the distinct sub-domains or business capabilities?",
+    "What are the boundaries between different parts of the domain?",
+    "What domain events occur in this business domain?",
+    "What are the key business rules and constraints?",
+    "What domain language do business experts use to describe this domain?"
+  ]
+}

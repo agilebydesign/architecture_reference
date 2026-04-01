@@ -1,0 +1,45 @@
+{
+    "priority":  5,
+    "description":  "Scenarios must cover happy path, edge cases, and error cases based on acceptance criteria. Example: Valid input → success; Boundary value → validates; Invalid input → error message.",
+    "do":  {
+               "description":  "Cover all case types: happy path, edge cases, error cases. Example: User enters valid data → success; User enters boundary → validates; User enters invalid → error",
+               "guidance":  [
+                                {
+                                    "description":  "Include happy path scenario",
+                                    "example":  [
+                                                    "Scenario: User enters valid data - When user submits valid form Then system saves successfully"
+                                                ]
+                                },
+                                {
+                                    "description":  "Include edge case scenarios",
+                                    "example":  [
+                                                    "Scenario: User enters boundary value - When user enters maximum allowed value Then system validates correctly"
+                                                ]
+                                },
+                                {
+                                    "description":  "Include error case scenarios",
+                                    "example":  [
+                                                    "Scenario: User enters invalid data - When user submits empty form Then system shows validation error"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t skip case types. Example: Only happy path scenarios (missing edge and error cases)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t cover only happy path",
+                                      "example":  [
+                                                      "Only \u0027User submits valid data\u0027 scenario - MISSING edge cases and error cases"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t assume error handling is implicit",
+                                      "example":  [
+                                                      "No explicit error scenarios - must show what happens when things fail"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.scenarios.scenarios_cover_all_cases_scanner.ScenariosCoverAllCasesScanner"
+}

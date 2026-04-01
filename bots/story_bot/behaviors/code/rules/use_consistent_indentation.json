@@ -1,0 +1,68 @@
+{
+  "description": "Use consistent, meaningful indentation. Use 2-4 spaces consistently (or tabs if team prefers), indent to show code structure, and keep lines under 80-120 characters.",
+  "examples": [
+    {
+      "do": {
+        "description": "Use consistent indentation to show structure",
+        "content": [
+          "Use 2-4 spaces consistently (or tabs if team prefers)",
+          "Indent to show code structure",
+          "Keep lines under 80-120 characters",
+          "Let automated formatter handle indentation",
+          "",
+          "Correct Examples (consistent indentation):",
+          "function processOrder(order) {",
+          "  if (order.isValid()) {",
+          "    const total = calculateTotal(order);",
+          "    return total;",
+          "  }",
+          "  return 0;",
+          "}",
+          "",
+          "Indentation Requirements:",
+          "- Consistent spaces/tabs throughout project",
+          "- Indentation shows nesting level",
+          "- Lines not too long (80-120 chars)",
+          "- Automated formatter enforces consistency",
+          "- Code structure visually clear"
+        ]
+      },
+      "dont": {
+        "description": "Don't mix tabs and spaces or create extremely long lines",
+        "content": [
+          "Don't mix tabs and spaces",
+          "Don't use inconsistent indentation",
+          "Don't create extremely long lines",
+          "",
+          "Wrong Examples (inconsistent indentation):",
+          "function processOrder(order) {",
+          "  if (order.isValid()) {    // 2 spaces",
+          "      const total = calculateTotal(order);  // 4 spaces",
+          "\treturn total;  // tab",
+          "  }",
+          "}",
+          "",
+          "const result = someFunction(param1, param2, param3, param4, param5, param6, param7, param8, param9, param10); // too long!",
+          "",
+          "Indentation Problems (FIX):",
+          "- Mixing tabs and spaces",
+          "- Inconsistent indentation levels",
+          "- Lines exceeding 120+ characters",
+          "- Unclear code structure",
+          "",
+          "Solution:",
+          "- Configure automated formatter",
+          "- Set editor to use spaces (not tabs) or consistent tabs",
+          "- Enable line length warnings",
+          "- Break long lines into multiple lines:",
+          "",
+          "const result = someFunction(",
+          "  param1, param2, param3,",
+          "  param4, param5, param6",
+          ");"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.consistent_indentation_scanner.ConsistentIndentationScanner"
+}

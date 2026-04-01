@@ -1,0 +1,18 @@
+{
+  "description": "Drill-down limits",
+  "question": "What are the approximate limits for drill-down coverage (to prevent over-detailing)?",
+  "options": [
+    "Approximate story limit: 3-5 stories",
+    "Approximate story limit: 5-10 stories",
+    "Approximate story limit: 10-15 stories",
+    "Approximate story limit: 15-20 stories",
+    "Approximate story limit: No limit",
+    "Approximate feature limit: 2-3 features",
+    "Approximate feature limit: 3-5 features",
+    "Approximate feature limit: 5-7 features",
+    "Approximate feature limit: 7-10 features",
+    "Approximate feature limit: No limit"
+  ],
+  "note": "Select approximate limits to prevent over-detailing. Can select both story and feature limits, or specify 'No limit' for either."
+}
+

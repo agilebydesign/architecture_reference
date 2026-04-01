@@ -1,0 +1,12 @@
+{
+  "name": "render_increments_drawio",
+  "type": "synchronizer",
+  "path": "docs/story/prioritization",
+  "input": "story-graph.json",
+  "synchronizer": "synchronizers.story_io.DrawIOSynchronizer",
+  "renderer_command": "render-increments",
+  "output": "story-map-increments.drawio",
+  "drawio_file": "story-map-increments.drawio",
+  "instructions": "Render increments from story-graph.json to DrawIO via DrawIOStoryMap domain model."
+}
+

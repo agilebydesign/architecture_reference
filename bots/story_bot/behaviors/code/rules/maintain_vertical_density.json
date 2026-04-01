@@ -1,0 +1,67 @@
+{
+  "description": "Related code should be visually close. Group related concepts together, declare variables close to usage, and keep files under 500 lines when possible.",
+  "examples": [
+    {
+      "do": {
+        "description": "Keep related code close together",
+        "content": [
+          "Group related concepts together",
+          "Declare variables close to usage",
+          "Keep files under 500 lines when possible",
+          "Use vertical spacing to separate concepts",
+          "",
+          "Correct Examples (good vertical density):",
+          "function processOrder(order) {",
+          "  const items = order.items;           // declare near use",
+          "  const itemTotal = calculateTotal(items);",
+          "  ",
+          "  const discount = order.discount;     // declare near use",
+          "  const discountAmount = calculateDiscount(discount, itemTotal);",
+          "  ",
+          "  return itemTotal - discountAmount;",
+          "}",
+          "",
+          "Vertical Density Requirements:",
+          "- Related lines close together",
+          "- Variables declared near first use",
+          "- Blank lines separate different concepts",
+          "- Functions called near their definitions",
+          "- Caller above callee (newspaper metaphor)"
+        ]
+      },
+      "dont": {
+        "description": "Don't separate related code or declare variables far from usage",
+        "content": [
+          "Don't separate related code with blank lines",
+          "Don't put variables far from their usage",
+          "Don't create excessively long files",
+          "",
+          "Wrong Examples (poor vertical density):",
+          "function processOrder(order) {",
+          "  const items = order.items;",
+          "  const discount = order.discount;",
+          "  const shipping = order.shipping;",
+          "  const tax = order.tax;",
+          "  // 50 lines later...",
+          "  const itemTotal = calculateTotal(items);",
+          "}",
+          "",
+          "Poor Vertical Density Indicators (REFACTOR):",
+          "- Variables declared at top, used 100 lines later",
+          "- Blank lines between tightly related statements",
+          "- Files exceeding 500-1000 lines",
+          "- Related functions scattered throughout file",
+          "- Caller far below callee",
+          "",
+          "Refactoring Strategy:",
+          "- Move variable declarations near first use",
+          "- Remove unnecessary blank lines",
+          "- Split large files into smaller modules",
+          "- Place related functions adjacent",
+          "- Order functions: caller above callee"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.vertical_density_scanner.VerticalDensityScanner"
+}

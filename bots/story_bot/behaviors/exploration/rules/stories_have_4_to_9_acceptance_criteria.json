@@ -1,0 +1,51 @@
+{
+    "priority":  2,
+    "description":  "Stories should have 4-9 acceptance criteria. Fewer than 4 suggests incomplete exploration; more than 9 suggests story is too large and should be split. Example: Story with 6 AC (right-sized), Story with 2 AC (under-explored), Story with 15 AC (too large).",
+    "do":  {
+               "description":  "Target 4-9 acceptance criteria per story. Example: Story with 5-7 AC covers happy path, edge cases, and error conditions",
+               "guidance":  [
+                                {
+                                    "description":  "Include enough AC to cover the behavior completely",
+                                    "example":  [
+                                                    "Story with 6 AC: happy path, validation error, authorization check, edge case, alternate flow, confirmation"
+                                                ]
+                                },
+                                {
+                                    "description":  "Split stories that exceed 9 AC into smaller stories",
+                                    "example":  [
+                                                    "Story with 12 AC split into: Story A (6 AC for core flow) + Story B (6 AC for advanced features)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Expand stories with fewer than 4 AC to cover missing cases",
+                                    "example":  [
+                                                    "Story with 2 AC expanded to 5 AC by adding error handling, edge cases, and validation"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t leave stories under-explored (\u003c4 AC) or oversized (\u003e9 AC). Example: Story with 2 AC (missing cases) or Story with 15 AC (too large)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t accept stories with fewer than 4 acceptance criteria",
+                                      "example":  [
+                                                      "Story with only 2 AC: \u0027User logs in\u0027, \u0027System shows dashboard\u0027 (missing error cases, validation, edge cases)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t create stories with more than 9 acceptance criteria",
+                                      "example":  [
+                                                      "Story with 15 AC covering login, profile, settings, notifications (should be 2-3 separate stories)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t count trivial or redundant AC to meet the minimum",
+                                      "example":  [
+                                                      "Padding with \u0027System displays page\u0027, \u0027Page loads successfully\u0027 (not meaningful AC)"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.story_sizing_scanner.StorySizingScanner"
+}

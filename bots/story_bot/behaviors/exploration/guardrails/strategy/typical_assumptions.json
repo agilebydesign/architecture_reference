@@ -1,0 +1,13 @@
+{
+  "typical_assumptions": [
+    "Each story should include both behavioral and domain acceptance criteria",
+    "Acceptance criteria define the end-to-end flow, not just isolated rules",
+    "Behavioral criteria follow a 'When trigger, Then response' format",
+    "Domain criteria describe structured responsibilities or rules around business concepts",
+    "Exploration will result in story reshaping: merging, splitting, or re-scoping is expected",
+    "ACs with same logic but different data should be consolidated",
+    "ACs with different formulas should remain separate",
+    "Domain AC belongs at increment level (aggregated from features), Behavioral AC at story level",
+    "Story documentation (scenarios) belongs in specification_scenarios phase, NOT exploration phase"
+  ]
+}

@@ -424,7 +424,7 @@ export class EngineView extends BaseView {
   constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
     super(extensionUri);
     this._panel = panel;
-    const counterPath = path.join(extensionUri.fsPath, "counter.json");
+    const counterPath = path.join(extensionUri.fsPath, "persistence", "counter.json");
     this._engine = new Engine(new CounterServer(counterPath));  // server domain (persistence)
     this.counter = new CounterView(this._panel, this._engine.counter, extensionUri);  // server view; has engine
 

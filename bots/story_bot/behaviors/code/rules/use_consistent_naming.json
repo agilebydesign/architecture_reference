@@ -1,0 +1,56 @@
+{
+  "description": "Use one word per concept across the entire codebase. Pick consistent terms (get/fetch/retrieve → choose one) and follow domain language for business concepts.",
+  "examples": [
+    {
+      "do": {
+        "description": "Maintain consistent naming patterns across codebase",
+        "content": [
+          "Pick one term per concept (get/fetch/retrieve → choose one)",
+          "Use consistent naming patterns for similar operations",
+          "Follow domain language for business concepts",
+          "Establish team conventions and stick to them",
+          "",
+          "Correct Examples (consistent naming):",
+          "- Always use 'get' for retrieval: getUser, getOrder, getProduct",
+          "- Always use 'create' for new entities: createUser, createOrder",
+          "- Domain terms consistent: Customer (not Client in some places, Customer in others)",
+          "",
+          "Consistency Requirements:",
+          "- One word per concept throughout codebase",
+          "- Same operation = same verb (get, fetch, retrieve → pick one)",
+          "- Same concept = same noun (user, account, member → pick one)",
+          "- Follow established conventions in existing code",
+          "- Use domain language consistently"
+        ]
+      },
+      "dont": {
+        "description": "Don't mix synonyms or use different names for same abstraction",
+        "content": [
+          "Don't mix synonyms for the same concept",
+          "Don't use different names for same abstraction",
+          "Don't encode type information in names (Hungarian notation)",
+          "",
+          "Wrong Examples (inconsistent naming):",
+          "- Mixing: getAccount(), fetchUser(), retrieveOrder() (pick one verb)",
+          "- Mixing: customerAddress, clientName (Customer vs Client)",
+          "- Mixing: userList, accountArray (inconsistent collection naming)",
+          "- Hungarian: strName, intAge, boolActive (type in name)",
+          "",
+          "Inconsistency Indicators (REFACTOR):",
+          "- Multiple verbs for same operation (get/fetch/retrieve)",
+          "- Multiple nouns for same concept (user/account/member)",
+          "- Different patterns for similar entities",
+          "- Type prefixes (str, int, arr, obj)",
+          "",
+          "Establish conventions:",
+          "- get* for simple retrieval",
+          "- fetch* for async/network retrieval (or use get consistently)",
+          "- find* for queries that may not find",
+          "- create/update/delete for mutations",
+          "- is/has/can for boolean checks"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.consistent_naming_scanner.ConsistentNamingScanner"
+}

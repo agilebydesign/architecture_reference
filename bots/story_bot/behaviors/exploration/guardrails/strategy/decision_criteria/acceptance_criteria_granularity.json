@@ -1,0 +1,11 @@
+{
+  "description": "Acceptance criteria granularity",
+  "question": "What level of granularity are we aiming for when exploring stories?",
+  "outcome": "Determines how detailed each story's acceptance criteria and scope will be",
+  "options": [
+    "User-System Behavioral – Focus on each point of interaction (user input, system response). Ideal when precision in behavior is key.",
+    "Business Rule – Explicit business rules being called out as acceptance criteria. Focus on domain rules and business logic that govern behavior.",
+    "Inner System – Focus on technical interaction points, system-to-system communication, and internal system behavior",
+    "Technical Planning Level – Technical activity-style acceptance criteria (e.g., 'this must be built', 'that must be built').  Sometimes useful for planning and coordination."
+  ]
+}

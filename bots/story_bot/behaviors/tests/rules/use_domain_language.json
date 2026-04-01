@@ -1,0 +1,82 @@
+{
+    "priority":  1,
+    "description":  "Use Ubiquitous Language (DDD): Same vocabulary in domain model, stories, scenarios, AND code. Class names = domain entities/nouns. Method names = domain responsibilities/verbs. Test names read like plain English stories. Example: test_agent_loads_configuration_when_file_exists (not test_agt_init_sets_vars)",
+    "do":  {
+               "description":  "Use domain language for classes, methods, and test names. Example: class GatherContextAction, def inject_guardrails(), test_agent_loads_config_when_file_exists",
+               "guidance":  [
+                                {
+                                    "description":  "Class names from domain model entities/nouns",
+                                    "example":  [
+                                                    "class GatherContextAction:",
+                                                    "class BotConfig:",
+                                                    "class Guardrails:",
+                                                    "class REPLSession:"
+                                                ]
+                                },
+                                {
+                                    "description":  "Method names from domain responsibilities/verbs",
+                                    "example":  [
+                                                    "def inject_guardrails_into_instructions(self):",
+                                                    "def load_and_merge_instructions(self):",
+                                                    "def route_to_behavior_action(self):"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test names read like plain English with \u0027when\u0027 for conditions",
+                                    "example":  [
+                                                    "def test_agent_loads_configuration_when_file_exists(self):",
+                                                    "def test_validation_rejects_config_when_required_fields_missing(self):"
+                                                ]
+                                },
+                                {
+                                    "description":  "Refine while preserving domain language",
+                                    "example":  [
+                                                    "def inject_key_questions_into_instructions(self):",
+                                                    "def load_behavior_validation_rules(self):"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use generic technical terms or implementation-specific names. Example: class StdioHandler (wrong), def execute_with_guardrails (wrong), test_agt_init_sets_vars (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use generic technical class names",
+                                      "example":  [
+                                                      "class Action:",
+                                                      "class Loader:",
+                                                      "class Handler:",
+                                                      "class Manager:",
+                                                      "class Service:",
+                                                      "class Processor:"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use generic execute/process/handle methods",
+                                      "example":  [
+                                                      "def execute_with_guardrails(self):",
+                                                      "def process(self):",
+                                                      "def handle_request(self):",
+                                                      "def fetch_patterns(self):"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use technical jargon or abbreviations in test names",
+                                      "example":  [
+                                                      "def test_agt_init_sets_vars(self):",
+                                                      "def test_validates_json_schema(self):",
+                                                      "def test_config_loader_execute(self):"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use implementation-specific names not in domain model",
+                                      "example":  [
+                                                      "class StdioHandler:",
+                                                      "def populate_config(self):",
+                                                      "def enhance_instructions(self):"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.domain_language_code_scanner.DomainLanguageCodeScanner"
+}

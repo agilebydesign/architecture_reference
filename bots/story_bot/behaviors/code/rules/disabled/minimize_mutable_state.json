@@ -1,0 +1,57 @@
+{
+  "description": "CRITICAL: Prefer immutable data structures and pure functions. Use immutable data structures by default, create new objects instead of mutating, and make immutability explicit in type system.",
+  "examples": [
+    {
+      "do": {
+        "description": "Use immutable data structures and pure functions",
+        "content": [
+          "Use immutable data structures by default",
+          "Create new objects instead of mutating existing ones",
+          "Make immutability explicit in type system (const, final, readonly)",
+          "Favor pure functions that don't mutate state",
+          "",
+          "Correct Examples (immutable):",
+          "- const newOrder = { ...order, status: 'completed' } // new object",
+          "- const newItems = [...items, newItem] // new array",
+          "- return order.withStatus('completed') // immutable update method",
+          "",
+          "Immutability Benefits:",
+          "- Easier to reason about code behavior",
+          "- No unexpected side effects",
+          "- Safer for concurrent/parallel operations",
+          "- Easier to test (predictable inputs/outputs)",
+          "- Enables time-travel debugging and undo/redo"
+        ]
+      },
+      "dont": {
+        "description": "Don't mutate shared global state or function parameters",
+        "content": [
+          "Don't mutate shared global state",
+          "Don't modify function parameters",
+          "Don't use mutable variables when const/final works",
+          "",
+          "Wrong Examples (mutation):",
+          "- order.status = 'completed' // mutating input",
+          "- items.push(newItem) // mutating array",
+          "- globalState.count++ // mutating global",
+          "- let result; if (x) result = 1; else result = 2; // use const with ternary",
+          "",
+          "Mutation Indicators (REFACTOR):",
+          "- Direct property assignment on shared objects",
+          "- Mutating arrays/collections in place (push, splice, etc.)",
+          "- let/var when const could work",
+          "- Global variables being modified",
+          "- Functions modifying their parameters",
+          "",
+          "Refactoring to Immutable:",
+          "- Use object spread: { ...obj, newProp: value }",
+          "- Use array methods: map, filter, concat (not push, splice)",
+          "- Use const by default, let only when necessary",
+          "- Create new objects instead of modifying",
+          "- Pass copies if mutation is unavoidable"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.minimize_mutable_state_scanner.MinimizeMutableStateScanner"
+}

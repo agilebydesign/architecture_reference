@@ -1,0 +1,6 @@
+{
+  "behaviorName": "prioritization",
+  "instructions": [
+    "Render prioritized story increments from story-graph.json to diagrams, markdown, and backlog files showing delivery sequence."
+  ]
+}

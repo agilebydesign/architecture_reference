@@ -1,0 +1,68 @@
+{
+  "description": "CRITICAL: Every piece of knowledge should have a single, authoritative representation (DRY principle). Extract repeated logic into reusable functions and use abstraction to capture common patterns.",
+  "examples": [
+    {
+      "do": {
+        "description": "Eliminate duplication through abstraction and reuse",
+        "content": [
+          "Extract repeated logic into reusable functions",
+          "Use abstraction to capture common patterns",
+          "Apply DRY principle to both code and data",
+          "Create shared utilities for common operations",
+          "",
+          "Correct Examples (no duplication):",
+          "- Extract validation: validateUser(user) used everywhere",
+          "- Extract formatting: formatCurrency(amount) used everywhere",
+          "- Extract patterns: createResource(type, data) handles all resources",
+          "",
+          "DRY Requirements:",
+          "- Each concept has single source of truth",
+          "- Repeated logic extracted into functions",
+          "- Common patterns abstracted appropriately",
+          "- Configuration/data centralized, not duplicated",
+          "- Tests verify behavior, not implementation details",
+          "",
+          "Test Duplication Patterns to Extract:",
+          "- Repeated test setup → create fixtures/factories",
+          "- Common test assertions → create verification helpers (verify_*)",
+          "- Test data creation → create builders or test_helpers",
+          "- Workflow verification → create state helpers",
+          "- Example: verify_action_tracks_start(action, expected_state)"
+        ]
+      },
+      "dont": {
+        "description": "Don't copy-paste code or maintain multiple versions of same logic",
+        "content": [
+          "Don't copy-paste code blocks",
+          "Don't maintain multiple versions of same logic",
+          "Don't ignore structural duplication",
+          "",
+          "Wrong Examples (duplication):",
+          "- Same validation logic copied to 5 different functions",
+          "- Similar but slightly different functions (updateUser, updateAccount, updateProfile)",
+          "- Repeated patterns (createUser, createOrder, createProduct with identical structure)",
+          "",
+          "Duplication Indicators (REFACTOR):",
+          "- Copy-pasted code blocks",
+          "- Similar functions with minor variations",
+          "- Repeated patterns across multiple places",
+          "- Same business rules in multiple locations",
+          "- Identical error handling in many functions",
+          "- Repeated test setup across test files",
+          "- Same assertion patterns in multiple tests",
+          "",
+          "Refactoring Strategies:",
+          "- Extract common logic into shared functions",
+          "- Use parameters to handle variations",
+          "- Create base classes or mixins for shared behavior",
+          "- Use composition over duplication",
+          "- Centralize configuration and business rules",
+          "- For tests: Create test_helpers.py with verification functions",
+          "- For tests: Use fixtures for repeated setup",
+          "- For tests: Extract test data builders"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.duplication_scanner.DuplicationScanner"
+}

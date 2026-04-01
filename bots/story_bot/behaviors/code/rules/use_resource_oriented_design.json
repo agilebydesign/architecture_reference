@@ -1,0 +1,68 @@
+{
+  "description": "CRITICAL: Code must use resource-oriented, object-oriented design. Use object-oriented classes (singular or collection) with responsibilities that encapsulate logic over manager/doer/loader patterns. Maximize encapsulation through collaborator relationships.",
+  "scanner": "scanners.code.python.resource_oriented_code_scanner.ResourceOrientedCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Use resource-oriented classes",
+        "content": [
+          "Create object-oriented classes (singular or collection)",
+          "Encapsulate logic in classes, not separate manager classes",
+          "Use collection classes (Behaviors, Rules, Holdings) instead of managers",
+          "",
+          "Correct Examples (resource-oriented):",
+          "class Portfolio:",
+          "    def __init__(self, account_id: AccountId, risk_tolerance: RiskTolerance):",
+          "        self.account_id = account_id",
+          "        self.risk_tolerance = risk_tolerance",
+          "",
+          "    @property",
+          "    def holdings(self) -> Holdings:",
+          "        if not hasattr(self, '_holdings'):",
+          "            self._holdings = Holdings(self)",
+          "        return self._holdings",
+          "",
+          "class Holdings:",
+          "    def __init__(self, portfolio: Portfolio):",
+          "        self._portfolio = portfolio",
+          "        self._positions = []",
+          "",
+          "    def get_many_positions(self) -> List[Position]:",
+          "        return list(self._positions)"
+        ]
+      },
+      "dont": {
+        "description": "Don't create manager/doer/loader classes",
+        "content": [
+          "Don't create classes ending in 'Manager', 'Loader', 'Handler', 'Doer'",
+          "Don't separate loading logic from domain concepts",
+          "",
+          "Wrong Examples (manager pattern):",
+          "class PortfolioManager:",
+          "    def __init__(self, file_system):",
+          "        self.file_system = file_system",
+          "",
+          "    def get_holdings(self, client_id, account_id):",
+          "        return self._load_holdings(client_id, account_id)",
+          "",
+          "    def calculate_total_value(self, holdings):",
+          "        return sum(h.value for h in holdings)",
+          "",
+          "class HoldingsLoader:",
+          "    def __init__(self, file_system):",
+          "        self.file_system = file_system",
+          "",
+          "    def load_holdings(self, client_id, account_id):",
+          "        pass",
+          "",
+          "Manager Pattern Indicators (REFACTOR):",
+          "- Classes ending in 'Manager', 'Loader', 'Handler', 'Doer'",
+          "- Classes that operate on other domain concepts without being part of them",
+          "- Classes that expose loading/storage mechanisms instead of domain concepts"
+        ]
+      }
+    }
+  ]
+}
+
+

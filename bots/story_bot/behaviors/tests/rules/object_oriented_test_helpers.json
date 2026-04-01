@@ -1,0 +1,76 @@
+{
+    "priority":  16,
+    "description":  "Consolidate tests around object-oriented helpers/factories (e.g., BotTestHelper test hopper) that build complete domain objects with standard data. Example: helper = BotTestHelper(tmp_path); helper.set_state(\u0027shape\u0027,\u0027clarify\u0027); helper.assert_at_behavior_action(\u0027shape\u0027,\u0027clarify\u0027). Avoid scattering many primitive parameters across parametrize blocks or inline setups.",
+    "do":  {
+               "description":  "Use shared helper objects to create full test fixtures and assert against complete domain objects, not fragments.",
+               "guidance":  [
+                                {
+                                    "description":  "Use BotTestHelper (or equivalent factory) as the single entry point for bot + workspace setup",
+                                    "example":  [
+                                                    "def test_navigation_stays_on_shape(self, tmp_path):",
+                                                    "    helper = BotTestHelper(tmp_path)",
+                                                    "    helper.set_state(\u0027shape\u0027, \u0027clarify\u0027, completed_actions=[\u0027story_bot.shape.strategy\u0027])",
+                                                    "    helper.bot.behaviors.navigate_to(\u0027shape\u0027)",
+                                                    "    helper.assert_at_behavior_action(\u0027shape\u0027, \u0027clarify\u0027)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Build complete domain objects once, then assert on the whole object (or dict) instead of single fields",
+                                    "example":  [
+                                                    "def test_state_file_is_complete(self, tmp_path):",
+                                                    "    helper = BotTestHelper(tmp_path)",
+                                                    "    helper.set_state(\u0027shape\u0027, \u0027clarify\u0027, completed_actions=[\u0027story_bot.shape.strategy\u0027])",
+                                                    "    state = helper.get_state()",
+                                                    "    assert state == {",
+                                                    "        \u0027current\u0027: \u0027story_bot.shape.clarify\u0027,",
+                                                    "        \u0027completed_actions\u0027: [\u0027story_bot.shape.strategy\u0027]",
+                                                    "    }"
+                                                ]
+                                },
+                                {
+                                    "description":  "Start from a standard data set and vary only what the scenario needs (extend helper factories rather than adding parameters)",
+                                    "example":  [
+                                                    "def test_story_graph_filter_by_scope(self, tmp_path):",
+                                                    "    helper = BotTestHelper(tmp_path)",
+                                                    "    standard_graph = {\u0027stories\u0027: [\u0027shape.clarify\u0027, \u0027shape.strategy\u0027]}",
+                                                    "    story_graph = helper.create_story_graph(standard_graph)",
+                                                    "    filtered = helper.bot.story_graph.filter_by_scope(story_graph, scope=\u0027shape\u0027)",
+                                                    "    assert filtered[\u0027stories\u0027] == standard_graph[\u0027stories\u0027]"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Do not spread test setup across many primitive parameters or cherry-pick single values from partial objects.",
+                 "guidance":  [
+                                  {
+                                      "description":  "Do not add @pytest.mark.parametrize with many primitive columns when a helper could return a ready domain object",
+                                      "example":  [
+                                                      "@pytest.mark.parametrize(\u0027path,name,behavior,action,completed,log\u0027, [",
+                                                      "    (\u0027/tmp/p1\u0027, \u0027bot\u0027, \u0027shape\u0027, \u0027clarify\u0027, [\u0027a\u0027], {}),",
+                                                      "    (\u0027/tmp/p2\u0027, \u0027bot\u0027, \u0027shape\u0027, \u0027strategy\u0027, [\u0027b\u0027], {}),",
+                                                      "])",
+                                                      "def test_state(path, name, behavior, action, completed, log):",
+                                                      "    # WRONG: scattered primitives instead of helper-built state"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Do not hand-craft partial dicts in each test when a factory can return the whole object",
+                                      "example":  [
+                                                      "def test_partial_state(self, tmp_path):",
+                                                      "    state = {\u0027current\u0027: \u0027story_bot.shape.clarify\u0027}  # WRONG - missing completed_actions, brittle",
+                                                      "    assert state[\u0027current\u0027] == \u0027story_bot.shape.clarify\u0027"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Do not assert only one field from a complex object; verify the complete result built by the helper",
+                                      "example":  [
+                                                      "def test_activity_log(self, tmp_path):",
+                                                      "    log = helper.get_activity_log()",
+                                                      "    assert log[\u0027events\u0027][0][\u0027action\u0027] == \u0027clarify\u0027  # WRONG - ignores rest of the log structure"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.object_oriented_helpers_scanner.ObjectOrientedHelpersScanner"
+}

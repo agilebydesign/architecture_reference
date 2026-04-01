@@ -1,0 +1,87 @@
+{
+  "description": "CRITICAL: When refactoring production code, update tests immediately to maintain green builds. Tests should verify behavior, not implementation details, so they remain valid through refactoring.",
+  "examples": [
+    {
+      "do": {
+        "description": "Update tests in parallel with production refactoring",
+        "content": [
+          "Update tests as you refactor production code",
+          "Keep builds green throughout refactoring",
+          "Use test helpers to abstract common test patterns",
+          "Consolidate duplicate test utilities",
+          "Update test imports when moving code",
+          "",
+          "Correct Examples (parallel refactoring):",
+          "- Create BaseAction → Update all action tests to use it",
+          "- Move methods between classes → Update test imports immediately",
+          "- Change folder structure → Update ALL import statements in tests",
+          "- Extract helper function → Update tests to use helper",
+          "- Create test_helpers.py → Consolidate duplicate test code",
+          "",
+          "Test Refactoring Requirements:",
+          "- Tests pass after each production change",
+          "- Test helpers eliminate test code duplication",
+          "- Tests verify behavior, not implementation",
+          "- Test names remain clear and descriptive",
+          "- Tests run fast (no slow integration tests unless needed)"
+        ]
+      },
+      "dont": {
+        "description": "Don't let tests break during refactoring or depend on implementation details",
+        "content": [
+          "Don't refactor production without updating tests",
+          "Don't leave broken tests 'to fix later'",
+          "Don't make tests depend on implementation details",
+          "Don't duplicate test setup/verification code",
+          "",
+          "Wrong Examples (broken during refactoring):",
+          "- Refactor production → 20 tests fail → 'will fix later'",
+          "- Create BaseAction → Tests still expect old class structure",
+          "- Move file → Tests can't import it → Build broken",
+          "- Change method signature → Tests still use old signature",
+          "",
+          "Test Breakage Indicators (FIX IMMEDIATELY):",
+          "- Tests failing after production refactoring",
+          "- Import errors in test files",
+          "- Tests checking implementation details (private methods)",
+          "- Duplicate test setup code across files",
+          "- Tests that break when refactoring internal structure",
+          "",
+          "Refactoring Strategy:",
+          "- Refactor in small steps, keeping tests green",
+          "- Update test imports immediately after moving code",
+          "- Extract test helpers before duplicating test code",
+          "- Use verify_* helpers instead of inline assertions",
+          "- Run tests after each change (TDD red-green-refactor)"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

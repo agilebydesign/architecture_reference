@@ -1,0 +1,75 @@
+{
+  "description": "CRITICAL: Code must encapsulate state and behavior through properties. Properties control access to object state, hide internal representation, and allow objects to manage their own data. Objects expose properties representing what they are or contain, not raw data access methods.",
+  "scanner": "scanners.code.python.property_encapsulation_code_scanner.PropertyEncapsulationCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Use properties for encapsulation",
+        "content": [
+          "Use @property decorator for computed values and lazy initialization",
+          "Make fields private (prefix with _)",
+          "Properties encapsulate collection access, calculations, and complex behaviors",
+          "Return defensive copies of mutable collections",
+          "",
+          "Correct Examples (property encapsulation):",
+          "class Portfolio:",
+          "    def __init__(self, account_id: AccountId, risk_tolerance: RiskTolerance):",
+          "        self._account_id = account_id  # Private field",
+          "        self._risk_tolerance = risk_tolerance",
+          "        self._holdings = None  # Encapsulated, lazy-loaded",
+          "",
+          "    @property",
+          "    def holdings(self) -> Holdings:",
+          "        if self._holdings is None:",
+          "            self._holdings = Holdings(self)",
+          "        return self._holdings",
+          "",
+          "    @property",
+          "    def total_value(self) -> Money:",
+          "        return sum(position.market_value",
+          "                  for position in self.holdings.get_many_positions())",
+          "",
+          "class Holdings:",
+          "    def __init__(self, portfolio: Portfolio):",
+          "        self._portfolio = portfolio",
+          "        self._positions = []  # Private collection",
+          "",
+          "    @property",
+          "    def get_many_positions(self) -> List[Position]:",
+          "        return list(self._positions)  # Defensive copy"
+        ]
+      },
+      "dont": {
+        "description": "Don't expose internal state or structure",
+        "content": [
+          "Don't use public fields for internal state",
+          "Don't return mutable references to internal collections",
+          "Don't use getter/setter methods as glorified public fields",
+          "",
+          "Wrong Examples (exposed internal state):",
+          "class Portfolio:",
+          "    def __init__(self, account_id, risk_tolerance):",
+          "        self.holdings = []  # Public field - no encapsulation",
+          "        self.positions = []  # Exposed internal structure",
+          "",
+          "    def get_holdings_list(self):",
+          "        return self.holdings  # Returns mutable reference",
+          "",
+          "    def set_holdings(self, holdings):",
+          "        self.holdings = holdings  # Allows external manipulation",
+          "",
+          "    def calculate_total_value(self, holdings):",
+          "        return sum(h.value for h in holdings)",
+          "",
+          "Exposed State Indicators (REFACTOR):",
+          "- Public fields (no _ prefix) for internal state",
+          "- Methods returning mutable references to internal collections",
+          "- Getter/setter methods that just expose fields",
+          "- Methods with 'calculate', 'compute' instead of properties"
+        ]
+      }
+    }
+  ]
+}
+
+

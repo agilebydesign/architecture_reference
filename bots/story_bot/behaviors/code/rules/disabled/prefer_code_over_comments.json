@@ -1,0 +1,98 @@
+{
+  "description": "Express intent in code first, comments second. Rename variables/functions instead of commenting, extract methods to make intent clear, and use comments only when code can't express intent.",
+  "scanner": "scanners.code.python.useless_comments_scanner.UselessCommentsScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Express intent through clear code",
+        "content": [
+          "Rename variables/functions instead of commenting",
+          "Extract methods to make intent clear",
+          "Use comments only when code can't express intent",
+          "Self-documenting code is better than commented code",
+          "",
+          "Correct Examples (code over comments):",
+          "BAD: // check if employee is eligible for benefits",
+          "     if (employee.flags && HOURLY_FLAG && employee.age > 65)",
+          "",
+          "GOOD: if (employee.isEligibleForBenefits())",
+          "",
+          "BAD: // format as currency",
+          "     const result = '$' + value.toFixed(2);",
+          "",
+          "GOOD: const result = formatAsCurrency(value);",
+          "",
+          "Code Expression Requirements:",
+          "- Clear variable/function names",
+          "- Extracted methods for complex logic",
+          "- Descriptive names that explain purpose",
+          "- Code reads like well-written prose",
+          "",
+          "When Docstrings/Comments ARE Valuable:",
+          "- Test scenarios describing business behavior (GIVEN/WHEN/THEN)",
+          "- Public API documentation for external users",
+          "- Complex algorithms with non-obvious intent",
+          "- Business rules that can't be expressed in code",
+          "- Why something is done (not what/how)",
+          "- Legal requirements, compliance notes",
+          "- Example: SCENARIO: User checkout flow with 3% discount"
+        ]
+      },
+      "dont": {
+        "description": "Don't use comments to explain bad code",
+        "content": [
+          "Don't use comments to explain bad code",
+          "Don't add noise comments stating the obvious",
+          "Don't let comments become outdated",
+          "",
+          "Wrong Examples (unnecessary comments):",
+          "// set the value",
+          "value = 5;",
+          "",
+          "// loop through users",
+          "for (const user of users) {...}",
+          "",
+          "// constructor",
+          "constructor() {...}",
+          "",
+          "Noise Comment Indicators (DELETE):",
+          "- Comments stating what code obviously does",
+          "- Default comments from code generators",
+          "- Redundant JavaDoc for simple getters/setters",
+          "- Comments that just repeat function names",
+          "",
+          "Instead:",
+          "- Improve code to be self-explanatory",
+          "- Extract complex logic to named functions",
+          "- Use descriptive names instead of comments",
+          "- Delete obvious/outdated comments"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

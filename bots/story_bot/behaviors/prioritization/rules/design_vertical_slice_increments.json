@@ -1,0 +1,71 @@
+{
+    "priority":  2,
+    "description":  "Create increments that are vertical slices that deliver end-to-end working flows across multiple features/epics, NOT horizontal layers that complete one feature/epic at a time. Each increment must demonstrate complete working flow from start to finish.",
+    "do":  {
+               "description":  "Design increments as vertical slices - end-to-end flows across multiple epics/features",
+               "guidance":  [
+                                {
+                                    "description":  "Start with the simplest possible end-to-end flow that touches all integration points, then layer on complexity in subsequent increments",
+                                    "example":  [
+                                                    "Increment 1: Basic Character Creation - enter character name, assign basic abilities using simple point buy, save character to file, load character from file, view character sheet with basic info",
+                                                    "Increment 2: Enhanced Character Creation - enter character name and background, assign abilities with validation, choose skills from list, save character to file, load character from file, view detailed character sheet",
+                                                    "Increment 3: Advanced Character Management - enter character with background and history, assign abilities with point buy validation and suggestions, choose skills with prerequisites, save character to database, load character with history, view interactive character sheet with actions"
+                                                ]
+                                },
+                                {
+                                    "description":  "Include partial features from multiple epics in each increment so every increment demonstrates complete working flow from input to output",
+                                    "example":  [
+                                                    "Increment 1: Basic Order Flow - create order with name and item, process payment manually via admin tool, save order to file, view order confirmation",
+                                                    "Increment 2: Validated Order Flow - create order with customer info and validation, process payment automatically via gateway, save order to database, view order details with status, send confirmation email",
+                                                    "Increment 3: Complete Order Management - create order with customer info and product catalog, process payment with error handling, save order with history, view order dashboard with tracking, send notifications, handle cancellations"
+                                                ]
+                                },
+                                {
+                                    "description":  "Ensure each increment demonstrates all key integration points (entry, processing, persistence, retrieval, display) even if minimally",
+                                    "example":  [
+                                                    "Increment 1: Basic Blog Post - enter post title and content in plain text, save post to file, load posts from files, display posts in simple list",
+                                                    "Increment 2: Enhanced Blog Post - enter post with markdown formatting, save post to database with metadata, load posts with filtering, display posts with formatted content and pagination",
+                                                    "Increment 3: Full Blog System - enter post with rich text editor and images, save post with tags and categories, load posts with search and filters, display posts with comments and social sharing"
+                                                ]
+                                },
+                                {
+                                    "description":  "Show how epics are distributed across increments with partial completion (estimate/total) in each increment",
+                                    "example":  [
+                                                    "Increment 1: Manual Billing System",
+                                                    "  Epic: Invoice Generation (2/5) - manually create invoice from template, manually send invoice via email",
+                                                    "  Epic: Payment Processing (1/3) - record payment manually in spreadsheet",
+                                                    "  Epic: Customer Management (1/4) - view customer list in spreadsheet",
+                                                    "Increment 2: Automated Invoicing",
+                                                    "  Epic: Invoice Generation (4/5) - automatically generate invoice from order, automatically send invoice via email",
+                                                    "  Epic: Payment Processing (2/3) - process payment via gateway",
+                                                    "Increment 3: Complete Billing System",
+                                                    "  Epic: Invoice Generation (5/5) - generate invoices in batch",
+                                                    "  Epic: Payment Processing (3/3) - handle payment failures and retries",
+                                                    "  Epic: Customer Management (4/4) - create customer, edit customer, view customer history"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t design increments as horizontal layers, don\u0027t complete one feature/epic at a time",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t complete all features in one epic before moving to the next epic - this creates horizontal layers that can\u0027t be tested end-to-end until the final increment",
+                                      "example":  [
+                                                      "Increment 1: Character Creation Complete - enter character name, enter background, enter history, assign abilities with all options, choose skills with all prerequisites, validate all data",
+                                                      "Increment 2: Character Storage Complete - save character to database, load character from database, backup character, restore character",
+                                                      "Increment 3: Character Display Complete - view character sheet, view character history, view character equipment, print character sheet",
+                                                      "Why Wrong: Can\u0027t test end-to-end until Increment 3. Can\u0027t deliver working software after Increment 1. Integration risks discovered late."
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t create increments that only touch one part of the system without demonstrating complete flow from start to finish",
+                                      "example":  [
+                                                      "Increment 1: Order Entry - create order, validate order, calculate totals (NO payment, NO storage, NO confirmation - can\u0027t deliver value)",
+                                                      "Should be: Increment 1: Basic Order Processing - create order, process payment manually, save order, confirm order (complete end-to-end flow)"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.vertical_slice_scanner.VerticalSliceScanner"
+}

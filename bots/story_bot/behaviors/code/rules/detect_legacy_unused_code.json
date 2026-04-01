@@ -1,0 +1,75 @@
+{
+  "description": "CRITICAL: Legacy code that is not used by any other code or front-end interfaces (CLI, MCP, web) should be removed. Unused code increases maintenance burden, creates confusion, and violates YAGNI (You Aren't Gonna Need It) principle.",
+  "scanner": "scanners.code.python.dead_code_scanner.DeadCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Remove unused code and keep codebase lean",
+        "content": [
+          "Delete classes/modules that are not imported anywhere",
+          "Remove functions/methods that are never called",
+          "Eliminate code not used by CLI, MCP, or other front-end interfaces",
+          "Keep only code that is actively used or referenced",
+          "",
+          "Correct Examples (clean codebase):",
+          "- All classes are imported and used by other modules",
+          "- All functions are called from somewhere in the codebase",
+          "- All modules are referenced by CLI, MCP, or test code",
+          "- No orphaned files or dead code paths",
+          "",
+          "Legacy Code Detection Requirements:",
+          "- Class/module must be imported by at least one other module",
+          "- Function/method must be called from production or test code",
+          "- Code must be accessible via CLI, MCP, or other front-end",
+          "- Test-only code must be in test directories and used by tests"
+        ]
+      },
+      "dont": {
+        "description": "Don't keep unused legacy code or orphaned modules",
+        "content": [
+          "Don't keep classes that are never imported",
+          "Don't maintain functions that are never called",
+          "Don't preserve modules not used by any front-end interface",
+          "Don't leave commented-out code 'for future use'",
+          "",
+          "Wrong Examples (legacy code):",
+          "class Router:",
+          "    def determine_next_action_from_state(self, state_file):",
+          "        # ... implementation ...",
+          "(class exists but never imported or used)",
+          "",
+          "def legacy_helper_function():",
+          "    # Old implementation",
+          "    pass",
+          "(function defined but never called)",
+          "",
+          "# Old router implementation - kept for reference",
+          "class OldRouter:",
+          "    ...",
+          "(commented or unused code kept 'just in case')",
+          "",
+          "Legacy Code Indicators (REMOVE):",
+          "- Class/module not imported by any other file",
+          "- Function/method never called (except test-only code)",
+          "- Code not accessible via CLI, MCP, or web interface",
+          "- Duplicate functionality replaced by newer implementation",
+          "- Test code for removed/deleted functionality",
+          "- Commented-out code blocks",
+          "",
+          "Detection Strategy:",
+          "- Scan all Python files for class/function definitions",
+          "- Check if each class/function is imported or called",
+          "- Verify code is accessible via front-end interfaces",
+          "- Flag orphaned code for removal",
+          "",
+          "Action Required:",
+          "- Remove unused classes/modules immediately",
+          "- Delete functions that are never called",
+          "- Clean up test code for removed functionality",
+          "- Use git history to retrieve deleted code if needed later",
+          "- Document removal in commit messages"
+        ]
+      }
+    }
+  ]
+}

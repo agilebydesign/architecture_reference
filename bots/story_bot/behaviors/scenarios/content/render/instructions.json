@@ -1,0 +1,23 @@
+{
+  "behaviorName": "specification_scenarios",
+  "instructions": [
+    "Render individual story documents with scenarios added to docs/story/scenarios/{epic}/{sub-epic}/{story}.md structure.",
+    "",
+    "**IMPORTANT:** Check planning decision criteria for Scenario Outlines:",
+    "- IF 'Yes': Include Scenario Outlines with Examples tables (data-driven tests)",
+    "- IF 'No': Include regular scenarios only (Given/When/Then)",
+    "",
+    "**DOMAIN-ALIGNED EXAMPLE TABLES:**",
+    "When domain_concepts exist in the story graph, structure example tables to mirror the domain model:",
+    "- Use parent_table for the main entity being tested",
+    "- Use children_tables array for related/collaborating entities",
+    "- Map one-to-one relationships: child table has same row count as parent",
+    "- Map one-to-many relationships: child table has multiple rows per parent foreign_key",
+    "- Columns should reflect domain concept responsibilities",
+    "- Foreign keys link tables matching the collaborator relationships",
+    "",
+    "Example: Customer -> Account (1:1) -> Transaction (1:many) -> Product (1:1)",
+    "",
+    "Each story document includes: Story Description, Acceptance Criteria, Background (if applicable), Scenarios."
+  ]
+}

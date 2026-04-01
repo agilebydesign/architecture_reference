@@ -1,0 +1,14 @@
+{
+  "description": "Depth of shaping",
+  "question": "How deep should we drill down in each shaping phase for the drill-down areas?",
+  "options": [
+    "Estimates -> story_count only",
+    "Decompose -> Discover all stories listed",
+    "Workflow -> Figure out logical process, alternate/or conditions",
+    "Extensive -> Specify all scenarios",
+    "Testable -> Specify minimal examples",
+    "Complete -> Specify all examples"
+  ],
+  "note": "Select one or more options. For drill-down areas, specify depth for: discovery (all stories listed vs story_count), scenarios (all scenarios vs happy path only), spec examples (all examples vs minimal examples)."
+}
+

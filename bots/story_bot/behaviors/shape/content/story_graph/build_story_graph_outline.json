@@ -1,0 +1,6 @@
+{
+  "name": "build_story_graph_outline",
+  "path": "docs/story",
+  "template": "story-graph-outline.json",
+  "output": "story-graph.json"
+}

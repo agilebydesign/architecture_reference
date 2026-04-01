@@ -1,0 +1,35 @@
+{
+  "description": "Size stories appropriately for effective planning and delivery. Stories should represent complete, testable work that can be developed in days (3-12 days typical). Maintain hierarchy within cognitive limits (4-9 items per level is optimal).",
+  "scanner": "agile_bot.bots.base_bot.src.actions.validate.scanners.story_sizing_scanner.StorySizingScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Size stories for days, not weeks; maintain reasonable hierarchy",
+        "content": [
+          "Stories sized for 3-12 days of effort (3-5 days optimal)",
+          "Each story is complete and independently testable",
+          "Sub-epics typically contain 4-9 stories (cognitive limit guideline)",
+          "Stories represent complete flows, not arbitrary decomposition"
+        ]
+      },
+      "dont": {
+        "description": "Avoid extremes in sizing",
+        "content": [
+          "Don't create stories spanning multiple weeks (too large)",
+          "Don't artificially pad to hit story counts (quality over quantity)",
+          "Don't create stories that can't be tested independently",
+          "Don't ignore sizing - but use as guidance, not rigid rules"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+

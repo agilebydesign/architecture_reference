@@ -1,0 +1,11 @@
+{
+  "typical_assumptions": [
+    "Tests must match feature files exactly - no new steps, no modified step text",
+    "Step definitions must use exact text from feature files",
+    "Assertions must verify what the steps say they verify",
+    "Tests should use real implementations by default",
+    "Only mock when explicitly asked for e2e tests or for uncontrollable external dependencies",
+    "All test code must use ASCII-only characters (no Unicode)",
+    "Tests should call production code directly - let tests fail naturally if code doesn't exist"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+    "priority": 3,
+    "description": "Scaling extension of helper_extraction_and_reuse, object_oriented_test_helpers, and standard_test_data_sets. At small scale, a single test class covering multiple domain objects is fine. As domain objects develop distinct behavior, break out into domain-specific test classes. Use abstract base classes for common operations. Share parameter data and fixtures only when there is obvious shared logic across sub-epics. Place shared base files at the appropriate hierarchy level.",
+    "do": {
+        "description": "At small scale keep together. As you scale, use abstract bases, share fixtures only with explicit need, and place shared files at the right hierarchy level.",
+        "guidance": [
+            {
+                "description": "At small scale, a shared test class is acceptable",
+                "example": [
+                    "A single TestProcessPayment class with a few tests covering wire and ACH together",
+                    "Fine when there are only a handful of tests and the logic is similar"
+                ]
+            },
+            {
+                "description": "Use abstract test classes and methods for common operations",
+                "example": [
+                    "Abstract base BasePaymentValidationTest with assert_payment_validates_recipient(payment) and assert_payment_routes_to_rail(payment, rail)",
+                    "TestMakeWirePayment(BasePaymentValidationTest) inherits shared assertions, adds wire-specific assert_intermediary_bank_validated",
+                    "TestMakeACHPayment(BasePaymentValidationTest) inherits shared assertions, adds ACH-specific assert_routing_number_validated"
+                ]
+            },
+            {
+                "description": "Share parameter data where common data setup exists across connected domains",
+                "example": [
+                    "Common fixture create_recipient() used by both wire and ACH test classes -- same recipient setup, different payment type",
+                    "Domain-specific fixture create_wire_payment(recipient, sender) only in wire test class"
+                ]
+            },
+            {
+                "description": "Create shared base files only when there is obvious shared logic across sub-epics",
+                "example": [
+                    "When two domain-specific sub-epics both need the same base test setup, place the shared base at the appropriate level",
+                    "Sub-epic level helper if shared within one sub-epic, epic level helper if shared across sub-epics",
+                    "test_helpers/payment_test_base.py at the epic level when test_make_wire_payment.py and test_make_ach_payment.py both inherit from it",
+                    "Keep the base file minimal -- only shared assertions and fixtures actually used by multiple domain test classes"
+                ]
+            }
+        ]
+    },
+    "dont": {
+        "description": "When scaling, do not copy assertion logic, do not create shared files preemptively, and do not group tests by operation or technology.",
+        "guidance": [
+            {
+                "description": "When scaling, do not copy assertion logic across domain-specific test classes",
+                "example": [
+                    "Copy the same recipient validation into TestMakeWirePayment, TestMakeACHPayment, and TestMakeCheckPayment with only the payment type changed -- extract to abstract base"
+                ]
+            },
+            {
+                "description": "Do not create shared files preemptively",
+                "example": [
+                    "Creating a shared base file because you think it might be useful later -- only when two or more sub-epics demonstrably need it",
+                    "Creating a shared file when the fixture is only used in one test file -- keep it in that file until a second consumer appears"
+                ]
+            },
+            {
+                "description": "When scaling, do not group tests by operation or technology layer",
+                "example": [
+                    "TestValidateAllPayments with wire, ACH, and check validation mixed together when each has grown to 10+ scenarios with distinct logic",
+                    "TestDatabaseOperations testing saves for wire, ACH, and check together -- group by domain, not by technology"
+                ]
+            }
+        ]
+    },
+    "scanner": "scanners.code.python.duplicate_assertion_scanner.DuplicateAssertionScanner"
+}

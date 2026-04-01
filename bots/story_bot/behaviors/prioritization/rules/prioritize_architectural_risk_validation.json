@@ -1,0 +1,62 @@
+{
+  "priority": 5,
+  "description": "Prioritize early increments to validate architectural risks and technology decisions. Build risky integrations, test unfamiliar technologies, and validate solution feasibility early to avoid late-stage surprises.",
+  "do": {
+    "description": "Prioritize architectural risk validation in early increments",
+    "guidance": [
+      {
+        "description": "Include risky external integrations in simplest end-to-end flow to validate they work before building more features",
+        "example": [
+          "Increment 1: Basic Order with Payment - enter order details in form, submit order to system, connect to payment gateway API, process payment transaction via gateway, receive payment confirmation from gateway, save order with payment status to database, display order confirmation to user",
+          "Increment 2: Enhanced Order Processing - validate order details with business rules, calculate order total with tax and shipping, handle payment declined errors from gateway, retry failed payments automatically, send order confirmation email, display detailed order status page",
+          "Why: Payment gateway integration is architectural risk - validate API authentication works, payment processing succeeds, and response format matches expectations in complete flow from order entry to confirmation"
+        ]
+      },
+      {
+        "description": "Test unfamiliar technology stack with complete end-to-end flow including data persistence and display",
+        "example": [
+          "Increment 1: Basic Product Catalog in React - setup React with TypeScript and Redux, fetch product data from API endpoint, parse JSON response, store products in Redux state, render product list in React components, handle click to view product details, display product detail page",
+          "Increment 2: Interactive Product Catalog - filter products by category with Redux selectors, search products with debounced input, sort products by price in Redux state, add products to cart with Redux actions, persist cart to localStorage, display cart with item count, navigate between pages with React Router",
+          "Why: Team unfamiliar with React + TypeScript + Redux - validate we can fetch data, manage state, render components, and handle user interactions in complete flow before building entire application"
+        ]
+      },
+      {
+        "description": "Validate performance-critical integration with realistic data volume in end-to-end flow",
+        "example": [
+          "Increment 1: Basic Sales Report - enter report date range in form, query database for 10000 order records, aggregate sales totals by product, generate CSV report file, validate generation completes within 5 seconds, download report file to user's computer, display report generation completion message",
+          "Increment 2: Enhanced Reporting System - filter report by customer region from dropdown, select multiple report formats (CSV, PDF, Excel), schedule reports for automatic generation, aggregate data by multiple dimensions (product, region, date), email generated reports to recipients, display report history with download links",
+          "Why: Report generation with large datasets is performance risk - validate database query performs well, aggregation completes quickly, file generation succeeds in complete flow from user request to file download"
+        ]
+      },
+      {
+        "description": "Test new infrastructure or deployment approach with working feature deployed end-to-end",
+        "example": [
+          "Increment 1: Basic User Authentication on Cloud - setup AWS infrastructure with Terraform, deploy authentication service to ECS container, connect to RDS database, create user account via registration form, save user credentials to database, authenticate user login via service, generate JWT token, return token to browser, store token in session, redirect to dashboard",
+          "Increment 2: Scalable Authentication System - setup auto-scaling ECS tasks, implement Redis session cache, configure load balancer with health checks, deploy across multiple availability zones, monitor authentication service with CloudWatch, handle database failover automatically, implement rate limiting for API calls",
+          "Why: Cloud deployment with containers is new to team - validate infrastructure setup works, service deploys successfully, database connectivity works, and complete auth flow functions in production-like environment"
+        ]
+      }
+    ]
+  },
+  "dont": {
+    "description": "Don't defer architectural risks to later increments, don't assume integrations will work without validation",
+    "guidance": [
+      {
+        "description": "Don't build features with mocked integrations - include real integration in first increment even if basic",
+        "example": [
+          "Increment 1: Complete Order UI with Mocks - enter product details, calculate totals, apply discounts, display order summary, validate all fields, show confirmation (WRONG - payment gateway not tested, risk deferred)",
+          "Increment 3: Add Real Payment Gateway - discover gateway requires different auth flow, response format doesn't match mocks, rate limits block our usage pattern (TOO LATE - must refactor order flow)",
+          "Should be: Increment 1 includes enter order, connect to real payment gateway, process simple payment, save order, display confirmation - validates gateway integration works"
+        ]
+      },
+      {
+        "description": "Don't assume infrastructure will support requirements - deploy working feature to validate architecture",
+        "example": [
+          "Increment 1-2: Build all features locally - develop authentication, orders, reporting, admin features (WRONG - infrastructure risk deferred)",
+          "Increment 3: Deploy to Cloud - discover containers can't access database due to security groups, service crashes under load, deployment takes 30 minutes, logs not accessible (DISASTER)",
+          "Should be: Increment 1 deploys basic user authentication to cloud infrastructure - validates deployment works, containers run, database connectivity succeeds, monitoring captures logs"
+        ]
+      }
+    ]
+  }
+}

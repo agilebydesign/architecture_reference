@@ -1,0 +1,17 @@
+/* bot_behavior/view/bot_behavior.css — Bot behavior section positioning and styling */
+.bot-behavior-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.bot-behavior-section .behavior-info,
+.bot-behavior-section .action-info {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.bot-behavior-section .label {
+  font-weight: bold;
+}

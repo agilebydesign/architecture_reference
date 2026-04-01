@@ -1,0 +1,123 @@
+{
+  "description": "CRITICAL: Write tests before production code. Write failing test first (Red), write minimal code to pass (Green), refactor with confidence (Refactor). This is the Red-Green-Refactor cycle.",
+  "examples": [
+    {
+      "do": {
+        "description": "Follow Test-Driven Development cycle",
+        "content": [
+          "Write failing test first (Red)",
+          "Write minimal code to pass (Green)",
+          "Refactor with confidence (Refactor)",
+          "Repeat cycle for each new behavior",
+          "",
+          "Correct Examples (TDD cycle):",
+          "1. RED - Write failing test:",
+          "test('calculates order total', () => {",
+          "  const order = createOrder({ items: [{ price: 10 }] });",
+          "  expect(calculateTotal(order)).toBe(10);",
+          "});",
+          "// Test fails: calculateTotal doesn't exist",
+          "",
+          "2. GREEN - Write minimal code:",
+          "function calculateTotal(order) {",
+          "  return 10; // hardcoded to pass",
+          "}",
+          "// Test passes",
+          "",
+          "3. REFACTOR - Improve implementation:",
+          "function calculateTotal(order) {",
+          "  return order.items.reduce((sum, item) => sum + item.price, 0);",
+          "}",
+          "// Test still passes, code improved",
+          "",
+          "TDD Benefits:",
+          "- Tests prove code works",
+          "- Forces good design (testable code)",
+          "- Prevents over-engineering",
+          "- Provides regression safety",
+          "- Documentation of expected behavior"
+        ]
+      },
+      "dont": {
+        "description": "Don't write tests after code is done or skip refactoring",
+        "content": [
+          "Don't write tests after code is done",
+          "Don't skip refactoring step",
+          "Don't make code too hard to test",
+          "",
+          "Wrong Examples (not TDD):",
+          "1. Write all production code first",
+          "2. Add tests afterwards to hit coverage targets",
+          "3. Tests hard to write because code not designed for testing",
+          "4. Skip refactoring because tests already pass",
+          "",
+          "Non-TDD Indicators (CHANGE APPROACH):",
+          "- Tests written after implementation",
+          "- Code hard to test (too many dependencies)",
+          "- Tests as afterthought for coverage",
+          "- Skipping refactoring step",
+          "- Tests don't drive design",
+          "",
+          "Adopting TDD:",
+          "- Start with test, even if simple",
+          "- Write minimal code to pass",
+          "- Refactor while tests are green",
+          "- Repeat for each new behavior",
+          "- Let tests drive design decisions",
+          "- If code hard to test, that's a design smell"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

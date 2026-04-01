@@ -1,0 +1,20 @@
+# Incremental Backlog
+
+## Increment {priority}: {increment_name}
+
+- {story_name}
+- {story_name}
+- {story_name}
+
+## Increment {priority}: {increment_name}
+
+- {story_name}
+- {story_name}
+
+Instructions:
+- Flat list of stories per increment
+- No epic/sub-epic hierarchy shown
+- Format: "- Story Name"
+- Stories listed in sequential order within increment
+- Simple backlog view for sprint planning
+

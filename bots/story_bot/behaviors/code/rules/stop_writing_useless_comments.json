@@ -1,0 +1,133 @@
+{
+  "description": "CRITICAL: DO NOT WRITE COMMENTS. Delete all comments written by the AI chat. Code must be self-explanatory through clear naming and structure. ONLY exception: legal/license requirements. If you think a comment is needed, the code is wrong - fix the code instead.",
+  "scanner": "scanners.code.python.useless_comments_scanner.UselessCommentsScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "DELETE ALL AI-WRITTEN COMMENTS. Write NO comments.",
+        "content": [
+          "DEFAULT: WRITE NO COMMENTS",
+          "AI must DELETE all comments it writes",
+          "ONLY exception: Legal/license requirements (copyright notices)",
+          "",
+          "ONLY Acceptable Comment:",
+          "# Copyright (c) 2024 Company Name. Licensed under MIT.",
+          "",
+          "Everything else: NO COMMENTS",
+          "- No docstrings",
+          "- No inline comments",
+          "- No explanations",
+          "- No algorithm descriptions",
+          "- No business rule comments",
+          "- No warnings",
+          "- No test scenario comments",
+          "",
+          "If code needs explanation:",
+          "1. Rename variables/functions to be clearer",
+          "2. Extract complex logic into well-named functions",
+          "3. Simplify the code structure",
+          "4. STILL write no comments",
+          "",
+          "AI Rule: DELETE EVERY COMMENT YOU WRITE"
+        ]
+      },
+      "dont": {
+        "description": "DELETE ALL COMMENTS - AI must not write any comments",
+        "content": [
+          "DELETE IMMEDIATELY - AI must not write:",
+          "- ANY docstrings",
+          "- ANY inline comments",
+          "- ANY explanations",
+          "- ANY descriptions",
+          "- ANY annotations (except type hints)",
+          "",
+          "Examples of what AI must DELETE:",
+          "",
+          "BAD (DELETE THIS):",
+          "def execute_action(action_name, action_class, parameters):",
+          "    pass",
+          "",
+          "GOOD (NO COMMENT):",
+          "def execute_action(action_name, action_class, parameters):",
+          "    pass",
+          "",
+          "BAD (DELETE THIS):",
+          "# Load state from file",
+          "def load_state(self):",
+          "    pass",
+          "",
+          "GOOD (NO COMMENT):",
+          "def load_state(self):",
+          "    pass",
+          "",
+          "BAD (DELETE THIS):",
+          "class RulesAction(Action):",
+          "    pass",
+          "",
+          "GOOD (NO COMMENT):",
+          "class RulesAction(Action):",
+          "    pass",
+          "",
+          "ABSOLUTE RULE FOR AI:",
+          "- Write ZERO comments",
+          "- Delete ALL comments you write",
+          "- Make code self-explanatory through naming",
+          "- If code seems complex, refactor it - don't comment it",
+          "",
+          "NO EXCEPTIONS (except copyright/license)"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

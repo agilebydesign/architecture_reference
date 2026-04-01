@@ -1,0 +1,777 @@
+---
+description: Clean code practices for Python
+globs:
+  - "**/*.py"
+alwaysApply: false
+---
+
+**When** writing or reviewing Python code,
+**then** apply clean code principles with Python-specific patterns and idioms.
+
+See `clean-code-rule.mdc` for complete principles. This file provides Python-specific examples.
+
+For comprehensive examples and edge cases, see `clean-code-python-reference.md`.
+
+---
+
+## 1. Functions
+
+### 1.1 Single Responsibility
+
+Functions do one thing with no hidden side effects.
+
+**✅ DO:**
+```python
+def subtotal(items: list[Item]) -> float:
+    return sum(i.price * i.qty for i in items)  # DO: Pure calculation, no side effects
+
+def checkout(user, cart, services):
+    sub = subtotal(cart.items)  # DO: Separate calculation from orchestration
+    services.logger.info('checkout', extra={'user_id': user.id})
+```
+
+**❌ DON'T:**
+```python
+def full_name(user):
+    print("User:", user.id)  # DON'T: Hidden side effect in calculation
+    metrics.append(user.id)  # DON'T: State mutation in pure function
+    return f"{user.first} {user.last}"
+```
+
+### 1.2 Small and Focused
+
+Keep functions under 20 lines, extract complex logic.
+
+**✅ DO:**
+```python
+TAX_RATE = 0.13
+
+def total_with_tax(subtotal: float, tax_rate: float = TAX_RATE) -> float:
+    return round(subtotal * (1 + tax_rate), 2)  # DO: Small, focused calculation
+```
+
+**❌ DON'T:**
+```python
+def checkout(user, cart):
+    subtotal = sum(i.price*i.qty for i in cart.items)
+    total = round(subtotal * 1.13, 2)  # DON'T: Mixed abstraction levels
+    db.invoices.insert({'user_id': user.id, 'total': total})  # DON'T: Multiple responsibilities
+    for it in cart.items:
+        db.products.decrement(it.sku, it.qty)
+    email.send(user.email, f"Thanks for ${total}")
+    print('checkout complete')
+    return total
+```
+
+### 1.3 Clear Parameters
+
+Use parameter objects for complex signatures; avoid boolean flags.
+
+**✅ DO:**
+```python
+from dataclasses import dataclass
+
+@dataclass
+class ConnectionOptions:
+    host: str
+    port: int
+    timeout_ms: int = 2000  # DO: Parameter object with defaults
+
+def connect(opts: ConnectionOptions):
+    ...  # DO: Single, clear parameter
+
+def export_csv(data): return to_csv(data)  # DO: Separate functions
+def export_json(data): return to_json(data)  # DO: Not flag-based
+```
+
+**❌ DON'T:**
+```python
+def export_report(data, is_csv: bool):  # DON'T: Boolean flag parameter
+    return to_csv(data) if is_csv else to_json(data)
+
+def render(chart, dark, pretty, borders):  # DON'T: Too many parameters
+    ...
+```
+
+### 1.4 Simple Control Flow
+
+Use guard clauses to reduce nesting.
+
+**✅ DO:**
+```python
+def price_for(user, plan):
+    if not user or not plan: return 0  # DO: Early return guards
+    if user.is_student: return plan.base * 0.5  # DO: Flat structure
+    return plan.base
+```
+
+**❌ DON'T:**
+```python
+def price_for(user, plan):
+    if user is not None:  # DON'T: Deep nesting
+        if plan is not None:
+            if user.is_student:
+                return plan.base * 0.5
+            else:
+                return plan.base
+    return 0
+```
+
+---
+
+## 2. Naming
+
+### 2.1 Intention-Revealing
+
+Names should clearly communicate purpose.
+
+**✅ DO:**
+```python
+MILLISECONDS_PER_DAY = 86_400_000  # DO: Clear, searchable constant
+elapsed_time_in_days = timer.elapsed_ms() / MILLISECONDS_PER_DAY  # DO: Intention-revealing
+```
+
+**❌ DON'T:**
+```python
+d = 86400000  # DON'T: Meaningless name, magic number
+elapsed = timer.elapsed_ms() / 86400000  # DON'T: No context
+```
+
+### 2.2 Consistency
+
+Use one term per concept across codebase.
+
+**✅ DO:**
+```python
+def get_user(user_id): ...  # DO: Consistent "get" prefix
+def get_order(order_id): ...  # DO: Same term for retrieval
+def get_product(sku): ...
+```
+
+**❌ DON'T:**
+```python
+def get_user(user_id): ...  # DON'T: Mixed terms for same concept
+def fetch_order(order_id): ...  # DON'T: Different term
+def retrieve_product(sku): ...  # DON'T: Yet another term
+```
+
+### 2.3 Meaningful Context
+
+Replace magic numbers with named constants.
+
+**✅ DO:**
+```python
+ADULT_AGE = 18
+TAX_RATE = 0.13
+
+def is_adult(age: int) -> bool:
+    return age >= ADULT_AGE  # DO: Named constant provides context
+```
+
+**❌ DON'T:**
+```python
+def is_adult(age):
+    return age >= 18  # DON'T: Magic number without context
+
+sleep(86400000)  # DON'T: Unexplained magic number
+```
+
+---
+
+## 3. Code Structure
+
+### 3.1 Eliminate Duplication (DRY)
+
+Extract repeated logic into reusable functions.
+
+**✅ DO:**
+```python
+def calculate_subtotal(items):
+    return sum(i.price * i.qty for i in items)  # DO: Reusable calculation
+
+subtotal_a = calculate_subtotal(items_a)  # DO: No duplication
+subtotal_b = calculate_subtotal(items_b)
+```
+
+**❌ DON'T:**
+```python
+subtotal_a = 0  # DON'T: Duplicated logic
+for i in items_a:
+    subtotal_a += i.price * i.qty
+
+subtotal_b = 0  # DON'T: Same logic repeated
+for i in items_b:
+    subtotal_b += i.price * i.qty
+```
+
+### 3.2 Separation of Concerns
+
+Keep pure logic separate from side effects.
+
+**✅ DO:**
+```python
+def full_name(user) -> str:
+    return f"{user.first} {user.last}"  # DO: Pure calculation
+
+def greet(user, logger) -> str:
+    logger.debug("Greeting", extra={"user_id": user.id})  # DO: Separate side effects
+    return f"Hello, {full_name(user)}!"
+```
+
+**❌ DON'T:**
+```python
+def discount(total):
+    d = total * 0.1 if total > 100 else 0
+    logging.info("discount=%s", d)  # DON'T: Side effect in calculation
+    return d
+```
+
+### 3.3 Proper Abstraction Levels
+
+Step down one abstraction level at a time.
+
+**✅ DO:**
+```python
+def checkout(user, cart, services):  # High-level orchestration
+    sub = subtotal(cart.items)  # Medium-level calculation
+    total = total_with_tax(sub)  # Medium-level calculation
+    invoice = save_invoice(user, total, cart.items)  # Medium-level persistence
+    return invoice, total
+```
+
+**❌ DON'T:**
+```python
+def checkout(user, cart):
+    sub = sum(i.price * i.qty for i in cart.items)  # DON'T: Mixed levels
+    db.execute("INSERT INTO invoices...")  # DON'T: Low-level detail in high-level function
+```
+
+---
+
+## 4. Error Handling
+
+### 4.1 Use Exceptions Properly
+
+Prefer exceptions with informative messages over silent failures.
+
+**✅ DO:**
+```python
+class ParseError(ValueError):
+    pass  # DO: Domain-specific exception
+
+def parse_json(payload: str) -> dict:
+    try:
+        return json.loads(payload)
+    except json.JSONDecodeError as e:
+        raise ParseError("Invalid JSON") from e  # DO: Informative error with cause
+```
+
+**❌ DON'T:**
+```python
+def load(payload):
+    try:
+        return json.loads(payload)
+    except:  # DON'T: Bare except, swallow all errors
+        return None  # DON'T: Silent failure
+```
+
+### 4.2 Isolate Error Handling
+
+Extract try/catch into dedicated functions.
+
+**✅ DO:**
+```python
+def parse_request(raw_data):  # DO: Error handling isolated
+    try:
+        return _parse_json(raw_data)
+    except ParseError as e:
+        logger.error("Parse failed", exc_info=e)
+        raise
+
+def _parse_json(data):  # DO: Business logic separated
+    return json.loads(data)
+```
+
+**❌ DON'T:**
+```python
+def process(data):
+    try:
+        result = json.loads(data)  # DON'T: Mixed error handling and logic
+        validated = validate(result)
+        transformed = transform(validated)
+        return transformed
+    except Exception:
+        handle_error()
+```
+
+### 4.3 Classify by Caller Needs
+
+Create exception types based on how callers handle them.
+
+**✅ DO:**
+```python
+class ValidationError(Exception): pass  # DO: Caller-centric exceptions
+class PaymentError(Exception): pass
+
+def checkout(cart):
+    if not cart.valid:
+        raise ValidationError("Invalid cart")  # DO: Clear caller action
+```
+
+**❌ DON'T:**
+```python
+class DatabaseError(Exception): pass  # DON'T: Implementation-centric
+class NetworkError(Exception): pass  # DON'T: Forces caller to know internals
+```
+
+---
+
+## 5. State Management
+
+### 5.1 Minimize Mutable State
+
+Prefer immutable data structures.
+
+**✅ DO:**
+```python
+from types import MappingProxyType
+from dataclasses import dataclass
+
+@dataclass(frozen=True)  # DO: Immutable dataclass
+class Item:
+    sku: str
+    price: float
+    qty: int
+
+SETTINGS = MappingProxyType({"mode": "prod"})  # DO: Immutable config
+```
+
+**❌ DON'T:**
+```python
+settings = {"mode": "prod"}  # DON'T: Mutable global state
+
+def set_mode(mode):
+    settings["mode"] = mode  # DON'T: Global mutation
+
+cache = {}  # DON'T: Shared mutable cache
+def get_user(user_id):
+    if user_id in cache:
+        return cache[user_id]
+    cache[user_id] = repo.fetch(user_id)  # DON'T: Hidden state mutation
+```
+
+### 5.2 Encapsulation
+
+Hide implementation details, expose minimal interface.
+
+**✅ DO:**
+```python
+class Inventory:
+    def __init__(self, repo):
+        self._repo = repo  # DO: Private implementation detail
+
+    def adjust_many(self, changes: list[tuple[str, int]]):
+        for sku, delta in changes:
+            self._adjust_one(sku, delta)  # DO: Encapsulated helper
+```
+
+**❌ DON'T:**
+```python
+class Inventory:
+    def __init__(self):
+        self.repo = Repository()  # DON'T: Public implementation detail
+        self.cache = {}  # DON'T: Exposed internal state
+```
+
+### 5.3 Explicit Dependencies
+
+Pass dependencies through constructors.
+
+**✅ DO:**
+```python
+class CheckoutService:
+    def __init__(self, invoice_repo, inventory, mailer):
+        self._invoice_repo = invoice_repo  # DO: Constructor injection
+        self._inventory = inventory
+        self._mailer = mailer
+```
+
+**❌ DON'T:**
+```python
+class CheckoutService:
+    def __init__(self):
+        self.repo = global_invoice_repo  # DON'T: Hidden global dependency
+        self.inventory = Inventory()  # DON'T: Hidden construction
+```
+
+---
+
+## 6. Classes and Objects
+
+### 6.1 Single Responsibility
+
+Each class has one reason to change.
+
+**✅ DO:**
+```python
+class InvoiceRepository:  # DO: Focused on invoice persistence
+    def save(self, invoice): ...
+    def find_by_id(self, invoice_id): ...
+
+class InvoiceCalculator:  # DO: Focused on invoice calculations
+    def calculate_total(self, items): ...
+    def apply_discount(self, total, discount): ...
+```
+
+**❌ DON'T:**
+```python
+class Invoice:  # DON'T: Multiple responsibilities
+    def calculate_total(self): ...  # Calculation
+    def save_to_db(self): ...  # Persistence
+    def send_email(self): ...  # Notification
+    def format_pdf(self): ...  # Formatting
+```
+
+### 6.2 Small and Compact
+
+Keep classes under 200-300 lines.
+
+**✅ DO:**
+```python
+class DiscountCalculator:  # DO: Focused, small class
+    def calculate(self, total, user_type):
+        if user_type == "student":
+            return total * 0.5
+        return total
+```
+
+**❌ DON'T:**
+```python
+class OrderProcessor:  # DON'T: God object with many responsibilities
+    # ... 500+ lines of mixed concerns
+```
+
+### 6.3 Open/Closed Principle
+
+Depend on abstractions, not concrete types.
+
+**✅ DO:**
+```python
+from abc import ABC, abstractmethod
+
+class PaymentProcessor(ABC):  # DO: Abstract interface
+    @abstractmethod
+    def process(self, amount): ...
+
+class StripeProcessor(PaymentProcessor):  # DO: Concrete implementation
+    def process(self, amount):
+        # Stripe-specific logic
+```
+
+**❌ DON'T:**
+```python
+class OrderService:
+    def __init__(self):
+        self.payment = StripePayment()  # DON'T: Hardcoded concrete type
+```
+
+---
+
+## 7. Comments
+
+### 7.1 Prefer Code Over Comments
+
+Express intent in code first.
+
+**✅ DO:**
+```python
+def is_eligible_for_discount(user):  # DO: Self-documenting function name
+    return user.age < 18 or user.is_student
+
+if is_eligible_for_discount(user):  # DO: No comment needed
+    apply_discount()
+```
+
+**❌ DON'T:**
+```python
+# Check if user is eligible for discount  # DON'T: Comment explains bad name
+if user.age < 18 or user.is_student:
+    apply_discount()
+```
+
+### 7.2 Good Comments
+
+Legal notices, TODOs, and complex algorithm explanations.
+
+**✅ DO:**
+```python
+# Copyright 2025 Company Name  # DO: Legal notice
+
+# TODO: Optimize this query using pagination  # DO: Actionable TODO
+
+def fast_inverse_sqrt(x):
+    # Newton-Raphson approximation for 1/sqrt(x)  # DO: Algorithm explanation
+    ...
+```
+
+**❌ DON'T:**
+```python
+# Added by John on 2024-01-15  # DON'T: Attribution (use git)
+# i = 0  # initialize counter  # DON'T: Noise comment
+```
+
+### 7.3 Bad Comments
+
+Avoid commented-out code, misleading comments.
+
+**✅ DO:**
+```python
+# (Delete commented-out code, it's in git)
+def process(data):
+    return transform(data)
+```
+
+**❌ DON'T:**
+```python
+def process(data):
+    # old_result = legacy_transform(data)  # DON'T: Commented-out code
+    # new_result = transform(data)  # DON'T: Keep as backup
+    return transform(data)
+```
+
+---
+
+## 8. Formatting
+
+### 8.1 Team Consensus
+
+Use automated formatters consistently.
+
+**✅ DO:**
+```python
+# Use black, ruff, or similar formatter
+# Configure in pyproject.toml:
+# [tool.black]
+# line-length = 100
+```
+
+**❌ DON'T:**
+```python
+# Don't manually format or argue about style
+# Let tooling handle it
+```
+
+### 8.2 Vertical Density
+
+Group related code, declare variables close to usage.
+
+**✅ DO:**
+```python
+def checkout(user, cart):
+    subtotal = calculate_subtotal(cart.items)  # DO: Declared close to use
+    tax = calculate_tax(subtotal)
+    total = subtotal + tax  # DO: Related calculations together
+    return total
+```
+
+**❌ DON'T:**
+```python
+def checkout(user, cart):
+    subtotal = 0  # DON'T: Declared far from use
+    tax = 0
+    discount = 0
+
+    # ... many lines later ...
+    
+    subtotal = calculate_subtotal(cart.items)
+```
+
+### 8.3 Consistent Indentation
+
+Use 4 spaces per PEP 8.
+
+**✅ DO:**
+```python
+def process(data):
+    if data:  # DO: Consistent 4-space indentation
+        for item in data:
+            process_item(item)
+```
+
+**❌ DON'T:**
+```python
+def process(data):
+  if data:  # DON'T: Inconsistent 2-space indentation
+      for item in data:  # DON'T: Mixed indentation
+            process_item(item)
+```
+
+---
+
+## 9. Testing
+
+### 9.1 Test Quality
+
+Tests should be as clean as production code.
+
+**✅ DO:**
+```python
+def test_calculates_student_discount():  # DO: Descriptive test name
+    user = User(is_student=True)
+    assert price_for(user, Plan(base=100)) == 50  # DO: Clear assertion
+```
+
+**❌ DON'T:**
+```python
+def test_1():  # DON'T: Meaningless test name
+    # DON'T: Unclear test setup
+    assert func(data) == expected
+```
+
+### 9.2 One Concept Per Test
+
+Test one behavior per test function.
+
+**✅ DO:**
+```python
+def test_student_receives_50_percent_discount():  # DO: One concept
+    user = User(is_student=True)
+    assert price_for(user, Plan(100)) == 50
+
+def test_regular_user_pays_full_price():  # DO: Separate concept
+    user = User(is_student=False)
+    assert price_for(user, Plan(100)) == 100
+```
+
+**❌ DON'T:**
+```python
+def test_pricing():  # DON'T: Multiple concepts in one test
+    assert price_for(Student(), Plan(100)) == 50
+    assert price_for(Regular(), Plan(100)) == 100
+    assert price_for(None, Plan(100)) == 0
+```
+
+### 9.3 Test-Driven Development
+
+Write tests first (Red-Green-Refactor).
+
+**✅ DO:**
+```python
+# 1. RED: Write failing test first
+def test_applies_tax_rate():
+    assert total_with_tax(100, 0.13) == 113.0
+
+# 2. GREEN: Minimal implementation
+def total_with_tax(subtotal, tax_rate):
+    return subtotal * (1 + tax_rate)
+
+# 3. REFACTOR: Improve with confidence
+```
+
+**❌ DON'T:**
+```python
+# DON'T: Write tests after code is done
+# DON'T: Skip refactoring step
+```
+
+---
+
+## 10. System Boundaries
+
+### 10.1 Isolate Third-Party Code
+
+Wrap external APIs behind your interfaces.
+
+**✅ DO:**
+```python
+class EmailService:  # DO: Wrapper around third-party
+    def __init__(self, smtp_client):
+        self._client = smtp_client  # DO: Encapsulated dependency
+
+    def send_receipt(self, to: str, invoice):
+        subject = f"Order #{invoice.id}"
+        self._client.send(to=to, subject=subject)  # DO: Isolated usage
+```
+
+**❌ DON'T:**
+```python
+import third_party_lib
+
+def checkout(user, cart):
+    third_party_lib.send(user.email)  # DON'T: Direct third-party usage
+    return third_party_lib.Invoice(...)  # DON'T: Leaked third-party types
+```
+
+### 10.2 Adapt and Test
+
+Test boundary behavior explicitly.
+
+**✅ DO:**
+```python
+def test_email_service_sends_receipt():  # DO: Test boundary
+    mock_smtp = MockSMTP()
+    service = EmailService(mock_smtp)
+    service.send_receipt("user@example.com", Invoice(id=123))
+    assert mock_smtp.sent_count == 1
+```
+
+**❌ DON'T:**
+```python
+# DON'T: Skip testing third-party integration
+# DON'T: Trust third-party behavior implicitly
+```
+
+---
+
+## Common Python Patterns
+
+### Type Hints
+Use type hints for clarity and tooling support:
+```python
+def calculate_price(items: list[Item], discount: float = 0.0) -> float:
+    return sum(i.price for i in items) * (1 - discount)
+```
+
+### Dataclasses
+Prefer dataclasses for simple data structures:
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Order:
+    id: int
+    user_id: int
+    total: float
+```
+
+### Context Managers
+Use context managers for resource management:
+```python
+with open('file.txt') as f:
+    data = f.read()
+```
+
+### Comprehensions
+Prefer comprehensions for transformations:
+```python
+prices = [item.price for item in items if item.available]
+```
+
+---
+
+**Executing Commands:**
+
+* `\clean-code` — Validate Python code quality
+
+---
+
+## Governance
+
+**Status:** Active
+**Maintained By:** Development Team
+**Last Updated:** 2025-11-12
+**Review Cycle:** Quarterly
+
+**Related Rules:**
+- `clean-code-rule.mdc` — Framework-agnostic clean code principles
+- `bdd-mamba-rule.mdc` — Python BDD testing practices

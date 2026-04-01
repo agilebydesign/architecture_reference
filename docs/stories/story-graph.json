@@ -1,0 +1,216 @@
+{
+    "stories": [
+        {
+            "name": "Load Bot Behaviors",
+            "sequential_order": 4.0,
+            "connector": "or",
+            "story_type": "user",
+            "users": [
+            "Bot Behavior"
+            ],
+            "test_class": "TestLoadBotBehaviors",
+            "scenarios": [
+            {
+                "name": "Bot behaviors are loaded from BotConfig.",
+                "sequential_order": 1.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_load_behaviors_from_bot_config",
+                "steps": "",
+                "test": {
+                "method": "test_load_behaviors_from_bot_config",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 108
+                }
+            },
+            {
+                "name": "When behaviors are loaded, first behavior is set as current.",
+                "sequential_order": 2.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_load_behaviors_sets_first_as_current",
+                "steps": "",
+                "test": {
+                "method": "test_load_behaviors_sets_first_as_current",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 116
+                }
+            },
+            {
+                "name": "Loaded behavior provides access to all config properties",
+                "sequential_order": 3.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_behavior_provides_access_to_all_config_properties",
+                "steps": "Given Behavior loaded from production config\nWhen Config properties accessed\nThen All properties accessible with correct structure",
+                "test": {
+                "method": "test_behavior_provides_access_to_all_config_properties",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 123
+                }
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        },
+        {
+            "name": "Load Actions",
+            "sequential_order": 5.0,
+            "connector": "or",
+            "story_type": "user",
+            "users": [
+            "Bot Behavior"
+            ],
+            "test_class": "TestLoadActions",
+            "scenarios": [
+            {
+                "name": "Actions are loaded and available.",
+                "sequential_order": 1.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_load_actions_from_behavior_config",
+                "steps": "",
+                "test": {
+                "method": "test_load_actions_from_behavior_config",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 145
+                }
+            },
+            {
+                "name": "When actions are loaded, first action is set as current.",
+                "sequential_order": 2.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_load_actions_sets_first_as_current",
+                "steps": "",
+                "test": {
+                "method": "test_load_actions_sets_first_as_current",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 164
+                }
+            },
+            {
+                "name": "Action merges instructions from BaseActionConfig and Behavior config.",
+                "sequential_order": 3.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_action_merges_instructions_from_base_and_behavior",
+                "steps": "",
+                "test": {
+                "method": "test_action_merges_instructions_from_base_and_behavior",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 170
+                }
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        },
+        {
+            "name": "Load Bot Behaviors Using CLI",
+            "sequential_order": 7.0,
+            "connector": null,
+            "story_type": "user",
+            "users": [
+                
+            ],
+                "test_class": "TestLoadBotBehaviorsUsingCLI",
+                "scenarios": [
+            {
+                "name": "CLI session loads behaviors from bot config",
+                "sequential_order": 1.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_session_loads_behaviors_from_config",
+                "steps": "GIVEN: CLI session initialized\nWHEN: Behaviors accessed\nTHEN: All behaviors loaded correctly",
+                "test": {
+                "method": "test_cli_session_loads_behaviors_from_config",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 500
+                }
+            },
+            {
+                "name": "CLI session sets first behavior as current",
+                "sequential_order": 2.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_session_sets_first_behavior_as_current",
+                "steps": "GIVEN: CLI session initialized\nWHEN: Current behavior accessed\nTHEN: First behavior is current",
+                "test": {
+                "method": "test_cli_session_sets_first_behavior_as_current",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 521
+                }
+            },
+            {
+                "name": "Behavior config properties accessible via CLI session",
+                "sequential_order": 3.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_session_behavior_config_properties_accessible",
+                "steps": "GIVEN: CLI session at prioritization behavior\nWHEN: Behavior config properties accessed\nTHEN: All properties accessible with correct structure",
+                "test": {
+                "method": "test_cli_session_behavior_config_properties_accessible",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 542
+                }
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        },
+        {
+            "name": "Load Actions Using CLI",
+            "sequential_order": 8.0,
+            "connector": null,
+            "story_type": "user",
+            "users": [
+                "User"
+            ],
+            "test_class": "TestLoadActionsUsingCLI",
+            "scenarios": [
+            {
+                "name": "CLI session loads actions from behavior config",
+                "sequential_order": 1.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_session_loads_actions_from_behavior_config",
+                "steps": "GIVEN: CLI session at shape behavior\nWHEN: Actions accessed\nTHEN: All actions loaded correctly",
+                "test": {
+                "method": "test_cli_session_loads_actions_from_behavior_config",
+                "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                "line": 587
+                }
+            },
+            {
+                "name": "CLI session sets first action as current",
+                "sequential_order": 2.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_session_sets_first_action_as_current",
+                "steps": "GIVEN: CLI session at shape behavior\nWHEN: Current action accessed\nTHEN: First action is current",
+                "test": {
+                    "method": "test_cli_session_sets_first_action_as_current",
+                    "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                    "line": 615
+                }
+            },
+            {
+                "name": "Action instructions accessible via CLI session",
+                "sequential_order": 3.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_session_action_instructions_accessible",
+                "steps": "GIVEN: CLI session at shape.clarify\nWHEN: Action instructions accessed\nTHEN: Merged instructions from base and behavior available",
+                "test": {
+                    "method": "test_cli_session_action_instructions_accessible",
+                    "file": "invoke_bot/initialize_bot/test_load_bot_behavior_and_actions.py",
+                    "line": 639
+                }
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        }
+    ]
+}

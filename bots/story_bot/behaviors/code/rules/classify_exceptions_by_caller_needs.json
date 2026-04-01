@@ -1,0 +1,63 @@
+{
+  "description": "Design exceptions based on how callers will handle them. Create exception types based on caller's needs, use special case objects for predictable failures, and wrap third-party exceptions at boundaries.",
+  "examples": [
+    {
+      "do": {
+        "description": "Design exceptions based on how they will be handled",
+        "content": [
+          "Create exception types based on caller's needs",
+          "Use special case objects for predictable failures",
+          "Wrap third-party exceptions at boundaries",
+          "Group similar failures into single exception type if handled same way",
+          "",
+          "Correct Examples (caller-focused exceptions):",
+          "- NetworkException (caller: retry logic)",
+          "- ValidationException (caller: show form errors)",
+          "- AuthorizationException (caller: redirect to login)",
+          "- class NullUser extends User { ... } // special case object",
+          "",
+          "Exception Design Requirements:",
+          "- Exception type reflects how caller handles it",
+          "- Similar handling = same exception type",
+          "- Different handling = different exception type",
+          "- Wrap third-party exceptions to avoid leaking dependencies",
+          "- Use special case pattern for predictable null/empty cases"
+        ]
+      },
+      "dont": {
+        "description": "Don't create exception hierarchies by component only",
+        "content": [
+          "Don't create exception hierarchies by component/type only",
+          "Don't force callers to handle many similar exception types",
+          "Don't leak third-party exception types",
+          "",
+          "Wrong Examples (component-focused exceptions):",
+          "- DatabaseConnectionException, DatabaseQueryException, DatabaseUpdateException",
+          "  (if caller handles all same way, use single DatabaseException)",
+          "- Catching SQLException throughout codebase (leak third-party type)",
+          "- 20 different exception types caller must handle individually",
+          "",
+          "Poor Exception Design Indicators (REFACTOR):",
+          "- Exception hierarchy based on technical components",
+          "- Many exception types handled identically",
+          "- Third-party exceptions used directly in business logic",
+          "- Callers forced to catch many similar exceptions",
+          "",
+          "Refactoring Strategy:",
+          "- Group exceptions by how caller handles them",
+          "- Create wrapper exceptions at boundaries",
+          "- Use special case objects instead of null checks",
+          "- Reduce exception types caller must know about",
+          "",
+          "Example wrapper:",
+          "try {",
+          "  return thirdPartyLib.call();",
+          "} catch (ThirdPartyException e) {",
+          "  throw new OurDomainException(e);",
+          "}"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.exception_handling_scanner.ExceptionHandlingScanner"
+}

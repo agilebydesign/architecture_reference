@@ -1,0 +1,10 @@
+{
+  "description": "Evidence or artifacts that must be present or validated before this behavior can proceed",
+  "evidence": [
+    "Feature files (.feature) from specification_examples stage",
+    "Examples tables with test data",
+    "Structured.json with scenarios and examples",
+    "Existing test code or test patterns",
+    "Test framework documentation"
+  ]
+}

@@ -1,0 +1,50 @@
+(E) 
+    (E) Sub-Epic(s)
+        (E) Sub-Epic(s) - additional are optional
+            or - connector type
+                (S) Story and | or common across group 
+                    (AC) AC or steps
+
+(E) {epic_name}
+    (E) {sub_epic_name} 
+            (S) {actor} --> {story_name} 
+            or (S) {actor} --> {story_name}   --> or group type
+            or (S) {actor} --> {story_name}
+        or  --> second group connector type
+            (S) {actor} --> {story_name}
+            (AC) {actor} --> {acceptance_criteria}   --> and group type
+            (AC) {actor} --> {acceptance_criteria}
+        and  --> third group connector type
+            (S) {actor} --> {story_name}
+            (AC) {actor} --> {acceptance_criteria}  --> and type
+            (AC) {actor} --> {acceptance_criteria}  --> and type
+        or 
+            (S) {actor} --> {story_name}
+            (AC) {actor} /default group type is and
+            (AC) {actor}
+        
+       
+(E) {epic_name}
+    (E) {sub_epic_name}
+        (E) {nested_sub_epic_name}
+           ...
+
+Instructions:
+- Use (E) for Epics and Sub-Epics
+- Use (S) for Stories
+- Use (AC) for Acceptance Criteria
+- Story Groups are MANDATORY - all stories must be in a story group
+- Story group TYPE is determined by the connector on stories WITHIN the group (and | or | opt)
+- Story group CONNECTOR appears on a line by itself BETWEEN groups (and | or | opt)
+- Default group type is "and" (no connector on first story in group)
+- First story group in a sub-epic has NO connector line before it
+- Group connector line (e.g., "or", "and") separates story groups
+- Within a group, all stories share the same type (and, or, or opt)
+- Show actors with "--> " before story names (e.g., "Human --> Story Name")
+- Use hierarchical indentation (spaces, not tabs)
+- Acceptance criteria are nested under stories with same indentation pattern
+- Use active behavioral language (verb-noun format)
+- Epic/Sub-Epic names: Verb-Noun format (actor NOT in name)
+- Story names: Actor-Verb-Noun format (actor in story with "-->")
+- Epics and Sub-Epics do NOT have connectors (only story groups have connectors)
+

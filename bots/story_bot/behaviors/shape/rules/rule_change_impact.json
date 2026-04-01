@@ -1,0 +1,29 @@
+{
+  "priority": 99,
+  "description": "Compare current validation violations against a saved baseline to detect the impact of rule or scanner changes. Run validate with --save-baseline before changing rules, then run again after to see the diff.",
+  "scanner": "scanners.rule_change_impact_scanner.RuleChangeImpactScanner",
+  "do": {
+    "description": "Save a baseline before modifying rules or scanners, then compare after",
+    "guidance": [
+      {
+        "description": "Baseline captures violation snapshot. After rule/scanner change, diff shows new violations, resolved violations, and severity changes.",
+        "example": [
+          "Before change: save baseline with 12 violations",
+          "After change: 10 violations remain, 2 resolved, 3 new -> net impact visible"
+        ]
+      }
+    ]
+  },
+  "dont": {
+    "description": "Do not modify rules without checking impact",
+    "guidance": [
+      {
+        "description": "Changing rules without a baseline means you cannot measure impact. Always save a baseline first.",
+        "example": [
+          "No baseline: 'No baseline found' info message shown",
+          "Stale baseline: results may not reflect recent changes"
+        ]
+      }
+    ]
+  }
+}

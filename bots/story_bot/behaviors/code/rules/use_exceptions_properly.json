@@ -1,0 +1,57 @@
+{
+  "description": "Prefer exceptions over error codes for exceptional conditions. Use exceptions for truly exceptional situations, provide informative error messages, and create domain-specific exception types.",
+  "examples": [
+    {
+      "do": {
+        "description": "Use exceptions for exceptional situations",
+        "content": [
+          "Use exceptions for truly exceptional situations",
+          "Provide informative error messages with context",
+          "Create domain-specific exception types",
+          "Include relevant data in exception objects",
+          "",
+          "Correct Examples (proper exceptions):",
+          "- throw new InvalidOrderException('Order missing required items', {orderId, items})",
+          "- throw new PaymentFailedException('Payment declined', {transactionId, reason})",
+          "- throw new ResourceNotFoundException('User not found', {userId})",
+          "",
+          "Exception Best Practices:",
+          "- Use for truly exceptional conditions (not normal flow)",
+          "- Provide context: what, why, relevant data",
+          "- Create specific exception types for different failures",
+          "- Include actionable information in message",
+          "- Don't expose sensitive data in messages"
+        ]
+      },
+      "dont": {
+        "description": "Don't use exceptions for normal control flow or return error codes",
+        "content": [
+          "Don't use exceptions for normal control flow",
+          "Don't swallow exceptions silently",
+          "Don't return error codes from modern APIs",
+          "",
+          "Wrong Examples (misused exceptions):",
+          "- try { user = findUser(); } catch { user = createUser(); } // normal flow",
+          "- catch (e) { } // swallowing exception",
+          "- return -1; // error code instead of exception",
+          "- throw new Error('Error') // uninformative message",
+          "",
+          "Exception Misuse Indicators (REFACTOR):",
+          "- Exceptions for expected conditions (empty array, null result)",
+          "- Empty catch blocks silencing errors",
+          "- Generic Error without specific type",
+          "- Error codes (-1, 0, 1) instead of exceptions",
+          "- Exception messages without context",
+          "",
+          "Instead:",
+          "- Use null/optional for 'not found' (expected)",
+          "- Log and/or rethrow exceptions (never swallow)",
+          "- Create specific exception types",
+          "- Include context in error messages",
+          "- Reserve exceptions for truly exceptional cases"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.exception_handling_scanner.ExceptionHandlingScanner"
+}

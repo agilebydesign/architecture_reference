@@ -1,0 +1,182 @@
+{
+    "priority":  1,
+    "description":  "CRITICAL STRUCTURAL RULE: Test structure matches story graph hierarchy. File = sub-epic (test_\u003csub_epic\u003e.py), Class = story (Test\u003cExactStoryName\u003e), Method = scenario (test_\u003cscenario_snake_case\u003e). Getting this wrong creates files in wrong locations requiring deletion/recreation. BEFORE writing any test code, identify the parent sub-epic that contains the story.",
+    "pre_flight_checklist":  {
+                                 "description":  "Run this checklist BEFORE creating any test files",
+                                 "steps":  [
+                                               "Locate the story in story-graph.json",
+                                               "Trace UP the hierarchy to find the parent sub-epic (may be nested several levels)",
+                                               "Verify file name matches sub-epic in snake_case, NOT the story name",
+                                               "Verify file location is test/domain/ (or test/CLI/ for CLI tests, test/panel/ for panel tests)",
+                                               "Verify class name matches story name exactly in PascalCase",
+                                               "Check if file already exists - if yes, add class to existing file, do not create new file"
+                                           ]
+                             },
+    "quick_reference":  {
+                            "description":  "Story graph level to test structure mapping",
+                            "table":  [
+                                          {
+                                              "story_graph_level":  "Sub-Epic (parent of story)",
+                                              "maps_to":  "File name",
+                                              "example":  "Sub-epic \u0027Edit Story Graph\u0027 -\u003e test_edit_story_graph.py",
+                                              "location":  "test/domain/ or test/CLI/ or test/panel/"
+                                          },
+                                          {
+                                              "story_graph_level":  "Story",
+                                              "maps_to":  "Class name",
+                                              "example":  "Story \u0027Create Child Story Node\u0027 -\u003e TestCreateChildStoryNode",
+                                              "location":  "Inside the sub-epic test file"
+                                          },
+                                          {
+                                              "story_graph_level":  "Scenario",
+                                              "maps_to":  "Method name",
+                                              "example":  "Scenario \u0027Create child node at hierarchy level\u0027 -\u003e test_create_child_node_at_hierarchy_level",
+                                              "location":  "Inside the story test class"
+                                          }
+                                      ]
+                        },
+    "hierarchy_identification":  {
+                                     "description":  "How to find the correct sub-epic for file naming",
+                                     "steps":  [
+                                                   "Start at the story you\u0027re testing",
+                                                   "Go UP one level - this might be a story_group or sub-epic",
+                                                   "If it\u0027s a story_group, go up again",
+                                                   "Keep going up until you reach a sub-epic node (has \u0027sub_epics\u0027 or \u0027story_groups\u0027 property)",
+                                                   "That sub-epic name is your file name",
+                                                   "Example path: Epic \u0027Invoke Bot\u0027 -\u003e Sub-Epic \u0027Invoke Bot Directly\u0027 -\u003e Sub-Epic \u0027Manage Story Graph\u0027 -\u003e Sub-Epic \u0027Edit Story Graph\u0027 -\u003e Story \u0027Create Child Story Node\u0027",
+                                                   "Result: File = test_edit_story_graph.py (NOT test_create_child_story_node.py)"
+                                               ]
+                                 },
+    "common_mistakes":  {
+                            "description":  "Most common violations and how to avoid them",
+                            "mistakes":  [
+                                             {
+                                                 "mistake":  "Naming file after the story instead of the sub-epic",
+                                                 "wrong":  "test_create_child_story_node.py",
+                                                 "right":  "test_edit_story_graph.py",
+                                                 "explanation":  "File name comes from parent SUB-EPIC, not the story itself"
+                                             },
+                                             {
+                                                 "mistake":  "Creating new directory for test area",
+                                                 "wrong":  "test/story_graph/test_*.py",
+                                                 "right":  "test/domain/test_*.py",
+                                                 "explanation":  "Use existing test directories (domain, CLI, panel)"
+                                             },
+                                             {
+                                                 "mistake":  "Creating separate helper file",
+                                                 "wrong":  "test/story_graph/story_graph_test_helper.py",
+                                                 "right":  "Extend test/domain/helpers/story_helper.py",
+                                                 "explanation":  "Add methods to existing helpers, don\u0027t create new standalone helpers"
+                                             },
+                                             {
+                                                 "mistake":  "Abbreviating class or method names",
+                                                 "wrong":  "class TestCreateChild",
+                                                 "right":  "class TestCreateChildStoryNode",
+                                                 "explanation":  "Use complete story/scenario name, no abbreviations"
+                                             }
+                                         ]
+                        },
+    "do":  {
+               "description":  "Map story hierarchy to test structure exactly. CRITICAL: File name comes from SUB-EPIC, not story.",
+               "guidance":  [
+                                {
+                                    "description":  "BEFORE writing code: Identify parent sub-epic and state file path explicitly",
+                                    "example":  [
+                                                    "# Story Path: Invoke Bot -\u003e Invoke Bot Directly -\u003e Manage Story Graph -\u003e Edit Story Graph -\u003e Create Child Story Node",
+                                                    "# Sub-Epic (for file): Edit Story Graph",
+                                                    "# File: test/domain/test_edit_story_graph.py",
+                                                    "# Class: TestCreateChildStoryNode",
+                                                    "# Verify: File named after sub-epic \u0027Edit Story Graph\u0027, NOT story \u0027Create Child Story Node\u0027"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test file matches sub-epic name in snake_case",
+                                    "example":  [
+                                                    "# Sub-epic: \u0027Generate Bot Server And Tools\u0027",
+                                                    "# File: test_generate_bot_server_and_tools.py"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test class matches story name EXACTLY in PascalCase",
+                                    "example":  [
+                                                    "# Story: \u0027Inject Guardrails as Part of Clarify Requirements\u0027",
+                                                    "class TestInjectGuardrailsAsPartOfClarifyRequirements:"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test method matches scenario name EXACTLY in snake_case",
+                                    "example":  [
+                                                    "# Scenario: \u0027Generator creates bot tool for test_bot\u0027",
+                                                    "def test_generator_creates_bot_tool_for_test_bot(self):"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test classes in same order as stories in story map",
+                                    "example":  [
+                                                    "class TestGenerateBotTools:  # First story",
+                                                    "class TestGenerateBehaviorTools:  # Second story"
+                                                ]
+                                },
+                                {
+                                    "description":  "Check if file already exists - add to existing file, don\u0027t create duplicate",
+                                    "example":  [
+                                                    "# Sub-epic \u0027Edit Story Graph\u0027 already has test_edit_story_graph.py",
+                                                    "# Add new class TestDeleteStoryNode to existing file",
+                                                    "# Do NOT create test_delete_story_node.py"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use generic/abbreviated names or wrong hierarchy level for file naming. Don\u0027t create files in wrong locations.",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t name file after story - use parent sub-epic",
+                                      "example":  [
+                                                      "# Story: \u0027Create Child Story Node\u0027",
+                                                      "# WRONG: test_create_child_story_node.py",
+                                                      "# RIGHT: test_edit_story_graph.py (parent sub-epic is \u0027Edit Story Graph\u0027)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t create new test directories",
+                                      "example":  [
+                                                      "# WRONG: test/story_graph/",
+                                                      "# RIGHT: test/domain/ (existing directory)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t create separate helper files",
+                                      "example":  [
+                                                      "# WRONG: test/story_graph/story_graph_test_helper.py",
+                                                      "# RIGHT: Add methods to test/domain/helpers/story_helper.py"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t abbreviate class names",
+                                      "example":  [
+                                                      "class TestGenBotTools:  # WRONG - use TestGenerateBotTools"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use generic class names",
+                                      "example":  [
+                                                      "class TestGuardrailsInjection:  # WRONG - story is \u0027Inject Guardrails as Part of Clarify Requirements\u0027"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t abbreviate method names",
+                                      "example":  [
+                                                      "def test_creates_tool(self):  # WRONG - scenario is \u0027Generator creates bot tool for test_bot\u0027"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t put test classes out of story map order",
+                                      "example":  [
+                                                      "class TestGenerateMCPBotServer:  # WRONG - should be after TestGenerateBotTools"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.class_based_organization_scanner.ClassBasedOrganizationScanner"
+}

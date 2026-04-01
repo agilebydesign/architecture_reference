@@ -1,0 +1,8 @@
+{
+  "name": "render_story_files",
+  "type": "synchronizer",
+  "path": "docs/story",
+  "input": "story-graph.json",
+  "synchronizer": "synchronizers.story_scenarios.StoryScenariosSynchronizer",
+  "instructions": "Render story-graph.json to story markdown files. Files are placed in behavior-specific folders (scenarios/, shape/, code/, tests/) based on the story's behavior field."
+}

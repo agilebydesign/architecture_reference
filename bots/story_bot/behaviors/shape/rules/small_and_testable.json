@@ -1,0 +1,32 @@
+{
+  "priority": 6,
+  "description": "Stories must be testable as complete interactions and deliverable independently. Balance testability with maintaining value and behavioral focus - stories should be small enough to test but large enough to matter.",
+  "scanner": "scanners.implementation_details_scanner.ImplementationDetailsScanner",
+  "do": {
+    "description": "Create stories that can be tested and delivered independently. Example: 'Customer places order' (testable with clear acceptance criteria: order created, payment processed)",
+    "guidance": [
+      {
+        "description": "Stories must be testable as complete interactions and deliverable independently - fine-grained enough to enable frequent feedback while maintaining behavioral focus. Must have clear acceptance criteria, can be tested without parent context, complete enough to verify behavior, and small enough to test quickly.",
+        "example": ["Customer --> places order (testable: order created, payment processed)"]
+      },
+      {
+        "description": "STORY vs STEP distinction - Story = User/system outcome (testable independently with clear acceptance criteria). Step = Implementation detail (not testable alone, verified as part of parent story test).",
+        "example": ["Story: 'User --> saves story graph' â†’ Steps: 'converts format', 'serializes to JSON', 'writes file'", "Story: 'User --> renders diagram' â†’ Steps: 'generates XML', 'calculates positions', 'applies styles'"]
+      }
+    ]
+  },
+  "dont": {
+    "description": "Don't create stories that can't be tested or delivered independently. Example: 'Add order button' (not testable - can't verify independently without full order flow context)",
+    "guidance": [
+      {
+        "description": "Don't create stories too small to test meaningfully or make implementation steps into stories - don't sacrifice behavioral value for artificial testability",
+        "example": ["Add order button (can't test without full order flow)", "Display error message (can't test without validation context)", "Convert Diagram to StoryGraph Format (implementation step, no acceptance criteria)", "Serialize Components to JSON (implementation step, not testable alone)", "Calculate Component Positions (implementation step, no user outcome)"]
+      },
+      {
+        "description": "Implementation operation indicators that are NOT testable as stories - these are steps within larger stories",
+        "example": ["Serialize, deserialize, convert, transform, format", "Calculate, compute, generate (technical artifacts)", "Apply, set, configure (technical settings)", "Save, write, store (without user context)"]
+      }
+    ]
+  }
+}
+

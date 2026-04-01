@@ -1,0 +1,52 @@
+{
+  "description": "How should example values be represented in scenarios - inline in steps or in tables?",
+  "question": "What is the best way to express values in this scenario?",
+  "options": [
+    {
+      "id": "inline_values",
+      "name": "Inline Values in Steps",
+      "description": "Put values directly in scenario steps when there are few values and they make the scenario more readable as a sentence.",
+      "when_to_use": "1-3 simple values, natural language flow, business-readable documentation",
+      "example": [
+        "Scenario: Apply loyalty discount",
+        "  Given customer has Gold membership",
+        "  And order total is $100",
+        "  When checkout completes",
+        "  Then discount of $10 is applied",
+        "  And final total is $90"
+      ]
+    },
+    {
+      "id": "verification_table",
+      "name": "Verification Data Table",
+      "description": "Use data table in Then step to verify multiple expected values or outcomes in a structured way.",
+      "when_to_use": "Multiple fields to verify, structured output validation, clear expected vs actual comparison",
+      "example": [
+        "Scenario: Calculate order totals",
+        "  Given shopping cart with items",
+        "  When order is finalized",
+        "  Then order summary shows:",
+        "    | field       | value  |",
+        "    | subtotal    | $100   |",
+        "    | tax         | $8     |",
+        "    | shipping    | $5     |",
+        "    | total       | $113   |"
+      ]
+    },
+    {
+      "id": "step_data_table",
+      "name": "Data Table in Single Step",
+      "description": "Use inline data table within a step when that step needs structured multi-field input.",
+      "when_to_use": "Single step with multiple data fields, form input, list of items in one action",
+      "example": [
+        "Scenario: Register new user",
+        "  When user submits registration:",
+        "    | field    | value            |",
+        "    | name     | John Doe         |",
+        "    | email    | john@example.com |",
+        "  Then account is created"
+      ]
+    }
+  ]
+}
+

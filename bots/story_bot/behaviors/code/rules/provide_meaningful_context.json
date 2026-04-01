@@ -1,0 +1,58 @@
+{
+  "description": "Names should provide appropriate context without redundancy. Use longer names for longer scopes and replace magic numbers with named constants.",
+  "examples": [
+    {
+      "do": {
+        "description": "Provide appropriate context in names",
+        "content": [
+          "Use longer names for longer scopes",
+          "Add contextual prefixes when clarifying relationships",
+          "Replace magic numbers with named constants",
+          "Group related constants in objects/enums",
+          "",
+          "Correct Examples (meaningful context):",
+          "- In large scope: userAccountEmailAddress",
+          "- In small scope: email (context is obvious)",
+          "- Named constant: MAX_RETRY_ATTEMPTS = 3 instead of 3",
+          "- Grouped: HttpStatus.OK, HttpStatus.NOT_FOUND",
+          "",
+          "Context Requirements:",
+          "- Scope size determines name length",
+          "- Constants explain magic numbers",
+          "- Related items grouped logically",
+          "- Context added when needed, not when obvious",
+          "- No gratuitous context (avoid redundancy)"
+        ]
+      },
+      "dont": {
+        "description": "Don't add gratuitous context or leave magic numbers unexplained",
+        "content": [
+          "Don't add gratuitous context that's obvious from structure",
+          "Don't use meaningless distinctions (data1, data2, dataInfo)",
+          "Don't leave magic numbers unexplained",
+          "",
+          "Wrong Examples (poor context):",
+          "- accountUserEmailAddress (redundant 'account' if already in Account class)",
+          "- data1, data2, dataInfo (meaningless distinctions)",
+          "- if (status === 200) (what is 200?)",
+          "- for (let i = 0; i < 86400; i++) (what is 86400?)",
+          "",
+          "Context Problems (REFACTOR):",
+          "- Redundant prefixes (AccountAccountNumber in Account class)",
+          "- Meaningless suffixes (Info, Data, Object, Thing)",
+          "- Numbered variables (user1, user2, user3)",
+          "- Magic numbers without names (3, 100, 86400)",
+          "- Magic strings without names ('active', 'pending')",
+          "",
+          "Instead use:",
+          "- Remove redundant context from class members",
+          "- Replace data1/data2 with meaningful names",
+          "- const HTTP_OK = 200; const HTTP_NOT_FOUND = 404;",
+          "- const SECONDS_PER_DAY = 86400;",
+          "- enum Status { ACTIVE = 'active', PENDING = 'pending' }"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.meaningful_context_scanner.MeaningfulContextScanner"
+}

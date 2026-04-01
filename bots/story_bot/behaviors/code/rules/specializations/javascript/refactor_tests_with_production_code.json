@@ -1,0 +1,189 @@
+{
+  "language": "javascript",
+  "description": "CRITICAL: When refactoring JavaScript production code, update tests immediately using Jest/Mocha patterns. Tests should verify behavior, not implementation details.",
+  "examples": [
+    {
+      "do": {
+        "description": "Update JavaScript tests in parallel with production refactoring",
+        "content": [
+          "Update tests as you refactor production code",
+          "Use beforeEach/afterEach for common test setup",
+          "Create test helpers for repeated verification logic",
+          "Extract test utilities to __tests__/helpers/",
+          "Keep builds green throughout refactoring",
+          "",
+          "Correct Examples (JavaScript test refactoring):",
+          "",
+          "// BEFORE: Duplicated test setup in each test file",
+          "// action1.test.js",
+          "describe('Action1', () => {",
+          "  it('tracks start', () => {",
+          "    const workspace = createTempDir();",
+          "    const logDir = path.join(workspace, 'project_area');",
+          "    fs.mkdirSync(logDir, { recursive: true });",
+          "    const action = new Action('test_bot', 'behavior', workspace);",
+          "    action.trackActivityOnStart();",
+          "    // assert logic...",
+          "  });",
+          "});",
+          "",
+          "// AFTER: Extract to test helpers",
+          "// __tests__/helpers/testHelpers.js",
+          "export function createWorkspaceRoot() {",
+          "  const workspace = createTempDir();",
+          "  const logDir = path.join(workspace, 'project_area');",
+          "  fs.mkdirSync(logDir, { recursive: true });",
+          "  return workspace;",
+          "}",
+          "",
+          "export function verifyActionTracksStart(workspace, ActionClass, actionName, behavior = 'discovery') {",
+          "  const action = new ActionClass('test_bot', behavior, workspace);",
+          "  action.trackActivityOnStart();",
+          "  const logData = readActivityLog(workspace, 'test_bot');",
+          "  expect(logData.some(e => e.action_state === `test_bot.${behavior}.${actionName}`)).toBe(true);",
+          "}",
+          "",
+          "// action1.test.js",
+          "import { createWorkspaceRoot, verifyActionTracksStart } from './__tests__/helpers/testHelpers';",
+          "",
+          "describe('Action1', () => {",
+          "  let workspace;",
+          "  ",
+          "  beforeEach(() => {",
+          "    workspace = createWorkspaceRoot();",
+          "  });",
+          "  ",
+          "  it('tracks start', () => {",
+          "    verifyActionTracksStart(workspace, Action1, 'action1');",
+          "  });",
+          "});",
+          "",
+          "JavaScript-Specific Test Patterns:",
+          "- Use describe/it blocks for test organization",
+          "- Use beforeEach/afterEach for setup/teardown",
+          "- Create __tests__/helpers/ for test utilities",
+          "- Use jest.mock() or sinon for mocking",
+          "- Use expect() assertions from Jest/Chai",
+          "",
+          "Refactoring BaseAction example:",
+          "// 1. Create BaseAction in production",
+          "// src/BaseAction.js",
+          "export class BaseAction {",
+          "  constructor(botName, behavior, workspaceRoot, actionName) {",
+          "    this.botName = botName;",
+          "    this.behavior = behavior;",
+          "    this.workspaceRoot = workspaceRoot;",
+          "    this.actionName = actionName;",
+          "  }",
+          "}",
+          "",
+          "// 2. Update action classes to extend",
+          "// src/GatherContextAction.js",
+          "import { BaseAction } from './BaseAction';",
+          "",
+          "export class GatherContextAction extends BaseAction {",
+          "  constructor(botName, behavior, workspaceRoot) {",
+          "    super(botName, behavior, workspaceRoot, 'gather_context');",
+          "  }",
+          "}",
+          "",
+          "// 3. Update tests immediately",
+          "// __tests__/GatherContextAction.test.js",
+          "import { GatherContextAction } from '../src/GatherContextAction';",
+          "",
+          "describe('GatherContextAction', () => {",
+          "  it('initializes correctly', () => {",
+          "    const action = new GatherContextAction('test_bot', 'discovery', '/tmp/workspace');",
+          "    expect(action.actionName).toBe('gather_context');",
+          "    // Test still works with new inheritance!",
+          "  });",
+          "});"
+        ]
+      },
+      "dont": {
+        "description": "Don't let JavaScript tests break during refactoring",
+        "content": [
+          "Don't refactor production without updating imports",
+          "Don't leave broken tests 'to fix later'",
+          "Don't duplicate test setup code across files",
+          "Don't make tests depend on private methods",
+          "",
+          "Wrong Examples (broken during refactoring):",
+          "",
+          "// BAD: Move file but don't update imports",
+          "// Production: moved src/actions/GatherContext.js → src/bot/GatherContextAction.js",
+          "// Test: Still has old import",
+          "import { GatherContextAction } from '../actions/GatherContext';  // Module not found!",
+          "",
+          "// BAD: Create BaseAction but tests still expect old structure",
+          "// Production: All actions now extend BaseAction",
+          "// Test: Still testing old constructor",
+          "it('old constructor', () => {",
+          "  const action = new GatherContextAction('bot', 'behavior', workspace);",
+          "  expect(action.tracker).toBeDefined();  // Fails because BaseAction changed!",
+          "});",
+          "",
+          "// BAD: Duplicate test setup instead of beforeEach",
+          "// action1.test.js",
+          "it('test 1', () => {",
+          "  const workspace = createTempDir();",
+          "  const logDir = path.join(workspace, 'project_area');",
+          "  fs.mkdirSync(logDir, { recursive: true });",
+          "  // ... 10 lines of setup",
+          "});",
+          "",
+          "it('test 2', () => {",
+          "  const workspace = createTempDir();",
+          "  const logDir = path.join(workspace, 'project_area');",
+          "  fs.mkdirSync(logDir, { recursive: true });",
+          "  // ... SAME 10 lines of setup",
+          "});",
+          "",
+          "JavaScript Test Breakage Indicators (FIX IMMEDIATELY):",
+          "- 'Cannot find module' errors after moving files",
+          "- 'undefined is not a function' after refactoring",
+          "- Tests checking private methods (_methodName)",
+          "- Duplicate setup code in multiple it() blocks",
+          "- Tests that break when changing internal implementation",
+          "",
+          "Refactoring Strategy for JavaScript:",
+          "1. Run tests before starting: npm test",
+          "2. Make small production change (e.g., create BaseAction)",
+          "3. Update imports in tests immediately",
+          "4. Update test instantiation if needed",
+          "5. Run tests again: npm test (should pass!)",
+          "6. Extract duplicate test code to beforeEach/helpers",
+          "7. Create __tests__/helpers/ for shared utilities",
+          "8. Use test helper functions for verification"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,69 @@
+{
+    "priority":  5,
+    "description":  "When production code breaks, follow test-first workflow: write failing test, verify failure, fix code, verify success. Never fix bugs without a failing test first. Example: test_mcp_tool_initializes_bot() fails -\u003e fix initialization -\u003e test passes",
+    "do":  {
+               "description":  "Follow RED-GREEN-PRODUCTION workflow. Example: Write test reproducing bug -\u003e Run test (RED) -\u003e Fix minimal code -\u003e Run test (GREEN) -\u003e Run full suite",
+               "guidance":  [
+                                {
+                                    "description":  "Write test that reproduces the bug before fixing",
+                                    "example":  [
+                                                    "def test_mcp_tool_initializes_bot_before_invocation():",
+                                                    "    # Reproduces: \u0027Bot not initialized\u0027 error",
+                                                    "    server = MCPServer(); tool = server.get_tool(); result = tool.invoke()",
+                                                    "    assert result.success"
+                                                ]
+                                },
+                                {
+                                    "description":  "Verify test fails before fixing (RED)",
+                                    "example":  [
+                                                    "# Run: pytest test_mcp_tool.py",
+                                                    "# Expected: FAILED - AttributeError: Bot not initialized",
+                                                    "# This proves we can reproduce the bug"
+                                                ]
+                                },
+                                {
+                                    "description":  "Make minimal fix to pass the test (GREEN)",
+                                    "example":  [
+                                                    "# Fix: Add self._bot = Bot() in MCPServer.__init__",
+                                                    "# Run: pytest test_mcp_tool.py",
+                                                    "# Expected: PASSED"
+                                                ]
+                                },
+                                {
+                                    "description":  "Run full test suite to check for regressions",
+                                    "example":  [
+                                                    "# Run: pytest tests/",
+                                                    "# All tests pass -\u003e Safe to deploy"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t fix bugs directly without failing test first. Example: Editing production code without test -\u003e deploying -\u003e hoping it works (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t fix code before writing a failing test",
+                                      "example":  [
+                                                      "# WRONG: Jump straight to fixing",
+                                                      "# Edit mcp_server.py without test",
+                                                      "# Deploy and hope for the best"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t skip the RED step - verify test actually fails",
+                                      "example":  [
+                                                      "# WRONG: Write test that passes immediately",
+                                                      "def test_something(): assert True  # This proves nothing!"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t make large changes - fix should be minimal",
+                                      "example":  [
+                                                      "# WRONG: Refactor entire class while fixing one bug",
+                                                      "# This introduces risk of new bugs"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.bug_fix_test_first_scanner.BugFixTestFirstScanner"
+}

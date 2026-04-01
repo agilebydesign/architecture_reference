@@ -1,0 +1,54 @@
+{
+  "description": "When should you use Scenario Outline vs individual Scenarios?",
+  "question": "Should this test case use Scenario Outline or individual Scenarios?",
+  "options": [
+    {
+      "id": "individual_scenarios",
+      "name": "Individual Scenarios",
+      "description": "Write separate scenarios when each case has distinct business meaning, different setup, or unique behavior that should be clearly documented.",
+      "when_to_use": "Cases represent different business rules, distinct Given contexts, or warrant separate documentation",
+      "example": [
+        "Scenario: Apply standard discount for loyalty members",
+        "  Given customer has membership:",
+        "    | tier   | since      |",
+        "    | Gold   | 2023-01-01 |",
+        "  When checkout completes",
+        "  Then discount applied:",
+        "    | percent | shipping |",
+        "    | 10%     | standard |",
+        "",
+        "Scenario: Apply premium discount for VIP members",
+        "  Given customer has membership:",
+        "    | tier     | since      |",
+        "    | Platinum | 2020-06-15 |",
+        "  When checkout completes",
+        "  Then discount applied:",
+        "    | percent | shipping |",
+        "    | 20%     | free     |"
+      ]
+    },
+    {
+      "id": "scenario_outline",
+      "name": "Scenario Outline with Examples",
+      "description": "Use Scenario Outline when testing the same behavior with different data values. The logic is identical, only the inputs/outputs vary.",
+      "when_to_use": "Same behavior, different data values, testing boundaries, parameterized validation",
+      "example": [
+        "Scenario Outline: Calculate shipping based on weight",
+        "  Given package details:",
+        "    | weight   | destination |",
+        "    | <weight> | <zone>      |",
+        "  When shipping calculated",
+        "  Then shipping result:",
+        "    | cost   | delivery |",
+        "    | <cost> | <days>   |",
+        "",
+        "Examples:",
+        "  | weight | zone   | cost | days |",
+        "  | 1 kg   | local  | $5   | 2    |",
+        "  | 5 kg   | local  | $12  | 2    |",
+        "  | 1 kg   | remote | $15  | 5    |",
+        "  | 5 kg   | remote | $25  | 5    |"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "description": "CRITICAL: Make dependencies visible through constructor injection. Pass dependencies through constructors, make all dependencies explicit and visible, and use dependency injection for flexibility.",
+  "examples": [
+    {
+      "do": {
+        "description": "Make dependencies explicit and inject them",
+        "content": [
+          "Pass dependencies through constructors",
+          "Make all dependencies explicit and visible",
+          "Use dependency injection for flexibility and testability",
+          "Dependencies visible in constructor signature",
+          "",
+          "Correct Examples (explicit dependencies):",
+          "class OrderService {",
+          "  constructor(",
+          "    private repository: OrderRepository,",
+          "    private emailService: EmailService,",
+          "    private logger: Logger",
+          "  ) {}",
+          "  ",
+          "  processOrder(order) {",
+          "    this.repository.save(order);",
+          "    this.emailService.sendConfirmation(order);",
+          "  }",
+          "}",
+          "",
+          "Explicit Dependency Benefits:",
+          "- Clear what class needs to function",
+          "- Easy to test (inject mocks)",
+          "- No hidden global dependencies",
+          "- Flexible (can swap implementations)",
+          "- Dependencies visible in constructor"
+        ]
+      },
+      "dont": {
+        "description": "Don't use hidden global state or create dependencies inside classes",
+        "content": [
+          "Don't use hidden global state",
+          "Don't create dependencies inside classes (new Database())",
+          "Don't access singletons directly",
+          "",
+          "Wrong Examples (hidden dependencies):",
+          "class OrderService {",
+          "  processOrder(order) {",
+          "    Database.save(order);           // hidden singleton dependency",
+          "    EmailService.send(order);       // hidden singleton dependency",
+          "    globalLogger.log('processed');  // hidden global dependency",
+          "  }",
+          "}",
+          "",
+          "Hidden Dependency Indicators (REFACTOR):",
+          "- Using global variables/singletons directly",
+          "- Creating dependencies with 'new' inside class",
+          "- Importing modules for side effects",
+          "- Static method calls to external services",
+          "- No constructor parameters despite external dependencies",
+          "",
+          "Refactoring to Explicit Dependencies:",
+          "- Move all 'new' calls out of class",
+          "- Pass dependencies through constructor",
+          "- Replace singleton access with injected interface",
+          "- Make every external dependency a constructor parameter",
+          "- Use dependency injection container for wiring"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.explicit_dependencies_scanner.ExplicitDependenciesScanner"
+}

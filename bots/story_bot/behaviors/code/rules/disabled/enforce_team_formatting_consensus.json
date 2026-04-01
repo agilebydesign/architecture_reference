@@ -1,0 +1,107 @@
+{
+  "description": "Formatting should be consistent and automated. Agree on formatting rules as a team, use automated formatters (prettier, black, gofmt), and enforce formatting in CI/CD pipeline.",
+  "examples": [
+    {
+      "do": {
+        "description": "Use automated, consistent formatting",
+        "content": [
+          "Agree on formatting rules as a team",
+          "Use automated formatters (prettier, black, gofmt, rustfmt)",
+          "Enforce formatting in CI/CD pipeline",
+          "Configure formatter in project (no manual formatting)",
+          "",
+          "Correct Examples (automated formatting):",
+          "- Add .prettierrc config file to project",
+          "- Run 'npm run format' before commit",
+          "- CI/CD fails if code not formatted",
+          "- Use editor integration (format on save)",
+          "",
+          "Formatting Best Practices:",
+          "- Team agrees on style guide once",
+          "- Automated formatter enforces consistently",
+          "- No manual formatting decisions",
+          "- No formatting debates in code reviews",
+          "- Style is consistent across entire codebase"
+        ]
+      },
+      "dont": {
+        "description": "Don't have formatting wars or manual formatting",
+        "content": [
+          "Don't have 'formatting wars' in code reviews",
+          "Don't let individual preferences override team standards",
+          "Don't format code manually",
+          "",
+          "Wrong Examples (inconsistent formatting):",
+          "- Different files use different indentation",
+          "- Code reviews debating brace placement",
+          "- Manual formatting changes in every commit",
+          "- No formatter configured in project",
+          "",
+          "Formatting Problems (FIX):",
+          "- Inconsistent styles across codebase",
+          "- Code review comments about formatting",
+          "- Manual formatting taking time",
+          "- Formatting not enforced automatically",
+          "",
+          "Solution:",
+          "- Choose formatter for your language",
+          "- Add config file to project",
+          "- Configure editor to format on save",
+          "- Add pre-commit hook or CI check",
+          "- Never debate formatting again"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

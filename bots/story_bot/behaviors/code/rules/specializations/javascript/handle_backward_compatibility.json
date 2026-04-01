@@ -1,0 +1,207 @@
+{
+  "language": "javascript",
+  "description": "When refactoring JavaScript public interfaces, provide migration paths using getters/setters, console.warn(), and alias methods to avoid breaking existing code.",
+  "examples": [
+    {
+      "do": {
+        "description": "Provide backward compatibility in JavaScript refactoring",
+        "content": [
+          "Use getters/setters for renamed properties",
+          "Use console.warn() for deprecation notices",
+          "Provide alias functions/methods during migration",
+          "Document migration in JSDoc comments",
+          "Follow semantic versioning for breaking changes",
+          "",
+          "Correct Examples (JavaScript backward compatibility):",
+          "",
+          "// Example 1: Renaming property with getter/setter",
+          "class Bot {",
+          "  constructor(botName) {",
+          "    this.name = botName;  // New property name",
+          "  }",
+          "  ",
+          "  // Old name as getter/setter",
+          "  get botName() {",
+          "    console.warn('botName is deprecated, use name instead');",
+          "    return this.name;",
+          "  }",
+          "  ",
+          "  set botName(value) {",
+          "    console.warn('botName is deprecated, use name instead');",
+          "    this.name = value;",
+          "  }",
+          "}",
+          "",
+          "// Example 2: Renaming method with alias",
+          "class UserService {",
+          "  /**",
+          "   * Get user data by ID (new method name)",
+          "   * @param {string} userId",
+          "   * @returns {Promise<Object>}",
+          "   */",
+          "  getUserData(userId) {",
+          "    return this._fetchUser(userId);",
+          "  }",
+          "  ",
+          "  /**",
+          "   * @deprecated Use getUserData() instead. Will be removed in v3.0.0",
+          "   * @param {string} userId",
+          "   * @returns {Promise<Object>}",
+          "   */",
+          "  getUserData_old(userId) {",
+          "    console.warn('getUserData_old is deprecated, use getUserData instead');",
+          "    return this.getUserData(userId);",
+          "  }",
+          "}",
+          "",
+          "// Example 3: Module reorganization with backward compatibility",
+          "// Old location: src/actions/GatherContext.js",
+          "// New location: src/bot/GatherContextAction.js",
+          "",
+          "// Keep old module with deprecation:",
+          "// src/actions/GatherContext.js",
+          "import { GatherContextAction } from '../bot/GatherContextAction.js';",
+          "",
+          "console.warn(",
+          "  'Importing from src/actions is deprecated, use src/bot instead'",
+          ");",
+          "",
+          "export { GatherContextAction };",
+          "export default GatherContextAction;",
+          "",
+          "// Example 4: Function signature change with backward compatibility",
+          "function processOrder(orderId, options = {}) {",
+          "  // New signature: second parameter is options object",
+          "  ",
+          "  // Backward compatibility: if second param is string, assume it's old userId",
+          "  if (typeof options === 'string') {",
+          "    console.warn('Passing userId as second parameter is deprecated. Use options.userId instead.');",
+          "    options = { userId: options };",
+          "  }",
+          "  ",
+          "  const { userId, priority = 'normal' } = options;",
+          "  // ... process order",
+          "}",
+          "",
+          "// Old code still works:",
+          "processOrder('order123', 'user456');  // Deprecated but functional",
+          "",
+          "// New code:",
+          "processOrder('order123', { userId: 'user456', priority: 'high' });",
+          "",
+          "JavaScript Compatibility Requirements:",
+          "- Use console.warn() for deprecation notices",
+          "- Use getters/setters for property renaming",
+          "- Keep old module with re-export",
+          "- Use @deprecated JSDoc tag",
+          "- Document in CHANGELOG.md",
+          "- Follow semver for versioning"
+        ]
+      },
+      "dont": {
+        "description": "Don't break JavaScript code without migration path",
+        "content": [
+          "Don't rename properties without getter/setter alias",
+          "Don't remove methods without deprecation period",
+          "Don't change signatures without backward compatibility",
+          "Don't move modules without old module stub",
+          "",
+          "Wrong Examples (breaks existing code):",
+          "",
+          "// BAD: Renamed property without getter",
+          "class Bot {",
+          "  constructor(botName) {",
+          "    this.name = botName;  // Old code using .botName breaks!",
+          "  }",
+          "}",
+          "",
+          "// BAD: Removed method without deprecation",
+          "class UserService {",
+          "  getUserData(userId) {  // Renamed from getUserData_old",
+          "    return this._fetchUser(userId);",
+          "  }",
+          "  // All code calling getUserData_old() breaks!",
+          "}",
+          "",
+          "// BAD: Changed signature without backward compatibility",
+          "function processOrder(orderId, userId, priority) {  // Added required params!",
+          "  // Old code calling processOrder(orderId) breaks!",
+          "}",
+          "",
+          "// BAD: Moved module without stub",
+          "// Deleted src/actions/GatherContext.js completely",
+          "// All imports break: import { GatherContext } from './actions/GatherContext';",
+          "",
+          "Breaking Change Indicators (ADD COMPATIBILITY):",
+          "- TypeError: Cannot read property 'botName' of undefined",
+          "- Error: Cannot find module './actions/GatherContext'",
+          "- TypeError: Missing required argument",
+          "- Tests failing after refactoring",
+          "",
+          "Migration Strategy for JavaScript:",
+          "1. Add new interface alongside old one",
+          "2. Add getter/setter for property aliases",
+          "3. Add console.warn() to old methods",
+          "4. Keep old module with re-exports",
+          "5. Update JSDoc with @deprecated tags",
+          "6. Update documentation with migration guide",
+          "7. Give deprecation period (e.g., 2-3 versions)",
+          "8. Remove in next major version (bump X.0.0)",
+          "",
+          "Example migration path:",
+          "// Version 1.0: Original",
+          "class Bot {",
+          "  constructor(botName) {",
+          "    this.botName = botName;",
+          "  }",
+          "}",
+          "",
+          "// Version 1.1: Add new name + compatibility",
+          "class Bot {",
+          "  constructor(botName) {",
+          "    this.name = botName;",
+          "  }",
+          "  get botName() {  // Deprecated but still works",
+          "    console.warn('Use .name instead');",
+          "    return this.name;",
+          "  }",
+          "}",
+          "",
+          "// Version 2.0: Remove old name",
+          "class Bot {",
+          "  constructor(name) {",
+          "    this.name = name;  // botName removed",
+          "  }",
+          "}"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

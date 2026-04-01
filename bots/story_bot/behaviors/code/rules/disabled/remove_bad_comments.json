@@ -1,0 +1,129 @@
+{
+  "description": "CRITICAL: Some comments actively harm readability. Delete commented-out code (it's in git), remove misleading or outdated comments, and eliminate redundant noise.",
+  "scanner": "scanners.code.python.bad_comments_scanner.BadCommentsScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Remove harmful comments",
+        "content": [
+          "Delete commented-out code (it's in git)",
+          "Remove misleading or outdated comments",
+          "Eliminate redundant noise",
+          "Keep codebase clean and current",
+          "",
+          "Correct Examples (clean code):",
+          "BEFORE:",
+          "// Old implementation",
+          "// function processOrder(order) {",
+          "//   return order.total * 0.9;",
+          "// }",
+          "",
+          "function processOrder(order) {",
+          "  return calculateOrderTotal(order);",
+          "}",
+          "",
+          "AFTER:",
+          "function processOrder(order) {",
+          "  return calculateOrderTotal(order);",
+          "}",
+          "(deleted commented code - it's in git history)",
+          "",
+          "Comment Cleanup Requirements:",
+          "- No commented-out code blocks",
+          "- No outdated/misleading comments",
+          "- No HTML markup in comments",
+          "- Comments match current code"
+        ]
+      },
+      "dont": {
+        "description": "Don't keep commented-out backup code or misleading comments",
+        "content": [
+          "Don't keep commented-out 'backup' code",
+          "Don't write misleading or contradictory comments",
+          "Don't use HTML markup in comments",
+          "",
+          "Wrong Examples (harmful comments):",
+          "// TODO: This needs to be implemented",
+          "function processOrder(order) {",
+          "  // ... full implementation exists ...",
+          "}",
+          "(misleading - it IS implemented)",
+          "",
+          "// Returns user by ID",
+          "function getUserByName(name) {...}",
+          "(contradictory - comment wrong)",
+          "",
+          "/**",
+          " * <p>Calculates total</p>",
+          " * <ul><li>Item 1</li></ul>",
+          " */",
+          "(HTML in comments)",
+          "",
+          "Harmful Comment Indicators (DELETE):",
+          "- Commented-out code blocks (// old code...)",
+          "- Outdated comments not matching code",
+          "- Misleading comments contradicting code",
+          "- HTML/XML markup in comments",
+          "- Commented-out imports/variables",
+          "",
+          "Action Required:",
+          "- Delete ALL commented-out code (use git to retrieve)",
+          "- Update or delete outdated comments",
+          "- Fix contradictory comments or delete them",
+          "- Remove HTML markup from comments"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+{
+    "priority":  16,
+    "description":  "Production code: make dependencies explicit through constructor injection. Pass all external dependencies as constructor parameters. No hidden global state. Tests easily inject test doubles. Example: Agent(config_loader=loader, domain_graph=graph)",
+    "do":  {
+               "description":  "Inject all dependencies through constructor. Example: def __init__(self, config_loader, domain_graph): self._loader = config_loader",
+               "guidance":  [
+                                {
+                                    "description":  "Inject dependencies through constructor",
+                                    "example":  [
+                                                    "class Agent:",
+                                                    "    def __init__(self, config_loader: ConfigLoader, domain_graph: DomainGraph):",
+                                                    "        self._config_loader = config_loader; self._domain_graph = domain_graph"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test easily injects test doubles",
+                                    "example":  [
+                                                    "mock_loader = Mock(spec=ConfigLoader)",
+                                                    "mock_loader.load.return_value = {\u0027name\u0027: \u0027bot\u0027}",
+                                                    "agent = Agent(config_loader=mock_loader, domain_graph=mock_graph)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Dependencies are explicit and visible",
+                                    "example":  [
+                                                    "# All dependencies visible in constructor signature",
+                                                    "Agent(name, workspace, config_loader, domain_graph, validator)"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t access globals, singletons, or create dependencies internally. Example: self._loader = ConfigLoader() (wrong - creates internally)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t access global state",
+                                      "example":  [
+                                                      "config = GlobalConfig.instance()  # WRONG - hidden global dependency"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use singletons",
+                                      "example":  [
+                                                      "loader = ConfigLoader.get_instance()  # WRONG - hidden singleton"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t create dependencies internally",
+                                      "example":  [
+                                                      "def __init__(self):",
+                                                      "    self._loader = ConfigLoader()  # WRONG - should be injected"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t import and instantiate inside methods",
+                                      "example":  [
+                                                      "def load(self):",
+                                                      "    from loader import Loader; loader = Loader()  # WRONG - inject via constructor"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.explicit_dependencies_scanner.ExplicitDependenciesScanner"
+}

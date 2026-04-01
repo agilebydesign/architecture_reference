@@ -1,0 +1,59 @@
+{
+    "priority":  21,
+    "description":  "Use exact variable names from specification scenarios. When spec mentions agent_name, workspace_root, config_path - use those exact names in tests and production code. Example: agent_name = \u0027story_bot\u0027 (from spec), not name = \u0027story_bot\u0027",
+    "do":  {
+               "description":  "Use exact names from specification in tests and production. Example: agent_name, workspace_root, config_path - all from spec",
+               "guidance":  [
+                                {
+                                    "description":  "Test variables match specification exactly",
+                                    "example":  [
+                                                    "# Spec says: agent_name=\u0027story_bot\u0027, workspace_root",
+                                                    "agent_name = \u0027story_bot\u0027",
+                                                    "agent = Agent(agent_name=agent_name, workspace_root=workspace_root)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Production code uses same names as specification",
+                                    "example":  [
+                                                    "class Agent:",
+                                                    "    def __init__(self, agent_name: str, workspace_root: Path):",
+                                                    "        self.agent_name = agent_name; self.workspace_root = workspace_root"
+                                                ]
+                                },
+                                {
+                                    "description":  "Consistent naming across test and production",
+                                    "example":  [
+                                                    "# Spec: load_domain_graph from domain_graph_path",
+                                                    "agent.load_domain_graph(domain_graph_path)",
+                                                    "assert agent.domain_graph is not None"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use different names than specification. Example: name = \u0027bot\u0027 when spec says agent_name (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use abbreviated variable names",
+                                      "example":  [
+                                                      "name = \u0027story_bot\u0027  # WRONG - spec says \u0027agent_name\u0027",
+                                                      "root = tmp_path  # WRONG - spec says \u0027workspace_root\u0027"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mix different terms for same concept",
+                                      "example":  [
+                                                      "graph_file = path  # WRONG - spec says \u0027domain_graph_path\u0027",
+                                                      "assert agent.graph  # WRONG - spec says \u0027domain_graph\u0027"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use vague parameter names",
+                                      "example":  [
+                                                      "def load(self, path):  # WRONG - spec says \u0027domain_graph_path\u0027"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.exact_variable_names_scanner.ExactVariableNamesScanner"
+}

@@ -1,0 +1,61 @@
+{
+  "description": "CRITICAL: Hide implementation details and expose minimal interface. Make fields private by default, expose behavior not data. NEVER pass raw dicts/lists that expose internal structure - use typed objects that encapsulate the data. Follow Law of Demeter (principle of least knowledge).",
+  "examples": [
+    {
+      "do": {
+        "description": "Hide implementation details behind clean interfaces",
+        "content": [
+          "Make fields private by default",
+          "Expose behavior through methods, not raw data",
+          "Follow Law of Demeter (principle of least knowledge)",
+          "Provide minimal public interface",
+          "",
+          "Correct Examples (proper encapsulation):",
+          "class Order {",
+          "  private items: Item[];",
+          "  ",
+          "  addItem(item: Item) { ... }         // behavior",
+          "  removeItem(itemId: string) { ... }  // behavior",
+          "  calculateTotal(): number { ... }    // behavior",
+          "}",
+          "",
+          "Encapsulation Requirements:",
+          "- Private fields, public methods",
+          "- Methods expose behavior, not data",
+          "- No direct access to internal state",
+          "- Law of Demeter: only talk to immediate friends",
+          "- object.doSomething() not object.getPart().getPart().doSomething()"
+        ]
+      },
+      "dont": {
+        "description": "Don't use getters/setters as glorified public fields",
+        "content": [
+          "Don't use getters/setters as glorified public fields",
+          "Don't return references to mutable internal state",
+          "Don't chain method calls through multiple objects",
+          "",
+          "Wrong Examples (poor encapsulation):",
+          "class Order {",
+          "  getItems() { return this.items; }  // exposing mutable state",
+          "  setItems(items) { this.items = items; } // public field disguised",
+          "}",
+          "- customer.getOrder().getItems().add(item) // Law of Demeter violation",
+          "",
+          "Poor Encapsulation Indicators (REFACTOR):",
+          "- Getters/setters for every field (just use public fields)",
+          "- Returning mutable collections/objects",
+          "- Method chaining through internal structure",
+          "- Clients manipulating object internals",
+          "",
+          "Refactoring to Better Encapsulation:",
+          "- Instead of getItems(), provide addItem(), removeItem()",
+          "- Instead of getTotal(), calculate internally when needed",
+          "- Instead of customer.getOrder().addItem(), use customer.addItemToOrder()",
+          "- Return defensive copies if must return collections",
+          "- Focus on BEHAVIOR not data access"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.property_encapsulation_scanner.PropertyEncapsulationScanner"
+}

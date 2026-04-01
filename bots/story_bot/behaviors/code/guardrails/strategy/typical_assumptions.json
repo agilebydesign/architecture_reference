@@ -1,0 +1,10 @@
+{
+  "typical_assumptions": [
+    "Code should use domain language - class names from domain entities, method names from domain responsibilities",
+    "All code must use ASCII-only characters (no Unicode)",
+    "Code should be clean and maintainable following SOLID principles",
+    "Production code implements what tests specify",
+    "Code should be organized in clear layers (domain, service, presentation, data access)",
+    "Use dependency injection for better testability"
+  ]
+}

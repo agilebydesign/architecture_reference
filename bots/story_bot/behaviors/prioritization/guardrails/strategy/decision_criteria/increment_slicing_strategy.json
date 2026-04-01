@@ -1,0 +1,12 @@
+{
+  "description": "Increment slicing strategy",
+  "question": "What approach are you taking to group the work into thin slices or increments of value, and how are you ensuring they are as small as possible while still being valuable and/or generating learning or reducing risk?",
+  "options": [
+    "Delivering End-to-End Journey - supports integrated validation across systems and users",
+    "Validating Impact - Feasibility - reduces uncertainty and derisks critical components early",
+    "Maximizing Earned Value - delivers early impact and builds stakeholder confidence",
+    "Increasing Reuse/Dependency - prevents downstream rework and enables reuse",
+    "Quick Win - implements lowest-complexity paths first",
+    "Validating Impact - validates whether users care, intend to use, or will act on the solution before investing in full delivery (e.g., Wizard of Oz, landing pages, stubs, or mafia offers)"
+  ]
+}

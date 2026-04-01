@@ -1,0 +1,10 @@
+{
+  "name": "render_story_scenarios",
+  "type": "synchronizer",
+  "path": "docs/story/scenarios",
+  "input": "story-graph.json",
+  "synchronizer": "synchronizers.story_scenarios.StoryScenariosSynchronizer",
+  "instructions": "Render story-graph.json to story markdown files with scenarios. Files are placed in epic/sub-epic folder structure."
+}
+
+

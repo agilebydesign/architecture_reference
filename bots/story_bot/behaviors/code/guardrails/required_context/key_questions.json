@@ -1,0 +1,12 @@
+{
+  "description": "Key questions that must be answered before this behavior can proceed",
+  "questions": [
+    "What test files exist that need production code?",
+    "What is the target file or module name and location for the production code?",
+    "What are the main classes, functions, or modules that need to be implemented?",
+    "What are the key domain objects or data structures involved?",
+    "What design patterns or architectural styles should be followed?",
+    "Are there any existing code patterns or conventions to follow?",
+    "What are the integration points with existing code or external systems?"
+  ]
+}

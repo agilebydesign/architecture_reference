@@ -1,0 +1,13 @@
+{
+  "description": "Flow scope and granularity",
+  "question": "How wide are we going with the flow and what level of scope are we documenting?",
+  "options": [
+    "End-to-end user-system behavior - One user interaction followed by one system response",
+    "Journey level - Complete user journey across multiple touchpoints, systems, and interactions. Captures full experience flow.",
+    "Intra-system level - Focus on interactions within a single system, Useful for Solutions with significant backend or service flows.",
+    "Business processes - All business processes, including manual and system interactions.",
+    "Integration boundary level - Focus on system-to-system integration points and data flow across boundaries.",
+    "Capability level - High-level flow showing major capabilities and how they connect, without detailed interactions."
+  ]
+}
+

@@ -1,0 +1,10 @@
+{
+  "description": "Increment value strategy",
+  "question": "What value are you optimizing for in this increment?",
+  "options": [
+    "End-to-End Journey - supports integrated validation across systems and users",
+    "Earned Value for Section - delivers complete value for a bounded capability or feature area",
+    "Quick Win - implements lowest-complexity paths first to build momentum",
+    "Stakeholder Validation - critical to getting feedback from stakeholders and sponsors on whether we have built a solution that meets their expectations, known or otherwise"
+  ]
+}

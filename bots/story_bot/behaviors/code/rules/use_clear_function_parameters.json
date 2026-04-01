@@ -1,0 +1,53 @@
+{
+  "description": "CRITICAL: Function signatures must be simple and intention-revealing. Prefer 0-2 parameters. NEVER pass Dict[str, Any] or List[str] for complex data - create typed objects instead. Examples: parameters dict → ParametersObject, files dict → FilesCollection, exclude list → ExcludePatterns.",
+  "examples": [
+    {
+      "do": {
+        "description": "Keep function parameters simple and clear",
+        "content": [
+          "Prefer 0-2 parameters; use objects for more complex needs",
+          "Use descriptive parameter names",
+          "Make function names encode parameter meaning",
+          "Group related parameters into objects",
+          "",
+          "Correct Examples (clear parameters):",
+          "- calculateTotal(items) instead of calculateTotal(item1, item2, item3)",
+          "- createUser({name, email, role}) instead of createUser(name, email, role, active, verified)",
+          "- sendEmail(message) where message contains all email data",
+          "",
+          "Parameter Best Practices:",
+          "- 0 parameters: Ideal (pure function or uses instance state)",
+          "- 1 parameter: Very good (single input, single output)",
+          "- 2 parameters: Acceptable (clear relationship)",
+          "- 3+ parameters: Use parameter object",
+          "- Return values instead of output parameters"
+        ]
+      },
+      "dont": {
+        "description": "Don't use boolean flags or excessive parameters",
+        "content": [
+          "Don't use boolean flags as parameters (create two functions instead)",
+          "Don't exceed 3 parameters without using a parameter object",
+          "Don't use output parameters (return values instead)",
+          "",
+          "Wrong Examples (poor parameters):",
+          "- process(data, true, false) → unclear what booleans mean",
+          "- createUser(name, email, role, active, verified, age, phone) → too many params",
+          "- calculate(input, result) where result is modified → use return value",
+          "",
+          "Parameter Problems (REFACTOR):",
+          "- Boolean flags indicating different behaviors → split into two functions",
+          "- More than 3 parameters → create parameter object",
+          "- Output parameters → return values or use immutable approach",
+          "- Unclear parameter order → use named parameters/object",
+          "",
+          "Instead of:",
+          "- process(data, true) → processAndValidate(data) and process(data)",
+          "- create(a, b, c, d, e) → create({a, b, c, d, e})",
+          "- modify(input, output) → return modifiedValue(input)"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.clear_parameters_scanner.ClearParametersScanner"
+}

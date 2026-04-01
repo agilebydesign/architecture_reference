@@ -1,0 +1,108 @@
+{
+  "behaviorName": "tests",
+  "order": 5,
+  "description": "Write test files (.py, .js, etc.) with executable test code from scenarios/examples that validate story behavior",
+  "goal": "Write automated test files that validate story behavior",
+  "inputs": "Scenarios from specification_scenarios or examples from specification_examples",
+  "outputs": "Test files (.py, .js, etc.) with executable test code",
+  "baseActionsPath": "base_actions",
+  "instructions": [
+    "**CRITICAL: STEP 0 - VERIFY TEST STRUCTURE (Priority 1 Rule)**",
+    "",
+    "BEFORE writing ANY test code, you MUST explicitly identify the correct file structure:",
+    "",
+    "1. Locate the story in story-graph.json",
+    "2. Trace UP the hierarchy to find the parent sub-epic (may be nested several levels)",
+    "3. State explicitly:",
+    "   - Story Path: [Epic] -> [Sub-Epic] -> [Sub-Epic] -> [Story]",
+    "   - Sub-Epic (for file name): [parent sub-epic name]",
+    "   - File: test/[domain|CLI|panel]/test_[sub_epic_snake_case].py",
+    "   - Class: Test[ExactStoryName]",
+    "   - Existing: [yes/no - if yes, add to existing file]",
+    "",
+    "Example:",
+    "- Story Path: Invoke Bot -> Invoke Bot Directly -> Manage Story Graph -> Edit Story Graph -> Create Child Story Node",
+    "- Sub-Epic (for file): Edit Story Graph",
+    "- File: test/domain/test_edit_story_graph.py",
+    "- Class: TestCreateChildStoryNode",
+    "- Existing: no",
+    "",
+    "COMMON MISTAKE: Naming file after the STORY instead of the SUB-EPIC. File name comes from parent sub-epic, NOT the story.",
+    "",
+    "**BEHAVIOR PURPOSE:**",
+    "This behavior WRITES TEST FILES. The primary output is executable test code files that validate story behavior.",
+    "Write test files (.py, .js, etc.) with executable test code from scenarios/examples that validate story behavior",
+    "The secondary output is to make sure that the story_graph.json scenarios, stories, and sub-epics have test fields added for the test methods, test classes, and test files respectively.",
+    "After creating test files, classes, and methods, you MUST map them to the story-graph.json:"
+  ],
+  "actions_workflow": {
+    "actions": [
+      {
+        "name": "clarify",
+        "order": 1,
+        "next_action": "strategy",
+        "instructions": []
+      },
+      {
+        "name": "strategy",
+        "order": 2,
+        "next_action": "build",
+        "instructions": []
+      },
+      {
+        "name": "build",
+        "order": 3,
+        "next_action": "validate",
+        "instructions": [
+          "write test files (.py, .js, etc.) with executable test code based on the scenarios you have made within the story-graph.json file",
+          "Each epic, sub_epic, story_group, and story has an optional notes field. Use notes in two situations: (1) Context below current level: When you find context that maps to something more detailed than what we're building (e.g., acceptance criteria when only shaping), put it in the notes field of the most locally specific node—do not discard it. (2) Explicit level cap: When the lowest level is specified (e.g., sub-epic only), if you want to capture detail that would go lower, put it in notes instead of creating child nodes. When adding notes, cite the source (what context it came from; include page number or paragraph if appropriate). When doing lower-level work (e.g., exploration, scenarios, tests), refer to the notes in the nodes—not just external context—as a primary source of detail.",
+          "After writing test files, update story-graph.json with further test_file, test_class, and test_method mapping changes you have made",
+          "| Field | Level | Format | Example |",
+          "|-------|-------|--------|---------|",
+          "| test_file | sub_epic | \"test/<domain|CLI|panel>/test_<sub_epic>.py\" | \"test/domain/test_edit_story_graph.py\" |",
+          "| test_class | story | \"Test<StoryName>\" | \"TestCreatesChildStoryNode\" |",
+          "| test_method | scenario | \"test_<scenario_name>\" | \"test_user_creates_child_under_epic\" |",
+          "",
+          "Hierarchy: epic → sub_epic(test_file) → story_group → story(test_class) → scenario(test_method)",
+          "",
+          "Rules:",
+          "- One test_file per sub_epic (all stories share it)",
+          "- One test_class per story (only if story has scenarios)",
+          "- One test_method per scenario",
+          "- Read story-graph.json first, preserve existing fields"
+        ]
+      },
+      
+      {
+        "name": "validate",
+        "order": 4,
+        "instructions": [
+          "specification_tests: validate test code and domain language usage",
+          "Validate that test code uses proper domain terminology (class names = domain entities, method names = domain responsibilities)",
+          "Validate that all test files, classes, and methods are properly mapped to story-graph.json"
+        ]
+      }
+    ]
+  },
+  "trigger_words": {
+    "description": "Behavior-level trigger words - specific to writing test files behavior",
+    "patterns": [
+      "write.*test.*files",
+      "write.*test.*code",
+      "write.*pytest.*tests",
+      "write.*test.*cases",
+      "generate.*test.*code",
+      "create.*test.*file",
+      "implement.*step.*definitions",
+      "generate.*acceptance.*tests",
+      "create.*bdd.*tests",
+      "generate.*test.*implementation",
+      "create.*test.*cases",
+      "implement.*feature.*tests",
+      "specification.*tests",
+      "test.*code.*generation",
+      "bdd.*test.*code",
+      "write.*tests"
+    ]
+  }
+}

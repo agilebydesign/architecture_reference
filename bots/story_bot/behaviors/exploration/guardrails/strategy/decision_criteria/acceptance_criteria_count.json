@@ -1,0 +1,14 @@
+{
+  "description": "Acceptance criteria count",
+  "question": "What is the right amount of acceptance criteria for each story? How do we know when a story has the right number of acceptance criteria?",
+  "outcome": "Guides when to split or merge stories based on acceptance criteria count",
+  "options": [
+    "Stop when criteria capture a full back-and-forth (user-system-user). Ensures atomic and testable slices.",
+    "Stop when each user goal or intent is covered. Emphasizes outcome-focused criteria.",
+    "Ensure each criteria can be validated independently. Supports automated testability.",
+    "Keep criteria grouped by domain rule or concept. Useful for business-heavy stories.",
+    "Constrained to a certain reasonable number of acceptance criteria (e.g., under 9). Split story if exceeds threshold.",
+    "Split story when acceptance criteria indicate multiple distinct user goals or system capabilities",
+    "Merge stories when acceptance criteria are too granular and represent sub-tasks rather than user value"
+  ]
+}

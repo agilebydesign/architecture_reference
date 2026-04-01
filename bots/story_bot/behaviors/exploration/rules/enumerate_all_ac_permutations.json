@@ -1,0 +1,57 @@
+{
+    "priority":  6,
+    "description":  "Enumerate ALL acceptance criteria permutations. Apply exhaustive logic decomposition at AC level. Example: Valid input AC, Invalid input AC, Boundary AC, Error AC - cover all paths.",
+    "do":  {
+               "description":  "List all validation paths and calculation branches. Example: When valid rank â†’ calculates modifier; When invalid rank â†’ shows error; When boundary rank â†’ handles edge case",
+               "guidance":  [
+                                {
+                                    "description":  "Cover all validation paths explicitly",
+                                    "example":  [
+                                                    "When user enters STR rank â†’ system validates (1-20 range)",
+                                                    "When user enters invalid rank â†’ system shows error",
+                                                    "When user enters valid rank â†’ system calculates modifier"
+                                                ]
+                                },
+                                {
+                                    "description":  "Include happy path, error path, and edge cases",
+                                    "example":  [
+                                                    "Happy: User submits valid form â†’ success",
+                                                    "Error: User submits empty form â†’ validation error",
+                                                    "Edge: User submits at boundary â†’ handles correctly"
+                                                ]
+                                },
+                                {
+                                    "description":  "Cover all calculation branches",
+                                    "example":  [
+                                                    "When rank is 10 â†’ modifier is 0",
+                                                    "When rank is 20 â†’ modifier is +5",
+                                                    "When rank is 1 â†’ modifier is -5"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t skip AC permutations. Example: Only \u0027When user enters rank â†’ system saves\u0027 (missing validation and calculation ACs)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t skip validation paths",
+                                      "example":  [
+                                                      "Only \u0027When user enters rank â†’ system saves\u0027 - MISSING: validation error AC, boundary AC"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t assume happy path only",
+                                      "example":  [
+                                                      "Only success AC without error handling - MISSING: what happens when validation fails?"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t skip edge cases",
+                                      "example":  [
+                                                      "Valid and invalid covered but no boundary conditions - MISSING: what happens at limits?"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.enumerate_ac_permutations_scanner.EnumerateACPermutationsScanner"
+}

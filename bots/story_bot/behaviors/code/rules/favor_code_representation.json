@@ -1,0 +1,54 @@
+{
+  "description": "CRITICAL: Code should represent domain concepts directly. Domain models should match code. If code doesn't match domain concepts, refactor the code rather than creating abstract domain models.",
+  "scanner": "scanners.code_representation_scanner.CodeRepresentationScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Code should represent domain concepts directly",
+        "content": [
+          "Code should match domain model",
+          "Classes should represent domain concepts",
+          "If code doesn't match domain, refactor the code",
+          "",
+          "Correct Examples (code-aligned with domain):",
+          "class PortfolioAnalysis:",
+          "    def __init__(self, portfolio: Portfolio):",
+          "        self.portfolio = portfolio",
+          "",
+          "    def analyze_portfolio(self) -> AnalysisReport:",
+          "        # Code matches domain model",
+          "        return AnalysisReport(self)",
+          "",
+          "class AnalysisReport:",
+          "    def __init__(self, analysis: PortfolioAnalysis):",
+          "        self.analysis = analysis",
+          "",
+          "    @property",
+          "    def recommendations(self) -> Recommendations:",
+          "        # Property matches domain model",
+          "        return self._generate_recommendations()"
+        ]
+      },
+      "dont": {
+        "description": "Don't create abstract code that doesn't match domain",
+        "content": [
+          "Don't create classes that don't represent domain concepts",
+          "Don't separate code from domain model",
+          "",
+          "Wrong Examples (abstract code):",
+          "class PortfolioAnalysis:",
+          "    # Domain model says 'Analyze portfolio' but code doesn't exist",
+          "    # This is abstract code, not representing actual domain",
+          "    pass",
+          "",
+          "Abstract Code Indicators (REFACTOR):",
+          "- Classes that don't exist in domain model",
+          "- Methods that are abstract concepts without domain representation",
+          "- Code that describes ideal state rather than actual domain"
+        ]
+      }
+    }
+  ]
+}
+
+

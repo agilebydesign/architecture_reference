@@ -1,0 +1,7 @@
+{
+  "typical_assumptions": [
+    "Focus on user flow over internal systems",
+    "Cover the end-to-end scenario from user perspective",
+    "Prioritize customer-facing features in early increments"
+  ]
+}

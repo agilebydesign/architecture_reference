@@ -1,0 +1,335 @@
+{
+    "priority": 2,
+    "description": "Example tables MUST be grounded in scenario steps AND use domain-rich language. Table columns = nouns from Given/When/Then steps. Use domain terminology, not UI elements. Omit ID columns used purely for linking tables - relationships are expressed via collaboration field and table ordering. Concrete values with domain context, not generic JSON or placeholders. Use source entity data, not aggregated/calculated values - this is the stage where you figure out the real examples.",
+    "do": {
+        "description": "Ground tables in scenario nouns, use domain terminology, connect tables using domain responsibility sentences. Omit implementation IDs. Show source entities, not derived counts.",
+        "guidance": [
+            {
+                "description": "Omit ID columns - they are implementation concerns. Table relationships are expressed via collaboration field and ordering.",
+                "example": [
+                    "WRONG - IDs clutter the scenario with implementation details:",
+                    "| enterprise_id | recipient_id | recipient_name | recipient_status |",
+                    "| ENT-001       | RCP-001      | Global Supply  | Active           |",
+                    "",
+                    "CORRECT - Domain attributes only, relationships via collaboration:",
+                    "Enterprise:",
+                    "| enterprise_name | wire_service_enabled |",
+                    "| Acme Corp       | Yes                  |",
+                    "",
+                    "Recipient (creates()):",
+                    "| recipient_name  | recipient_status |",
+                    "| Global Supply   | Active           |",
+                    "| Tech Partners   | Active           |",
+                    "",
+                    "(Table order + collaboration field shows Enterprise creates Recipients)"
+                ]
+            },
+            {
+                "description": "Example tables use concept name with collaboration sentences from domain responsibilities",
+                "example": [
+                    "Scenario: User selects recipient for wire payment",
+                    "  Given an Enterprise with multiple Recipients",
+                    "  And each Recipient has an Account at a BeneficiaryBank",
+                    "  When the User selects a Recipient",
+                    "  Then the Recipient details are displayed",
+                    "",
+                    "NOUNS IN SCENARIO: Enterprise, Recipients, Account, BeneficiaryBank, User",
+                    "",
+                    "DOMAIN MODEL RESPONSIBILITIES:",
+                    "  Recipient: 'holds beneficiary name and bank details' -> collaborators: [BeneficiaryBank]",
+                    "  Enterprise: 'creates()' -> collaborators: [Recipient]",
+                    "",
+                    "EXAMPLE TABLES (name = concept, collaboration = responsibility sentence):",
+                    "",
+                    "Enterprise (collaboration: null - root concept):",
+                    "| enterprise_id | name           |",
+                    "| ENT-001       | Acme Corp      |",
+                    "",
+                    "Recipient (collaboration: 'creates()' from Enterprise):",
+                    "| enterprise_id | recipient_id | recipient_name    | recipient_status |",
+                    "| ENT-001       | RCP-001      | Global Supplies   | active           |",
+                    "| ENT-001       | RCP-002      | Tech Partners Inc | active           |",
+                    "",
+                    "BeneficiaryBank (collaboration: 'holds beneficiary name and bank details'):",
+                    "| recipient_id | account_number | account_masked | beneficiarybank_name |",
+                    "| RCP-001      | 1234567890     | ****7890       | First National Bank  |",
+                    "| RCP-002      | 9876543210     | ****3210       | Commerce Bank        |"
+                ]
+            },
+            {
+                "description": "Example table name is the concept name, collaboration field stores the connecting responsibility",
+                "example": [
+                    "Scenario mentions BOTH Enterprise AND Account:",
+                    "  Given an Enterprise with Accounts",
+                    "  When viewing Account transactions...",
+                    "",
+                    "DOMAIN MODEL:",
+                    "  Account: 'owned by enterprise' -> collaborators: [Enterprise]",
+                    "",
+                    "JSON STRUCTURE:",
+                    "{",
+                    "  'name': 'Enterprise',",
+                    "  'columns': ['enterprise_id', 'name'],",
+                    "  'rows': [['ENT-001', 'Acme Corp']]",
+                    "},",
+                    "{",
+                    "  'name': 'Account',",
+                    "  'collaboration': 'owned by enterprise',",
+                    "  'columns': ['enterprise_id', 'account_id', 'account_number', 'balance'],",
+                    "  'rows': [['ENT-001', 'ACC-001', '4532-8821', '25,000.00'], ...]",
+                    "}",
+                    "",
+                    "RENDERED OUTPUT:",
+                    "Enterprise:",
+                    "| enterprise_id | name      |",
+                    "| ENT-001       | Acme Corp |",
+                    "",
+                    "Account (owned by enterprise):",
+                    "| enterprise_id | account_id | account_number | balance    |",
+                    "| ENT-001       | ACC-001    | 4532-8821      | 25,000.00  |"
+                ]
+            },
+            {
+                "description": "Use domain terminology for column names",
+                "example": [
+                    "DOMAIN MODEL:",
+                    "  Recipient (recipient_id, name, status)",
+                    "  Account (account_number, masked_number)",
+                    "  BeneficiaryBank (bank_name, routing_number)",
+                    "",
+                    "Recipient:",
+                    "| recipient_id | recipient_name | recipient_status |",
+                    "| RCP-001      | Global Supply  | active           |",
+                    "",
+                    "with Account:",
+                    "| recipient_id | account_number | account_masked |",
+                    "| RCP-001      | 1234567890     | ****7890       |",
+                    "",
+                    "at BeneficiaryBank:",
+                    "| account_number | beneficiarybank_name | beneficiarybank_routing |",
+                    "| 1234567890     | First National Bank  | 021000021               |"
+                ]
+            },
+            {
+                "description": "Use source entity data, not aggregated or calculated values. Show the actual records that produce the outcome, not counts or sums derived from them.",
+                "example": [
+                    "Scenario: Report roundtrips through JSON",
+                    "",
+                    "WRONG - aggregated/calculated values defer real work to implementation:",
+                    "UpdateReport:",
+                    "| renames_count | new_count | removed_count |",
+                    "| 1             | 2         | 1             |",
+                    "(Where do these numbers come from? What was renamed? What was added?)",
+                    "",
+                    "CORRECT - source entity data that produces the report:",
+                    "UpdateReport (renames):",
+                    "| original_name          | new_name               | parent         |",
+                    "| Correspondent Banking  | Nostro Reconciliation  | Wire Transfers |",
+                    "",
+                    "UpdateReport (new sub-epics):",
+                    "| name                    | parent         |",
+                    "| FX Conversion           | Wire Transfers |",
+                    "| Cross-Border Settlement | Wire Transfers |",
+                    "",
+                    "UpdateReport (removed sub-epics):",
+                    "| name           | parent         |",
+                    "| Domestic Wires | Wire Transfers |",
+                    "",
+                    "(Now you know exactly what the report contains - the counts are just len() of these)"
+                ]
+            },
+            {
+                "description": "Describe actual problems in domain terms with concrete values",
+                "example": [
+                    "'Payment with amount -50.00' (negative amount violates validation rule)",
+                    "'Credit card 4111-1111-1111-1111 expiry 01/2020' (expired card)",
+                    "",
+                    "rule_name='validate_positive_amount', line_number=2,",
+                    "violation_message='Payment amount must be positive'"
+                ]
+            },
+            {
+                "description": "Show complete expected structures with real values",
+                "example": [
+                    "{\"violations\": [{\"rule_name\": \"validate_positive_amount\", \"line_number\": 2, \"severity\": \"error\"}]}",
+                    "",
+                    "NOT: {\"violations\": [...]} (placeholder)"
+                ]
+            },
+            {
+                "description": "Connect parent-child using domain responsibility as collaboration field",
+                "example": [
+                    "Example 1: Premium customer with 2 accounts",
+                    "",
+                    "DOMAIN MODEL:",
+                    "  Customer: 'has accounts' -> collaborators: [Account]",
+                    "",
+                    "JSON STRUCTURE:",
+                    "[",
+                    "  { 'name': 'Customer', 'columns': [...], 'rows': [...] },",
+                    "  { 'name': 'Account', 'collaboration': 'has accounts', 'columns': [...], 'rows': [...] }",
+                    "]",
+                    "",
+                    "RENDERED OUTPUT:",
+                    "Customer:",
+                    "| customer_id | name       | segment |",
+                    "| CUST-001    | Jane Smith | Premium |",
+                    "",
+                    "Account (has accounts):",
+                    "| customer_id | account_number | product  | balance   |",
+                    "| CUST-001    | ACC-1001       | Checking | 2,500.00  |",
+                    "| CUST-001    | ACC-1002       | Savings  | 15,000.00 |",
+                    "",
+                    "(Name is concept name, collaboration is the responsibility sentence connecting to parent)"
+                ]
+            }
+        ]
+    },
+    "dont": {
+        "description": "Don't use UI elements, flat lookup tables, generic JSON, abstract descriptions, invented terminology, or aggregated/calculated values.",
+        "guidance": [
+            {
+                "description": "Don't use aggregated or calculated values if THIS scenario is responsible for producing them. If you are computing the result, show the source entities that produce it. You cannot skip the work of figuring out the real examples and just assert the output.",
+                "example": [
+                    "WRONG - this scenario generates the report, but only shows output counts:",
+                    "  Scenario: Report detects sub-epic changes",
+                    "  UpdateReport:",
+                    "  | renames_count | new_count | removed_count |",
+                    "  | 1             | 2         | 1             |",
+                    "  (This scenario IS the one computing these - show what was renamed/added/removed!)",
+                    "",
+                    "WRONG - boolean flags summarize state you haven't established:",
+                    "  StoryGraph:",
+                    "  | reflects_additions | reflects_removals |",
+                    "  | true               | true              |",
+                    "",
+                    "OK - this scenario CONSUMES a report that a prior scenario already computed:",
+                    "  Scenario: Apply changes from report to story graph",
+                    "  Given {UpdateReport} has {UpdateReport.renames_count} of 1",
+                    "  (The 'Report' scenario upstream already specified the source entities.",
+                    "   This scenario just applies the result - aggregated input is fine here.)",
+                    "",
+                    "OK - the source is an external system you don't control:",
+                    "  Given {ExternalAPI} returns {ExternalAPI.transaction_count} of 42",
+                    "  (You have no access to the underlying records - the count is all you get.)"
+                ]
+            },
+            {
+                "description": "Don't use UI element names as columns",
+                "example": [
+                    "| dropdown_selection | checkbox_state | button_enabled |",
+                    "| list_row | modal_visible | input_value |",
+                    "",
+                    "(UI elements, not domain concepts)"
+                ]
+            },
+            {
+                "description": "Don't omit concepts that the scenario explicitly mentions",
+                "example": [
+                    "SCENARIO TEXT mentions:",
+                    "  'Given an Enterprise with Recipients and Accounts'",
+                    "",
+                    "| recipient_id | account_id |",
+                    "(missing enterprise that scenario mentions)"
+                ]
+            },
+            {
+                "description": "Don't include ID columns for linking tables - IDs are implementation concerns",
+                "example": [
+                    "WRONG - IDs clutter scenarios with database-level details:",
+                    "| user_id | user_name | enterprise_id |",
+                    "| USR-001 | Jane Doe  | ENT-001       |",
+                    "",
+                    "| enterprise_id | recipient_id | recipient_name |",
+                    "| ENT-001       | RCP-001      | Global Supply  |",
+                    "",
+                    "CORRECT - Domain names only, tables connected by ordering:",
+                    "User:",
+                    "| user_name | user_role     |",
+                    "| Jane Doe  | Wire Operator |",
+                    "",
+                    "Recipient (creates()):",
+                    "| recipient_name | recipient_status |",
+                    "| Global Supply  | Active           |",
+                    "",
+                    "(IDs like user_id, enterprise_id, recipient_id are hidden - tests don't need them)"
+                ]
+            },
+            {
+                "description": "Don't use flat tables with all IDs - model relationships with connected tables",
+                "example": [
+                    "DOMAIN has: Enterprise -> Recipient -> Account",
+                    "",
+                    "| enterprise_id | recipient_id | account_id |",
+                    "| ENT-001       | RCP-001      | ACC-001    |",
+                    "(flat table loses relationship structure)"
+                ]
+            },
+            {
+                "description": "Don't invent column names not in domain",
+                "example": [
+                    "DOMAIN has: Recipient, Account, BeneficiaryBank",
+                    "",
+                    "| payee | bank_account | financial_institution |",
+                    "| acct_num | display_number |",
+                    "(invented terms not from domain model)"
+                ]
+            },
+            {
+                "description": "Don't use raw JSON without explanation",
+                "example": [
+                    "{\"payment\": {\"amount\": -50}} (WRONG - doesn't explain what's wrong)",
+                    "",
+                    "CORRECT: 'Payment with amount -50.00 (negative amount violates rule)'"
+                ]
+            },
+            {
+                "description": "Don't use abstract descriptions or placeholders",
+                "example": [
+                    "'Payment with invalid data' (WRONG - what makes it invalid?)",
+                    "'Violation detected' (WRONG - what violation?)",
+                    "'{violations}' (WRONG - doesn't show actual structure)"
+                ]
+            },
+            {
+                "description": "Don't use example name as connecting sentence - use collaboration field instead",
+                "example": [
+                    "WRONG - using 'name' field as connecting sentence:",
+                    "{",
+                    "  'name': 'has these Entitlements',  <- BAD: name should be concept",
+                    "  'columns': ['user_id', 'entitlement_name'],",
+                    "  'rows': [...]",
+                    "}",
+                    "",
+                    "CORRECT - name is concept, collaboration is responsibility:",
+                    "{",
+                    "  'name': 'Entitlement',  <- GOOD: concept name",
+                    "  'collaboration': 'assigned entitlements for wire functions',  <- GOOD: from domain",
+                    "  'columns': ['user_id', 'entitlement_name'],",
+                    "  'rows': [...]",
+                    "}"
+                ]
+            },
+            {
+                "description": "Don't disconnect examples into lookup tables",
+                "example": [
+                    "WRONG - lookup table style (all parents, then all children separately):",
+                    "",
+                    "Customers:",
+                    "| customer_id | name       |",
+                    "| CUST-001    | Jane Smith |",
+                    "| CUST-002    | Bob Jones  |",
+                    "",
+                    "Accounts:",
+                    "| customer_id | account_number | balance  |",
+                    "| CUST-001    | ACC-1001       | 2,500.00 |",
+                    "| CUST-001    | ACC-1002       | 5,000.00 |",
+                    "| CUST-002    | ACC-2001       | 500.00   |",
+                    "",
+                    "(Disconnected! Have to mentally join to see Jane has 2 accounts)"
+                ]
+            }
+        ]
+    },
+    "scanner": "scanners.scenarios.example_table_scanner.ExampleTableScanner"
+}

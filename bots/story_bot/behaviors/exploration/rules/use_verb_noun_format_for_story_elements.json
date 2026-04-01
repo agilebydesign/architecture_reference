@@ -1,0 +1,66 @@
+{
+    "priority":  1,
+    "description":  "Use verb-noun format for scenarios and acceptance criteria. Example: \u0027User submits form\u0027 (verb-noun), not \u0027Form submission\u0027 (noun-only).",
+    "do":  {
+               "description":  "Use verb-noun format with base verb forms. Example: \u0027User submits order\u0027, \u0027System validates payment\u0027, \u0027Select item from list\u0027",
+               "guidance":  [
+                                {
+                                    "description":  "Use verb-noun format for scenario sentences",
+                                    "example":  [
+                                                    "User submits form",
+                                                    "System processes request",
+                                                    "Customer places order",
+                                                    "System validates payment"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use verb-noun format for acceptance criteria",
+                                    "example":  [
+                                                    "User can view order history",
+                                                    "System displays confirmation message",
+                                                    "Customer receives email notification"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use base verb forms (infinitive/imperative), not third-person singular",
+                                    "example":  [
+                                                    "Select item from list",
+                                                    "Display confirmation",
+                                                    "Add item to cart",
+                                                    "Remove item from cart"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use noun-only, gerund, or third-person singular verb forms. Example: \u0027Form submission\u0027 (noun-only), \u0027Submitting form\u0027 (gerund), \u0027Selects item\u0027 (third-person)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use noun-only or capability-based names for scenarios",
+                                      "example":  [
+                                                      "Order submission",
+                                                      "Payment processing",
+                                                      "Form validation"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use gerund forms",
+                                      "example":  [
+                                                      "Submitting order",
+                                                      "Processing payment",
+                                                      "Validating form"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t use third-person singular verb forms",
+                                      "example":  [
+                                                      "Selects item",
+                                                      "Displays confirmation",
+                                                      "Adds to cart",
+                                                      "Removes from cart"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.verb_noun_scanner.VerbNounScanner"
+}

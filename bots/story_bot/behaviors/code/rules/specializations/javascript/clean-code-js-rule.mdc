@@ -1,0 +1,840 @@
+---
+description: Clean code practices for JavaScript/TypeScript
+globs:
+  - "**/*.js"
+  - "**/*.mjs"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.jsx"
+alwaysApply: false
+---
+
+**When** writing or reviewing JavaScript/TypeScript code,
+**then** apply clean code principles with JS-specific patterns and idioms.
+
+See `clean-code-rule.mdc` for complete principles. This file provides JavaScript-specific examples.
+
+For comprehensive examples and edge cases, see `clean-code-js-reference.md`.
+
+---
+
+## 1. Functions
+
+### 1.1 Single Responsibility
+
+Functions do one thing with no hidden side effects.
+
+**✅ DO:**
+```javascript
+export function subtotal(items) {
+  return items.reduce((s, i) => s + i.price * i.qty, 0);  // DO: Pure calculation
+}
+
+export async function checkout({ user, cart, services }) {
+  const sub = subtotal(cart.items);  // DO: Separate calculation from orchestration
+  services.logger.info('checkout', { userId: user.id });
+}
+```
+
+**❌ DON'T:**
+```javascript
+function fullName(user) {
+  console.log('User:', user.id);  // DON'T: Hidden side effect
+  return `${user.first} ${user.last}`;
+}
+```
+
+### 1.2 Small and Focused
+
+Keep functions under 20 lines, extract complex logic.
+
+**✅ DO:**
+```javascript
+const TAX_RATE = 0.13;
+
+export function totalWithTax(subtotal, tax = TAX_RATE) {
+  return Math.round(subtotal * (1 + tax) * 100) / 100;  // DO: Small, focused
+}
+```
+
+**❌ DON'T:**
+```javascript
+async function checkout(user, cart) {
+  let subtotal = 0;
+  for (const i of cart.items) subtotal += i.price * i.qty;  // DON'T: Mixed levels
+  const total = subtotal * 1.13;
+  await db.invoices.insert({ userId: user.id, total });  // DON'T: Multiple responsibilities
+  for (const it of cart.items) await db.products.decrement(it.sku, it.qty);
+  await email.send(user.email, `Thanks for $${total}`);
+  console.log('checkout complete');
+  return total;
+}
+```
+
+### 1.3 Clear Parameters
+
+Use destructuring for complex signatures; avoid boolean flags.
+
+**✅ DO:**
+```javascript
+export function connect({ host, port, timeoutMs = 2000 }) {
+  // DO: Destructured object parameter with defaults
+}
+
+export function exportCsv(data) { return toCsv(data); }  // DO: Separate functions
+export function exportJson(data) { return toJson(data); }  // DO: Not flag-based
+```
+
+**❌ DON'T:**
+```javascript
+function exportReport(data, isCsv) {  // DON'T: Boolean flag parameter
+  return isCsv ? toCsv(data) : toJson(data);
+}
+
+function render(chart, dark, pretty, borders) {  // DON'T: Too many parameters
+  // ...
+}
+```
+
+### 1.4 Simple Control Flow
+
+Use guard clauses to reduce nesting.
+
+**✅ DO:**
+```javascript
+function priceFor(user, plan) {
+  if (!user || !plan) return 0;  // DO: Early return guards
+  if (user.isStudent) return plan.base * 0.5;  // DO: Flat structure
+  return plan.base;
+}
+```
+
+**❌ DON'T:**
+```javascript
+function priceFor(user, plan) {
+  if (user) {  // DON'T: Deep nesting
+    if (plan) {
+      if (user.isStudent) return plan.base * 0.5;
+      return plan.base;
+    }
+  }
+  return 0;
+}
+```
+
+---
+
+## 2. Naming
+
+### 2.1 Intention-Revealing
+
+Names should clearly communicate purpose.
+
+**✅ DO:**
+```javascript
+const MILLISECONDS_PER_DAY = 86_400_000;  // DO: Clear, searchable constant
+const elapsedTimeInDays = timer.elapsedMs / MILLISECONDS_PER_DAY;  // DO: Intention-revealing
+```
+
+**❌ DON'T:**
+```javascript
+const d = 86400000;  // DON'T: Meaningless name, magic number
+const elapsed = timer.elapsedMs / 86400000;  // DON'T: No context
+```
+
+### 2.2 Consistency
+
+Use one term per concept across codebase.
+
+**✅ DO:**
+```javascript
+function getUser(userId) { }  // DO: Consistent "get" prefix
+function getOrder(orderId) { }  // DO: Same term for retrieval
+function getProduct(sku) { }
+```
+
+**❌ DON'T:**
+```javascript
+function getUser(userId) { }  // DON'T: Mixed terms for same concept
+function fetchOrder(orderId) { }  // DON'T: Different term
+function retrieveProduct(sku) { }  // DON'T: Yet another term
+```
+
+### 2.3 Meaningful Context
+
+Replace magic numbers with named constants.
+
+**✅ DO:**
+```javascript
+const ADULT_AGE = 18;
+const TAX_RATE = 0.13;
+
+function isAdult(age) {
+  return age >= ADULT_AGE;  // DO: Named constant provides context
+}
+```
+
+**❌ DON'T:**
+```javascript
+function isAdult(age) {
+  return age >= 18;  // DON'T: Magic number without context
+}
+
+const total = subtotal * 1.13;  // DON'T: Unexplained magic number
+```
+
+---
+
+## 3. Code Structure
+
+### 3.1 Eliminate Duplication (DRY)
+
+Extract repeated logic into reusable functions.
+
+**✅ DO:**
+```javascript
+function calculateSubtotal(items) {
+  return items.reduce((sum, i) => sum + i.price * i.qty, 0);  // DO: Reusable
+}
+
+const subtotalA = calculateSubtotal(itemsA);  // DO: No duplication
+const subtotalB = calculateSubtotal(itemsB);
+```
+
+**❌ DON'T:**
+```javascript
+let subtotalA = 0;  // DON'T: Duplicated logic
+for (const i of itemsA) subtotalA += i.price * i.qty;
+
+let subtotalB = 0;  // DON'T: Same logic repeated
+for (const i of itemsB) subtotalB += i.price * i.qty;
+```
+
+### 3.2 Separation of Concerns
+
+Keep pure logic separate from side effects.
+
+**✅ DO:**
+```javascript
+function fullName(user) {
+  return `${user.first} ${user.last}`;  // DO: Pure calculation
+}
+
+function greet(user, { logger }) {
+  logger.debug({ userId: user.id, name: fullName(user) });  // DO: Separate side effects
+  return `Hello, ${fullName(user)}!`;
+}
+```
+
+**❌ DON'T:**
+```javascript
+function discount(total) {
+  const d = total * 0.1;
+  console.log('discount:', d);  // DON'T: Side effect in calculation
+  return d;
+}
+```
+
+### 3.3 Proper Abstraction Levels
+
+Step down one abstraction level at a time.
+
+**✅ DO:**
+```javascript
+export async function checkout({ user, cart, taxRate, services }) {
+  const sub = subtotal(cart.items);  // Medium-level calculation
+  const total = totalWithTax(sub, taxRate);  // Medium-level calculation
+  const invoice = await saveInvoice(user, total, cart);  // Medium-level persistence
+  return { invoice, total };
+}
+```
+
+**❌ DON'T:**
+```javascript
+async function checkout(user, cart) {
+  const sub = cart.items.reduce((s, i) => s + i.price * i.qty, 0);  // DON'T: Mixed levels
+  await db.execute("INSERT INTO invoices...");  // DON'T: Low-level detail
+}
+```
+
+---
+
+## 4. Error Handling
+
+### 4.1 Use Exceptions Properly
+
+Prefer exceptions with informative messages over silent failures.
+
+**✅ DO:**
+```javascript
+class ParseError extends Error { }  // DO: Domain-specific exception
+
+function parseJson(payload) {
+  try {
+    return JSON.parse(payload);
+  } catch (e) {
+    throw new ParseError('Invalid JSON');  // DO: Informative error
+  }
+}
+```
+
+**❌ DON'T:**
+```javascript
+function load(payload) {
+  try {
+    return JSON.parse(payload);
+  } catch (e) {  // DON'T: Silent failure
+    /* ignore */
+  }
+}
+```
+
+### 4.2 Isolate Error Handling
+
+Extract try/catch into dedicated functions.
+
+**✅ DO:**
+```javascript
+async function parseRequest(rawData) {  // DO: Error handling isolated
+  try {
+    return await _parseJson(rawData);
+  } catch (err) {
+    logger.error('Parse failed', err);
+    throw;
+  }
+}
+
+function _parseJson(data) {  // DO: Business logic separated
+  return JSON.parse(data);
+}
+```
+
+**❌ DON'T:**
+```javascript
+async function process(data) {
+  try {
+    const result = JSON.parse(data);  // DON'T: Mixed error handling and logic
+    const validated = validate(result);
+    const transformed = transform(validated);
+    return transformed;
+  } catch (error) {
+    handleError(error);
+  }
+}
+```
+
+### 4.3 Classify by Caller Needs
+
+Create exception types based on how callers handle them.
+
+**✅ DO:**
+```javascript
+class ValidationError extends Error { }  // DO: Caller-centric exceptions
+class PaymentError extends Error { }
+
+function checkout(cart) {
+  if (!cart.valid) {
+    throw new ValidationError('Invalid cart');  // DO: Clear caller action
+  }
+}
+```
+
+**❌ DON'T:**
+```javascript
+class DatabaseError extends Error { }  // DON'T: Implementation-centric
+class NetworkError extends Error { }  // DON'T: Forces caller to know internals
+```
+
+---
+
+## 5. State Management
+
+### 5.1 Minimize Mutable State
+
+Prefer const and immutable patterns.
+
+**✅ DO:**
+```javascript
+const item = Object.freeze({ sku: 'ABC', price: 10 });  // DO: Immutable object
+
+const settings = Object.freeze({ mode: 'prod' });  // DO: Immutable config
+
+const newItems = [...items, newItem];  // DO: Create new array, don't mutate
+```
+
+**❌ DON'T:**
+```javascript
+let currentUser = null;  // DON'T: Mutable global state
+
+export function setUser(u) {
+  currentUser = u;  // DON'T: Global mutation
+}
+
+const cache = {};  // DON'T: Shared mutable cache
+export function getUser(userId) {
+  if (!cache[userId]) {
+    cache[userId] = repo.fetch(userId);  // DON'T: Hidden state mutation
+  }
+  return cache[userId];
+}
+```
+
+### 5.2 Encapsulation
+
+Hide implementation details, expose minimal interface.
+
+**✅ DO:**
+```javascript
+export class Inventory {
+  #repo;  // DO: Private field
+
+  constructor(repo) {
+    this.#repo = repo;  // DO: Encapsulated dependency
+  }
+
+  async adjustMany(changes) {
+    for (const { sku, delta } of changes) {
+      await this.#adjustOne(sku, delta);  // DO: Private helper
+    }
+  }
+}
+```
+
+**❌ DON'T:**
+```javascript
+export class Inventory {
+  constructor() {
+    this.repo = new Repository();  // DON'T: Public implementation detail
+    this.cache = {};  // DON'T: Exposed internal state
+  }
+}
+```
+
+### 5.3 Explicit Dependencies
+
+Pass dependencies through constructors.
+
+**✅ DO:**
+```javascript
+export class CheckoutService {
+  constructor(invoiceRepo, inventory, mailer) {
+    this.invoiceRepo = invoiceRepo;  // DO: Constructor injection
+    this.inventory = inventory;
+    this.mailer = mailer;
+  }
+}
+```
+
+**❌ DON'T:**
+```javascript
+export class CheckoutService {
+  constructor() {
+    this.repo = globalInvoiceRepo;  // DON'T: Hidden global dependency
+    this.inventory = new Inventory();  // DON'T: Hidden construction
+  }
+}
+```
+
+---
+
+## 6. Classes and Objects
+
+### 6.1 Single Responsibility
+
+Each class has one reason to change.
+
+**✅ DO:**
+```javascript
+export class InvoiceRepository {  // DO: Focused on persistence
+  async save(invoice) { }
+  async findById(invoiceId) { }
+}
+
+export class InvoiceCalculator {  // DO: Focused on calculations
+  calculateTotal(items) { }
+  applyDiscount(total, discount) { }
+}
+```
+
+**❌ DON'T:**
+```javascript
+export class Invoice {  // DON'T: Multiple responsibilities
+  calculateTotal() { }  // Calculation
+  saveToDB() { }  // Persistence
+  sendEmail() { }  // Notification
+  formatPDF() { }  // Formatting
+}
+```
+
+### 6.2 Small and Compact
+
+Keep classes under 200-300 lines.
+
+**✅ DO:**
+```javascript
+export class DiscountCalculator {  // DO: Focused, small class
+  calculate(total, userType) {
+    if (userType === 'student') return total * 0.5;
+    return total;
+  }
+}
+```
+
+**❌ DON'T:**
+```javascript
+export class OrderProcessor {  // DON'T: God object
+  // ... 500+ lines of mixed concerns
+}
+```
+
+### 6.3 Open/Closed Principle
+
+Depend on abstractions, not concrete types.
+
+**✅ DO:**
+```javascript
+// DO: Abstract interface (via TypeScript or JSDoc)
+export class PaymentProcessor {
+  process(amount) { throw new Error('Not implemented'); }
+}
+
+export class StripeProcessor extends PaymentProcessor {  // DO: Concrete implementation
+  process(amount) {
+    // Stripe-specific logic
+  }
+}
+```
+
+**❌ DON'T:**
+```javascript
+export class OrderService {
+  constructor() {
+    this.payment = new StripePayment();  // DON'T: Hardcoded concrete type
+  }
+}
+```
+
+---
+
+## 7. Comments
+
+### 7.1 Prefer Code Over Comments
+
+Express intent in code first.
+
+**✅ DO:**
+```javascript
+function isEligibleForDiscount(user) {  // DO: Self-documenting function name
+  return user.age < 18 || user.isStudent;
+}
+
+if (isEligibleForDiscount(user)) {  // DO: No comment needed
+  applyDiscount();
+}
+```
+
+**❌ DON'T:**
+```javascript
+// Check if user is eligible for discount  // DON'T: Comment explains bad name
+if (user.age < 18 || user.isStudent) {
+  applyDiscount();
+}
+```
+
+### 7.2 Good Comments
+
+Legal notices, TODOs, and complex algorithm explanations.
+
+**✅ DO:**
+```javascript
+// Copyright 2025 Company Name  // DO: Legal notice
+
+// TODO: Optimize with pagination  // DO: Actionable TODO
+
+function fastInverseSqrt(x) {
+  // Newton-Raphson approximation for 1/sqrt(x)  // DO: Algorithm explanation
+  // ...
+}
+```
+
+**❌ DON'T:**
+```javascript
+// Added by John on 2024-01-15  // DON'T: Attribution (use git)
+let i = 0;  // initialize counter  // DON'T: Noise comment
+```
+
+### 7.3 Bad Comments
+
+Avoid commented-out code, misleading comments.
+
+**✅ DO:**
+```javascript
+// (Delete commented-out code, it's in git)
+function process(data) {
+  return transform(data);
+}
+```
+
+**❌ DON'T:**
+```javascript
+function process(data) {
+  // const oldResult = legacyTransform(data);  // DON'T: Commented-out code
+  // const newResult = transform(data);  // DON'T: Keep as backup
+  return transform(data);
+}
+```
+
+---
+
+## 8. Formatting
+
+### 8.1 Team Consensus
+
+Use automated formatters consistently.
+
+**✅ DO:**
+```javascript
+// Use Prettier, ESLint, or similar formatter
+// Configure in .prettierrc or package.json:
+// { "semi": true, "singleQuote": true }
+```
+
+**❌ DON'T:**
+```javascript
+// Don't manually format or argue about style
+// Let tooling handle it
+```
+
+### 8.2 Vertical Density
+
+Group related code, declare variables close to usage.
+
+**✅ DO:**
+```javascript
+function checkout(user, cart) {
+  const subtotal = calculateSubtotal(cart.items);  // DO: Declared close to use
+  const tax = calculateTax(subtotal);
+  const total = subtotal + tax;  // DO: Related calculations together
+  return total;
+}
+```
+
+**❌ DON'T:**
+```javascript
+function checkout(user, cart) {
+  let subtotal = 0;  // DON'T: Declared far from use
+  let tax = 0;
+  let discount = 0;
+
+  // ... many lines later ...
+  
+  subtotal = calculateSubtotal(cart.items);
+}
+```
+
+### 8.3 Consistent Indentation
+
+Use 2 spaces per common JS convention.
+
+**✅ DO:**
+```javascript
+function process(data) {
+  if (data) {  // DO: Consistent 2-space indentation
+    for (const item of data) {
+      processItem(item);
+    }
+  }
+}
+```
+
+**❌ DON'T:**
+```javascript
+function process(data) {
+    if (data) {  // DON'T: Inconsistent 4-space indentation
+      for (const item of data) {  // DON'T: Mixed indentation
+          processItem(item);
+      }
+    }
+}
+```
+
+---
+
+## 9. Testing
+
+### 9.1 Test Quality
+
+Tests should be as clean as production code.
+
+**✅ DO:**
+```javascript
+test('calculates student discount', () => {  // DO: Descriptive test name
+  const user = { isStudent: true };
+  expect(priceFor(user, { base: 100 })).toBe(50);  // DO: Clear assertion
+});
+```
+
+**❌ DON'T:**
+```javascript
+test('test1', () => {  // DON'T: Meaningless test name
+  // DON'T: Unclear test setup
+  expect(func(data)).toBe(expected);
+});
+```
+
+### 9.2 One Concept Per Test
+
+Test one behavior per test function.
+
+**✅ DO:**
+```javascript
+test('student receives 50% discount', () => {  // DO: One concept
+  const user = { isStudent: true };
+  expect(priceFor(user, { base: 100 })).toBe(50);
+});
+
+test('regular user pays full price', () => {  // DO: Separate concept
+  const user = { isStudent: false };
+  expect(priceFor(user, { base: 100 })).toBe(100);
+});
+```
+
+**❌ DON'T:**
+```javascript
+test('pricing', () => {  // DON'T: Multiple concepts in one test
+  expect(priceFor({ isStudent: true }, { base: 100 })).toBe(50);
+  expect(priceFor({ isStudent: false }, { base: 100 })).toBe(100);
+  expect(priceFor(null, { base: 100 })).toBe(0);
+});
+```
+
+### 9.3 Test-Driven Development
+
+Write tests first (Red-Green-Refactor).
+
+**✅ DO:**
+```javascript
+// 1. RED: Write failing test first
+test('applies tax rate', () => {
+  expect(totalWithTax(100, 0.13)).toBe(113.0);
+});
+
+// 2. GREEN: Minimal implementation
+function totalWithTax(subtotal, taxRate) {
+  return subtotal * (1 + taxRate);
+}
+
+// 3. REFACTOR: Improve with confidence
+```
+
+**❌ DON'T:**
+```javascript
+// DON'T: Write tests after code is done
+// DON'T: Skip refactoring step
+```
+
+---
+
+## 10. System Boundaries
+
+### 10.1 Isolate Third-Party Code
+
+Wrap external APIs behind your interfaces.
+
+**✅ DO:**
+```javascript
+export class EmailService {  // DO: Wrapper around third-party
+  constructor(smtpClient) {
+    this.client = smtpClient;  // DO: Encapsulated dependency
+  }
+
+  async sendReceipt(to, invoice) {
+    const subject = `Order #${invoice.id}`;
+    return this.client.send({ to, subject });  // DO: Isolated usage
+  }
+}
+```
+
+**❌ DON'T:**
+```javascript
+import thirdPartyLib from 'third-party';
+
+async function checkout(user, cart) {
+  await thirdPartyLib.send(user.email);  // DON'T: Direct third-party usage
+  return new thirdPartyLib.Invoice(...);  // DON'T: Leaked third-party types
+}
+```
+
+### 10.2 Adapt and Test
+
+Test boundary behavior explicitly.
+
+**✅ DO:**
+```javascript
+test('email service sends receipt', async () => {  // DO: Test boundary
+  const mockSMTP = { send: jest.fn() };
+  const service = new EmailService(mockSMTP);
+  await service.sendReceipt('user@example.com', { id: 123 });
+  expect(mockSMTP.send).toHaveBeenCalledTimes(1);
+});
+```
+
+**❌ DON'T:**
+```javascript
+// DON'T: Skip testing third-party integration
+// DON'T: Trust third-party behavior implicitly
+```
+
+---
+
+## Common JavaScript Patterns
+
+### ES6+ Modules
+Use modern import/export syntax:
+```javascript
+export function calculatePrice(items, discount = 0) {
+  return items.reduce((sum, i) => sum + i.price, 0) * (1 - discount);
+}
+```
+
+### Destructuring
+Prefer destructuring for clarity:
+```javascript
+const { user, cart, taxRate } = request;
+const [first, second, ...rest] = items;
+```
+
+### Async/Await
+Use async/await over raw promises:
+```javascript
+async function fetchUser(userId) {
+  const response = await fetch(`/users/${userId}`);
+  return response.json();
+}
+```
+
+### Optional Chaining & Nullish Coalescing
+Use modern operators for safety:
+```javascript
+const userName = user?.profile?.name ?? 'Guest';
+const port = config.port ?? 3000;
+```
+
+---
+
+**Executing Commands:**
+
+* `\clean-code` — Validate JavaScript code quality
+
+---
+
+## Governance
+
+**Status:** Active
+**Maintained By:** Development Team
+**Last Updated:** 2025-11-12
+**Review Cycle:** Quarterly
+
+**Related Rules:**
+- `clean-code-rule.mdc` — Framework-agnostic clean code principles
+- `bdd-jest-rule.mdc` — JavaScript/Jest BDD testing practices

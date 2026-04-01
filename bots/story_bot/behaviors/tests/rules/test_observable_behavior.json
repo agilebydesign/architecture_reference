@@ -1,0 +1,57 @@
+{
+    "priority":  12,
+    "description":  "Test observable behavior, not implementation details. Verify public API and visible state changes. Don\u0027t assert on private methods or internal flags. Example: assert agent.config_path.exists() (observable); not assert agent._internal_flag (private)",
+    "do":  {
+               "description":  "Test observable outcomes through public API. Example: assert agent.config_path == expected; assert agent.is_initialized (public properties)",
+               "guidance":  [
+                                {
+                                    "description":  "Assert on public properties and return values",
+                                    "example":  [
+                                                    "assert agent.config_path == expected_path  # Public property",
+                                                    "assert agent.is_initialized  # Public property"
+                                                ]
+                                },
+                                {
+                                    "description":  "Assert on observable file system state",
+                                    "example":  [
+                                                    "assert agent.config_path.exists()  # File was created",
+                                                    "assert output_file.read_text() == expected_content"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test WHAT happens, not HOW",
+                                    "example":  [
+                                                    "# Test: \u0027config is loaded\u0027 not \u0027json.loads was called\u0027",
+                                                    "assert agent.config[\u0027name\u0027] == \u0027bot\u0027"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t test private state or implementation details. Example: assert agent._initialized (wrong); assert agent._config_cache (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t assert on private attributes",
+                                      "example":  [
+                                                      "assert agent._initialized  # WRONG - private",
+                                                      "assert agent._config_cache is not None  # WRONG - implementation detail"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t assert on internal method calls",
+                                      "example":  [
+                                                      "assert agent._setup_called  # WRONG - implementation",
+                                                      "assert len(agent._internal_list) == 3  # WRONG - private"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t test HOW something is done",
+                                      "example":  [
+                                                      "# WRONG: Testing that specific method was called",
+                                                      "assert mock_parser.parse.called  # Test the RESULT instead"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.observable_behavior_scanner.ObservableBehaviorScanner"
+}

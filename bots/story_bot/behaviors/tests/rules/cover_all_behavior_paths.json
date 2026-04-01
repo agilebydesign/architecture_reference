@@ -1,0 +1,69 @@
+{
+    "priority":  7,
+    "description":  "Cover all behavior paths: normal (happy path), edge cases, and failure scenarios. Each distinct behavior needs its own focused test. Tests must be independent. Example: test_loads_valid_config(), test_loads_empty_config(), test_raises_error_when_file_missing()",
+    "do":  {
+               "description":  "Test normal, edge, and failure paths separately. Example: test_loads_valid_config() (happy), test_loads_empty_config() (edge), test_raises_when_missing() (failure)",
+               "guidance":  [
+                                {
+                                    "description":  "Test normal/happy path",
+                                    "example":  [
+                                                    "def test_loads_valid_configuration_from_file():",
+                                                    "    config = agent.load_config(config_file)",
+                                                    "    assert config[\u0027name\u0027] == \u0027story_bot\u0027"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test edge cases",
+                                    "example":  [
+                                                    "def test_loads_empty_configuration_file():",
+                                                    "    config = agent.load_config(empty_file)",
+                                                    "    assert config == {}"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test failure scenarios",
+                                    "example":  [
+                                                    "def test_raises_error_when_config_file_missing():",
+                                                    "    with pytest.raises(FileNotFoundError):",
+                                                    "        agent.load_config(Path(\u0027nonexistent.json\u0027))"
+                                                ]
+                                },
+                                {
+                                    "description":  "Each test is independent - can run in any order",
+                                    "example":  [
+                                                    "# No shared state between tests",
+                                                    "# Each test sets up its own data"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t test only happy path or combine multiple behaviors in one test. Example: Single test for both success and failure (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t skip edge cases or failure paths",
+                                      "example":  [
+                                                      "# WRONG: Only happy path tested",
+                                                      "def test_loads_config(): ...  # What about empty? Missing? Invalid?"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t combine multiple behaviors in one test",
+                                      "example":  [
+                                                      "# WRONG: Tests both success and failure",
+                                                      "def test_config_loading():",
+                                                      "    # loads valid... then tests invalid... too much in one test"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t make tests dependent on each other",
+                                      "example":  [
+                                                      "# WRONG: test_2 depends on test_1 creating a file",
+                                                      "def test_1(): create_file()",
+                                                      "def test_2(): read_file()  # Fails if run alone!"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.cover_all_paths_scanner.CoverAllPathsScanner"
+}

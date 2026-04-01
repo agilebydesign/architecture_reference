@@ -1,5 +1,5 @@
 // test/counter/counter_test.ts
-import { it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { Counter } from "../../src/counter/counter.js";
 import type { ICounter } from "../../src/counter/counter.js";
 
@@ -40,24 +40,30 @@ export abstract class CounterTest {
    * Call inside a describe() block: `new MyCounterTest().registerTests()`
    */
   registerTests(): void {
-    it("starts at zero", () => {
-      const c = this.createCounter();
-      this.assertTotal(c, 0);
-    });
+    describe("Given a new counter is opened", () => {
+      it("Then it starts at zero", () => {
+        const c = this.createCounter();
+        this.assertTotal(c, 0);
+      });
 
-    it("counter that starts at three, add 4 and 7, yields 14", () => {
-      const c = this.createCounter();
-      c.count(3);
-      c.count(4);
-      c.count(7);
-      this.assertTotal(c, 14);
-    });
+      describe("When I add numbers to the counter", () => {
+        it("Then the counter displays the sum of the added numbers", () => {
+          const c = this.createCounter();
+          c.count(3);
+          c.count(4);
+          c.count(7);
+          this.assertTotal(c, 14);
+        });
+      });
 
-    it("reset clears total", () => {
-      const c = this.createCounter();
-      c.count(5);
-      c.reset();
-      this.assertTotal(c, 0);
+      describe("When I reset the counter", () => {
+        it("Then reset clears total", () => {
+          const c = this.createCounter();
+          c.count(5);
+          c.reset();
+          this.assertTotal(c, 0);
+        });
+      });
     });
   }
 }

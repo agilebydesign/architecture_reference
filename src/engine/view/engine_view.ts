@@ -8,6 +8,8 @@ import { CounterServer } from "../../counter/counter_server";
 import { CounterView } from "../../counter/view/counter_view";
 import { ContextFolderServer } from "../../context_folder/context_folder_server";
 import { ContextFolderView } from "../../context_folder/view/context_folder_view";
+import { BotBehaviorServer } from "../../bot_behavior/bot_behavior_server";
+import { BotBehaviorView } from "../../bot_behavior/view/bot_behavior_view";
 
 function getNonce(): string {
   return crypto.randomBytes(16).toString("hex");
@@ -19,17 +21,21 @@ export class EngineView extends BaseView {
   private _engine: Engine;
   public counter: CounterView;
   public contextFolder: ContextFolderView;
+  public botBehavior: BotBehaviorView;
   private _disposables: vscode.Disposable[] = [];
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
     super(extensionUri);
     this._panel = panel;
 
-    const counterPath = path.join(extensionUri.fsPath, "counter.json");
-    const contextFolderPath = path.join(extensionUri.fsPath, "context_folder.json");
+    const counterPath = path.join(extensionUri.fsPath, "persistence", "counter.json");
+    const contextFolderPath = path.join(extensionUri.fsPath, "persistence", "context_folder.json");
+    const botBehaviorPath = path.join(extensionUri.fsPath, "persistence", "bot_behavior.json");
+    const botConfigDir = path.join(extensionUri.fsPath, "bots", "story_bot");
     this._engine = new Engine(
       new CounterServer(counterPath),
-      new ContextFolderServer(contextFolderPath)
+      new ContextFolderServer(contextFolderPath),
+      new BotBehaviorServer(botBehaviorPath, botConfigDir)
     ); // server domain (persistence)
     this.counter = new CounterView(
       this._panel,
@@ -39,6 +45,11 @@ export class EngineView extends BaseView {
     this.contextFolder = new ContextFolderView(
       this._panel,
       this._engine.contextFolder,
+      extensionUri
+    ); // server view
+    this.botBehavior = new BotBehaviorView(
+      this._panel,
+      this._engine.botBehavior,
       extensionUri
     ); // server view
 
@@ -99,14 +110,16 @@ export class EngineView extends BaseView {
     const nonce = getNonce();
     const counterHtml = this.counter.getHtml(); // delegate; EngineView does not know counter markup
     const contextFolderHtml = this.contextFolder.getHtml();
+    const botBehaviorHtml = this.botBehavior.getHtml();
 
     return this.renderTemplate("dist/engine/view/Engine.html", {
       nonce,
-      content: contextFolderHtml + counterHtml,
+      content: contextFolderHtml + counterHtml + botBehaviorHtml,
       themeCssUri: asUri(["view", "theme.css"]).toString(),
       engineCssUri: asUri(["engine", "view", "layout.css"]).toString(),      
       counterClientUri: asUri(["counter", "view", "counter_client.js"]).toString(),
       contextFolderClientUri: asUri(["context_folder", "view", "context_folder_client.js"]).toString(),
+      botBehaviorClientUri: asUri(["bot_behavior", "view", "bot_behavior_client.js"]).toString(),
       engineClientUri: asUri(["engine", "view", "engine_client.js"]).toString(),
     });
   }

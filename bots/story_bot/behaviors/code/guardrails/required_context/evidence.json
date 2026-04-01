@@ -1,0 +1,12 @@
+{
+  "description": "Evidence or artifacts that must be present or validated before this behavior can proceed",
+  "evidence": [
+    "Test files from tests behavior (executable test code)",
+    "Story specifications with acceptance criteria",
+    "Domain model or class diagrams",
+    "Existing source code patterns",
+    "Architecture diagrams or design documents",
+    "Code style guides or conventions",
+    "API specifications or interface definitions"
+  ]
+}

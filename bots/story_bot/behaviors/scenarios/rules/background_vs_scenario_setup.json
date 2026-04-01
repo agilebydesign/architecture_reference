@@ -1,0 +1,93 @@
+{
+    "priority": 4,
+    "description": "Background = shared setup for 3+ scenarios (Given/And only, no When/Then). Background steps MUST use {Concept} notation to reference domain objects. Use {Concept.property} when a specific attribute is important. Don't repeat Background in Steps.",
+    "do": {
+        "description": "Use Background for shared context with {Concept} references to example tables.",
+        "guidance": [
+            {
+                "description": "Background steps use {Concept} to reference domain objects",
+                "example": [
+                    "Background:",
+                    "  Given {User} is logged into ChannelOne 2.0",
+                    "  And {User} is entitled to {Entitlement}",
+                    "  And {Enterprise} has wire service enabled",
+                    "",
+                    "Each {Concept} maps to an example table:",
+                    "  {User} → User table",
+                    "  {Entitlement} → Entitlement table",
+                    "  {Enterprise} → Enterprise table"
+                ]
+            },
+            {
+                "description": "Use {Concept.property} when a specific attribute matters",
+                "example": [
+                    "Given {Account} with {Account.activation_status} is available",
+                    "And {Recipient} with {Recipient.status} is Active",
+                    "",
+                    "({Concept.property} highlights important attributes)"
+                ]
+            },
+            {
+                "description": "Use Background when 3+ scenarios share same Given steps",
+                "example": [
+                    "Background:",
+                    "  Given {User} is logged in",
+                    "  And {Character} exists",
+                    "",
+                    "(Used by 5 scenarios - all need logged-in user with character)"
+                ]
+            },
+            {
+                "description": "Background contains only Given/And - state setup, no actions",
+                "example": [
+                    "Background:",
+                    "  Given {Agent} is initialized",
+                    "  And {Project} is finished initializing",
+                    "",
+                    "(State only - no When/Then, no action verbs)"
+                ]
+            }
+        ]
+    },
+    "dont": {
+        "description": "Don't use hardcoded values or column names in Background - use {Concept} notation. Don't include When/Then.",
+        "guidance": [
+            {
+                "description": "Don't use hardcoded values or <column_name> notation",
+                "example": [
+                    "WRONG - hardcoded:",
+                    "  Given user is logged into ChannelOne 2.0",
+                    "  And user is entitled to create wire payments",
+                    "",
+                    "WRONG - column names:",
+                    "  Given User <user_name> is logged in",
+                    "  And User is entitled to <entitlement_name>",
+                    "",
+                    "CORRECT - object references:",
+                    "  Given {User} is logged into ChannelOne 2.0",
+                    "  And {User} is entitled to {Entitlement}"
+                ]
+            },
+            {
+                "description": "Don't include actions or When/Then in Background",
+                "example": [
+                    "Background: Given user logs in (WRONG - 'logs in' is action)",
+                    "Background: When user clicks button (WRONG - When in Background)",
+                    "Background: Then system is ready (WRONG - Then in Background)"
+                ]
+            },
+            {
+                "description": "Don't repeat Background steps in scenario Steps",
+                "example": [
+                    "Background: Given {User} is logged in",
+                    "",
+                    "Scenario: Test project",
+                    "  Steps:",
+                    "    Given {User} is logged in  <-- WRONG - already in Background",
+                    "    When {Agent} loads project..."
+                ]
+            }
+        ]
+    },
+    "scanner": "scanners.scenarios.background_common_setup_scanner.BackgroundCommonSetupScanner"
+}

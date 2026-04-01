@@ -1,0 +1,58 @@
+{
+    "priority":  11,
+    "description":  "Write tests against the REAL expected API BEFORE implementing code. Tests MUST fail initially. Set up real test data and call real API. Failure reveals complete API design. Example: project = Project(path=path); project.initialize() (doesn\u0027t exist yet -\u003e fails -\u003e drives implementation)",
+    "do":  {
+               "description":  "Write test against real expected API that fails initially. Example: project = Project(path); project.initialize(); assert project.is_ready (fails until implemented)",
+               "guidance":  [
+                                {
+                                    "description":  "Call the real expected API even if it doesn\u0027t exist",
+                                    "example":  [
+                                                    "from mymodule import Project  # Will fail: ImportError",
+                                                    "project = Project(path=path)",
+                                                    "project.initialize()  # Will fail: AttributeError"
+                                                ]
+                                },
+                                {
+                                    "description":  "Set up real test data (files, directories)",
+                                    "example":  [
+                                                    "config_path = tmp_path / \u0027config.json\u0027",
+                                                    "config_path.write_text(json.dumps({\u0027name\u0027: \u0027bot\u0027}))",
+                                                    "project = Project(config_path=config_path)  # Real file, real path"
+                                                ]
+                                },
+                                {
+                                    "description":  "Assert real expected behavior",
+                                    "example":  [
+                                                    "assert project.agent.name == \u0027story_bot\u0027",
+                                                    "assert project.config_path.exists()"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use placeholders, dummy values, or skip the failing step. Example: project = \u0027TODO\u0027 (wrong); assuming test passes first (wrong)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use placeholder values",
+                                      "example":  [
+                                                      "project = \u0027placeholder\u0027  # WRONG - call real constructor",
+                                                      "config = {}  # WRONG if real config has required fields"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t skip the RED phase",
+                                      "example":  [
+                                                      "# WRONG: Implementing code before test fails",
+                                                      "# Test should fail with ImportError/AttributeError first"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t write tests that pass immediately",
+                                      "example":  [
+                                                      "def test_something(): assert True  # WRONG - proves nothing"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.failing_test_api_scanner.FailingTestApiScanner"
+}

@@ -1,0 +1,185 @@
+{
+  "language": "python",
+  "description": "When refactoring Python public interfaces, provide migration paths using property decorators, deprecation warnings, and aliases to avoid breaking existing code.",
+  "examples": [
+    {
+      "do": {
+        "description": "Provide backward compatibility in Python refactoring",
+        "content": [
+          "Use @property decorator for renamed attributes",
+          "Use warnings.warn() for deprecation notices",
+          "Provide alias functions/methods during migration",
+          "Document migration in docstrings",
+          "Follow semantic versioning for breaking changes",
+          "",
+          "Correct Examples (Python backward compatibility):",
+          "",
+          "# Example 1: Renaming attribute with property",
+          "import warnings",
+          "",
+          "class Bot:",
+          "    def __init__(self, bot_name: str):",
+          "        self.name = bot_name  # New attribute name",
+          "    ",
+          "    @property",
+          "    def bot_name(self):  # Old name as property",
+          "        '''Deprecated: Use .name instead'''",
+          "        warnings.warn(",
+          "            'bot_name is deprecated, use name instead',",
+          "            DeprecationWarning,",
+          "            stacklevel=2",
+          "        )",
+          "        return self.name",
+          "    ",
+          "    @bot_name.setter",
+          "    def bot_name(self, value):",
+          "        warnings.warn(",
+          "            'bot_name is deprecated, use name instead',",
+          "            DeprecationWarning,",
+          "            stacklevel=2",
+          "        )",
+          "        self.name = value",
+          "",
+          "# Example 2: Renaming method with alias",
+          "class UserService:",
+          "    def get_user_data(self, user_id: str) -> dict:",
+          "        '''Get user data by ID (new method name)'''",
+          "        return self._fetch_user(user_id)",
+          "    ",
+          "    def getUserData(self, user_id: str) -> dict:",
+          "        '''Deprecated: Use get_user_data() instead",
+          "        ",
+          "        This method will be removed in version 3.0.0",
+          "        '''",
+          "        warnings.warn(",
+          "            'getUserData is deprecated, use get_user_data instead',",
+          "            DeprecationWarning,",
+          "            stacklevel=2",
+          "        )",
+          "        return self.get_user_data(user_id)",
+          "",
+          "# Example 3: Module reorganization with backward compatibility",
+          "# Old location: src/actions/gather_context.py",
+          "# New location: src/bot/gather_context_action.py",
+          "",
+          "# Keep old module with deprecation:",
+          "# src/actions/gather_context.py",
+          "import warnings",
+          "from agile_bot.src.bot.gather_context_action import (",
+          "    GatherContextAction as _GatherContextAction",
+          ")",
+          "",
+          "warnings.warn(",
+          "    'Importing from src.actions is deprecated, use src.bot instead',",
+          "    DeprecationWarning,",
+          "    stacklevel=2",
+          ")",
+          "",
+          "GatherContextAction = _GatherContextAction",
+          "__all__ = ['GatherContextAction']",
+          "",
+          "Python Compatibility Requirements:",
+          "- Use warnings.warn() with DeprecationWarning",
+          "- Set stacklevel=2 to show caller's location",
+          "- Use @property for attribute renaming",
+          "- Keep old module with re-export",
+          "- Document in CHANGELOG.md",
+          "- Follow PEP 387 for deprecation policy"
+        ]
+      },
+      "dont": {
+        "description": "Don't break Python code without migration path",
+        "content": [
+          "Don't rename attributes without @property alias",
+          "Don't remove methods without deprecation period",
+          "Don't change signatures without backward compatibility",
+          "Don't move modules without old module stub",
+          "",
+          "Wrong Examples (breaks existing code):",
+          "",
+          "# BAD: Renamed attribute without property",
+          "class Bot:",
+          "    def __init__(self, bot_name: str):",
+          "        self.name = bot_name  # Old code using self.bot_name breaks!",
+          "",
+          "# BAD: Removed method without deprecation",
+          "class UserService:",
+          "    def get_user_data(self, user_id: str):  # Renamed from getUserData",
+          "        return self._fetch_user(user_id)",
+          "    # All code calling getUserData() breaks!",
+          "",
+          "# BAD: Changed signature without backward compatibility",
+          "def process_order(order_id: str, user_id: str):  # Added required parameter!",
+          "    # Old code calling process_order(order_id) breaks!",
+          "    pass",
+          "",
+          "# BAD: Moved module without stub",
+          "# Deleted src/actions/gather_context.py completely",
+          "# All imports break: from src.actions.gather_context import ...",
+          "",
+          "Breaking Change Indicators (ADD COMPATIBILITY):",
+          "- AttributeError: 'Bot' object has no attribute 'bot_name'",
+          "- ImportError: cannot import name 'X' from 'old.module'",
+          "- TypeError: missing required positional argument",
+          "- Tests failing after refactoring",
+          "",
+          "Migration Strategy for Python:",
+          "1. Add new interface alongside old one",
+          "2. Add @property decorator for attribute aliases",
+          "3. Add warnings.warn() to old methods",
+          "4. Keep old module with re-exports",
+          "5. Update documentation with migration guide",
+          "6. Give deprecation period (e.g., 2-3 versions)",
+          "7. Remove in next major version (bump X.0.0)",
+          "",
+          "Example migration path:",
+          "# Version 1.0: Original",
+          "class Bot:",
+          "    def __init__(self, bot_name):",
+          "        self.bot_name = bot_name",
+          "",
+          "# Version 1.1: Add new name + compatibility",
+          "class Bot:",
+          "    def __init__(self, bot_name):",
+          "        self.name = bot_name",
+          "    @property",
+          "    def bot_name(self):  # Deprecated but still works",
+          "        warnings.warn('Use .name', DeprecationWarning)",
+          "        return self.name",
+          "",
+          "# Version 2.0: Remove old name",
+          "class Bot:",
+          "    def __init__(self, name):",
+          "        self.name = name  # bot_name removed"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

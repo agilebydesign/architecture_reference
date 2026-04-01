@@ -1,0 +1,55 @@
+{
+  "description": "Functions should be small enough to understand at a glance. Keep functions under 20 lines when possible and extract complex logic into named helper functions.",
+  "examples": [
+    {
+      "do": {
+        "description": "Keep functions small and focused",
+        "content": [
+          "Keep functions under 20 lines when possible",
+          "Extract complex logic into named helper functions",
+          "Use descriptive names that eliminate need for comments",
+          "Make each function a single abstraction level",
+          "",
+          "Correct Examples (small and focused):",
+          "- Small function calls 3-4 well-named helper functions",
+          "- Complex calculation split into named steps",
+          "- Nested logic extracted to separate functions",
+          "",
+          "Small Function Benefits:",
+          "- Easy to understand at a glance",
+          "- Easy to test in isolation",
+          "- Easy to reuse in other contexts",
+          "- Easy to name clearly",
+          "- Reduces cognitive load"
+        ]
+      },
+      "dont": {
+        "description": "Don't create large, monolithic functions",
+        "content": [
+          "Don't create large, monolithic functions",
+          "Don't mix abstraction levels within a single function",
+          "Don't keep dead (unused) functions in the codebase",
+          "",
+          "Wrong Examples (too large):",
+          "- 100-line function doing multiple operations",
+          "- Function mixing high-level logic with low-level details",
+          "- Function with multiple nested loops and conditionals",
+          "",
+          "Large Function Indicators (REFACTOR):",
+          "- Function exceeds 20-30 lines",
+          "- Function has deeply nested blocks (3+ levels)",
+          "- Function mixes abstraction levels",
+          "- Function needs comments to explain sections",
+          "- Function is hard to name clearly",
+          "",
+          "Refactoring Strategy:",
+          "- Extract each logical section into named function",
+          "- Use guard clauses to reduce nesting",
+          "- Create helper functions for complex conditions",
+          "- Separate high-level orchestration from low-level details"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.function_size_scanner.FunctionSizeScanner"
+}

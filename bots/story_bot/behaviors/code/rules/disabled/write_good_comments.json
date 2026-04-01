@@ -1,0 +1,166 @@
+{
+  "description": "CRITICAL: Most comments are useless. Kill AI-generated docstrings that just repeat function names and parameters. Only write comments for complex non-obvious algorithms, business rules, warnings, or legal notices. If the code is clear, NO COMMENT NEEDED.",
+  "examples": [
+    {
+      "do": {
+        "description": "ONLY write comments for complex algorithms, business rules, warnings, or legal notices",
+        "content": [
+          "DEFAULT: NO COMMENT - Let the code speak for itself",
+          "ONLY comment when absolutely necessary:",
+          "- Complex non-obvious algorithms (explain WHY this approach)",
+          "- Business rules with external references (policy, regulation)",
+          "- Performance warnings (O(n^2), memory intensive)",
+          "- Security warnings (rate limiting, validation)",
+          "- Legal/license requirements",
+          "",
+          "Correct Examples (rare, valuable comments):",
+          "// Business Rule: Orders over $1000 require manager approval per SEC regulation 2024-05",
+          "if (order.total > 1000) { requireApproval(); }",
+          "",
+          "// WARNING: O(n^2) complexity. Use spatial index for >1000 points.",
+          "function calculateDistances(points) {...}",
+          "",
+          "// Dijkstra's algorithm - we need shortest path, not just connectivity",
+          "function findShortestPath(graph, start, end) {...}",
+          "",
+          "// Copyright (c) 2024 Company Name. Licensed under MIT.",
+          "",
+          "When Comments ARE Valuable:",
+          "- Explain WHY (never WHAT - code shows what)",
+          "- Reference external requirements (policy #, regulation, ticket)",
+          "- Warn about non-obvious consequences",
+          "- Explain algorithm choice (why Dijkstra not BFS?)",
+          "- Legal/license requirements",
+          "",
+          "Test: Can you delete the comment and still understand the code?",
+          "- If YES → DELETE THE COMMENT",
+          "- If NO → Keep it (but first try improving the code)"
+        ]
+      },
+      "dont": {
+        "description": "KILL all useless AI-generated docstrings and obvious comments",
+        "content": [
+          "KILL these immediately - they add ZERO value:",
+          "- Docstrings that repeat function name and parameters",
+          "- AI-generated parameter descriptions that just restate the name",
+          "- Comments that describe WHAT code does (code already shows this)",
+          "- Attribution or change history (git has this)",
+          "- Closing brace comments",
+          "- Position markers and section dividers",
+          "",
+          "WORST Offenders (AI-generated garbage - DELETE):",
+          "'''",
+          "Execute action with given parameters.",
+          "",
+          "Args:",
+          "    action_name: Name of the action",
+          "    action_class: Class of the action",
+          "    parameters: Parameters for the action",
+          "",
+          "Returns:",
+          "    BotResult with action results",
+          "'''",
+          "def execute_action(action_name, action_class, parameters):",
+          "(USELESS - just repeats signature, adds zero information)",
+          "",
+          "'''",
+          "Get the name.",
+          "",
+          "Returns:",
+          "    str: The name",
+          "'''",
+          "def get_name(self):",
+          "    return self.name",
+          "(USELESS - completely obvious)",
+          "",
+          "# Load state from file",
+          "def load_state(self):",
+          "(USELESS - function name already says this)",
+          "",
+          "// Changed by: John Doe, 2024-03-15",
+          "// Modified: Added error handling",
+          "(USELESS - git history has this)",
+          "",
+          "} // end if",
+          "} // end for  ",
+          "} // end class",
+          "(USELESS - code should be small enough)",
+          "",
+          "// ============ Section ============",
+          "(USELESS - organize code into files instead)",
+          "",
+          "Useless Comment Indicators (DELETE IMMEDIATELY):",
+          "- Repeats function/class/parameter names",
+          "- Args/Returns that just restate types",
+          "- 'This function does X' when function name is do_x",
+          "- 'Gets/Sets X' when method name is get_x/set_x",
+          "- 'Returns the X' when return type already clear",
+          "- AI boilerplate: 'Execute...', 'Perform...', 'Handle...'",
+          "- Change history or attribution",
+          "- Position markers",
+          "",
+          "Instead:",
+          "- DELETE the comment",
+          "- If code unclear, IMPROVE THE CODE (rename, extract, simplify)",
+          "- Only add comment if TRULY complex or non-obvious",
+          "",
+          "Golden Rule:",
+          "- Can you understand the code without the comment? → DELETE IT",
+          "- Would renaming make the comment unnecessary? → RENAME, DELETE COMMENT",
+          "- Is the comment just AI filler? → DELETE IT"
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+{
+    "priority":  9,
+    "description":  "If scenarios have Examples tables, create parameterized tests using @pytest.mark.parametrize. Each row becomes a test case. Don\u0027t write single tests that only test one example. Example: @pytest.mark.parametrize(\u0027input,expected\u0027, [(1, 2), (3, 4)])",
+    "do":  {
+               "description":  "Create parameterized tests from Examples tables. Example: @pytest.mark.parametrize(\u0027paths,count\u0027, [([\u0027p1\u0027,\u0027p2\u0027], 2), ([\u0027p3\u0027], 1)])",
+               "guidance":  [
+                                {
+                                    "description":  "Use @pytest.mark.parametrize for Examples table rows",
+                                    "example":  [
+                                                    "@pytest.mark.parametrize(\u0027rule_paths,expected_count\u0027, [",
+                                                    "    ([\u0027path1\u0027, \u0027path2\u0027], 2),",
+                                                    "    ([\u0027path3\u0027], 1),",
+                                                    "])",
+                                                    "def test_scanner_discovery(rule_paths, expected_count):"
+                                                ]
+                                },
+                                {
+                                    "description":  "Each example row becomes a test case",
+                                    "example":  [
+                                                    "# Examples table:",
+                                                    "# | input | expected |",
+                                                    "# | 1     | 2        |",
+                                                    "# | 3     | 4        |",
+                                                    "# -\u003e @pytest.mark.parametrize(\u0027input,expected\u0027, [(1,2), (3,4)])"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test body uses parameters from Examples",
+                                    "example":  [
+                                                    "def test_calculation(input, expected):",
+                                                    "    result = calculate(input)",
+                                                    "    assert result == expected"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t hardcode single example or duplicate test methods. Example: def test_with_value_1(): (wrong); def test_with_value_2(): (wrong - use parametrize)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t hardcode single example when table has multiple",
+                                      "example":  [
+                                                      "def test_scanner():",
+                                                      "    paths = [\u0027path1\u0027]  # WRONG - ignores other Examples rows"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t duplicate test methods for each example",
+                                      "example":  [
+                                                      "def test_with_2_scanners(): ...  # WRONG",
+                                                      "def test_with_1_scanner(): ...   # WRONG - use parametrize"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t write loops inside tests instead of parametrize",
+                                      "example":  [
+                                                      "def test_all_cases():",
+                                                      "    for case in cases:  # WRONG - use parametrize for isolation"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.parameterized_tests_scanner.ParameterizedTestsScanner"
+}

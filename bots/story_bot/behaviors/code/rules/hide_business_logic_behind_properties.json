@@ -1,0 +1,59 @@
+{
+  "description": "CRITICAL: Hide business logic behind properties. Properties hide logic that occurs—it may be computed on-demand, cached, pre-computed, or loaded from storage. The caller shouldn't know or care when the values are calculated / determined.",
+  "scanner": "scanners.code.python.calculation_timing_code_scanner.CalculationTimingCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Hide business logic behind properties",
+        "content": [
+          "Use @property for computed values",
+          "Properties hide when calculations occur (on-demand, cached, pre-computed)",
+          "Callers shouldn't know when value was calculated",
+          "",
+          "Correct Examples (logic hidden):",
+          "class Portfolio:",
+          "    @property",
+          "    def total_value(self) -> Money:",
+          "        # Could be computed on-demand, cached, pre-computed, or loaded from DB",
+          "        # Caller doesn't know or care when it was calculated",
+          "        if not hasattr(self, '_total_value'):",
+          "            self._total_value = sum(",
+          "                position.market_value",
+          "                for position in self.holdings.get_many_positions()",
+          "            )",
+          "        return self._total_value",
+          "",
+          "    # OR it could be pre-computed and stored:",
+          "    # @property",
+          "    # def total_value(self) -> Money:",
+          "    #     return self._cached_total_value  # Calculated two weeks ago? Caller doesn't know"
+        ]
+      },
+      "dont": {
+        "description": "Don't expose business logic in method names",
+        "content": [
+          "Don't use method names like 'calculate_X', 'compute_X'",
+          "Don't use 'get_cached_X', 'get_precomputed_X'",
+          "Don't reveal when or how calculations happen",
+          "",
+          "Wrong Examples (logic exposed):",
+          "class Portfolio:",
+          "    def calculate_total_value(self, holdings: List[Position]) -> Money:",
+          "        # Name reveals it's calculated NOW",
+          "        return sum(position.market_value for position in holdings)",
+          "",
+          "    def get_cached_total_value(self) -> Money:",
+          "        # Name reveals it's cached (timing exposed)",
+          "        return self._cached_value",
+          "",
+          "Logic Exposure Indicators (REFACTOR):",
+          "- Methods starting with 'calculate', 'compute', 'derive'",
+          "- Methods mentioning 'cached', 'pre-computed', 'on-demand' in name",
+          "- Methods that reveal implementation timing"
+        ]
+      }
+    }
+  ]
+}
+
+

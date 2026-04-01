@@ -1,0 +1,71 @@
+{
+    "priority":  10,
+    "description":  "Enumerate ALL stories for increment(s) in focus explicitly (no ~X stories notation). Use story counts (~X stories) only for other increments. When applying new approach (System stories, component interactions), MUST expand existing stories into component-level stories.",
+    "do":  {
+               "description":  "List all stories explicitly for focus increment, including newly expanded stories",
+               "guidance":  [
+                                {
+                                    "description":  "Explicitly enumerate every story in the focus increment with full story names",
+                                    "example":  [
+                                                    "Increment 1 (FOCUS):",
+                                                    "  - User enters character name",
+                                                    "  - User assigns strength ability",
+                                                    "  - User assigns dexterity ability",
+                                                    "  - System validates ability scores",
+                                                    "  - System calculates ability modifiers",
+                                                    "  - User saves character",
+                                                    "  - System stores character to file",
+                                                    "  - User views character sheet",
+                                                    "",
+                                                    "Increment 2: ~15 stories (not in focus, use count)"
+                                                ]
+                                },
+                                {
+                                    "description":  "When new approach requires component interactions, expand stories from user actions into system/component stories",
+                                    "example":  [
+                                                    "Original: \u0027Group tokens from canvas into mob\u0027 (1 story)",
+                                                    "",
+                                                    "Expanded with System approach:",
+                                                    "  - User groups tokens from canvas into mob (user action)",
+                                                    "  - Mob manager creates mob with selected tokens (system)",
+                                                    "  - System assigns leader randomly (system)",
+                                                    "(1 story expanded to 3 stories showing component interactions)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Story count WILL increase when expanding for component-level granularity",
+                                    "example":  [
+                                                    "Original approach: 8 user stories",
+                                                    "",
+                                                    "After System/component approach: 23 stories",
+                                                    "  - Original user action stories: 8",
+                                                    "  - New system component stories: 15",
+                                                    "(Expected increase when showing component interactions explicitly)"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use ~X notation for focus increment or keep original stories without expansion",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use story count notation (~X stories) for the focus increment",
+                                      "example":  [
+                                                      "Increment 1 (FOCUS): ~8 stories (WRONG: should list all stories explicitly)",
+                                                      "",
+                                                      "Should be: Increment 1 (FOCUS): User enters name, User assigns strength, User assigns dexterity, ... (all listed)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t keep original stories without expansion when new approach requires component-level detail",
+                                      "example":  [
+                                                      "Keeping: \u0027Group tokens from canvas into mob\u0027 as single story",
+                                                      "WRONG when System approach requires component interactions",
+                                                      "",
+                                                      "Should expand to: User groups tokens (user), Mob manager creates mob (system), System assigns leader (system)"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.enumerate_stories_scanner.EnumerateStoriesScanner"
+}

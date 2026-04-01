@@ -1,0 +1,72 @@
+{
+  "description": "CRITICAL: Code must delegate responsibilities to the lowest-level object that can handle them. If a collection class can do something, delegate to it rather than implementing it in the parent.",
+  "scanner": "scanners.delegation_scanner.DelegationScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Delegate to lowest-level objects",
+        "content": [
+          "Parent objects delegate to collection classes",
+          "Collection classes handle their own responsibilities directly",
+          "Methods take what they need directly, not through parent",
+          "",
+          "Correct Examples (delegation to lowest level):",
+          "class Bot:",
+          "    def __init__(self, name: str, workspace: Workspace):",
+          "        self.name = name",
+          "        self.workspace = workspace",
+          "        self.behaviors = Behaviors(self)  # injected",
+          "",
+          "    def find_behavior_by_name(self, name: str) -> Optional[Behavior]:",
+          "        # Delegates to Behaviors - the lowest level that can do this",
+          "        return self.behaviors.find_by_name(name)",
+          "",
+          "class Behaviors:",
+          "    def __init__(self, bot: Bot):",
+          "        self.bot = bot",
+          "",
+          "    def find_by_name(self, name: str) -> Optional[Behavior]:",
+          "        # Lowest level - does the actual finding",
+          "        # Takes name directly, not through bot",
+          "        return self._behaviors.get(name)"
+        ]
+      },
+      "dont": {
+        "description": "Don't implement responsibilities in parent when child can handle them",
+        "content": [
+          "Don't have parent objects doing what child objects should do",
+          "Don't create unnecessary delegation chains",
+          "",
+          "Wrong Examples (parent doing child's work):",
+          "class Bot:",
+          "    def find_behavior_by_name(self, name: str) -> Optional[Behavior]:",
+          "        # Bot doing what Behaviors should do",
+          "        for behavior in self.behaviors:",
+          "            if behavior.name == name:",
+          "                return behavior",
+          "        return None",
+          "",
+          "# BAD: Unnecessary delegation chain",
+          "class Bot:",
+          "    def find_behavior_by_name(self, name: str) -> Optional[Behavior]:",
+          "        return self.behaviors.find_behavior(name)  # Behaviors delegates again?",
+          "",
+          "class Behaviors:",
+          "    def find_behavior(self, name: str) -> Optional[Behavior]:",
+          "        return self.finder.find(name)  # Unnecessary extra level",
+          "",
+          "class BehaviorFinder:  # Unnecessary abstraction",
+          "    def find(self, name: str) -> Optional[Behavior]:",
+          "        pass",
+          "",
+          "Delegation Violation Indicators (REFACTOR):",
+          "- Parent objects implementing responsibilities that belong to child objects",
+          "- Unnecessary delegation chains (A delegates to B which delegates to C)",
+          "- Methods in parent that iterate through child collections instead of delegating"
+        ]
+      }
+    }
+  ]
+}
+
+

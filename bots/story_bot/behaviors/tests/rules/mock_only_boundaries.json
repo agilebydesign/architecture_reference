@@ -1,0 +1,63 @@
+{
+    "priority":  8,
+    "description":  "Mock ONLY at architectural boundaries: external APIs, network, uncontrollable services. Don\u0027t mock internal business logic, classes under test, or file operations (use temp files). Example: patch(\u0027requests.get\u0027) (OK); patch(\u0027agent.validate\u0027) (wrong)",
+    "do":  {
+               "description":  "Mock only external dependencies you can\u0027t control. Example: with patch(\u0027requests.get\u0027) as mock: (external API - OK to mock)",
+               "guidance":  [
+                                {
+                                    "description":  "Mock external APIs",
+                                    "example":  [
+                                                    "with patch(\u0027requests.get\u0027) as mock_get:",
+                                                    "    mock_get.return_value.json.return_value = {\u0027name\u0027: \u0027bot\u0027}",
+                                                    "    agent = Agent.from_remote_config(\u0027http://api.com/config\u0027)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Mock external services (monitoring, logging to external)",
+                                    "example":  [
+                                                    "with patch(\u0027monitoring.send_metric\u0027) as mock_send:",
+                                                    "    agent = Agent(\u0027bot\u0027, Path(\u0027/tmp\u0027))",
+                                                    "    mock_send.assert_called_with(\u0027agent.initialized\u0027)"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use real temp files instead of mocking file I/O",
+                                    "example":  [
+                                                    "config_file = tmp_path / \u0027config.json\u0027",
+                                                    "config_file.write_text(\u0027{\"name\": \"bot\"}\u0027)",
+                                                    "agent = Agent.from_config_file(config_file)  # Real file, no mock"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t mock internal logic, class under test, or file I/O. Example: with patch(\u0027agent.validate_config\u0027) (wrong - test the logic!)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t mock the class you\u0027re testing",
+                                      "example":  [
+                                                      "agent = Mock(spec=Agent)  # WRONG - defeats purpose of test"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mock internal business logic",
+                                      "example":  [
+                                                      "with patch(\u0027agent.validate_config\u0027):  # WRONG - test the validation!"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mock file operations when temp files work",
+                                      "example":  [
+                                                      "with patch(\u0027pathlib.Path.read_text\u0027):  # WRONG - use real temp file"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t mock collaborators that are simple value objects",
+                                      "example":  [
+                                                      "config = Mock()  # WRONG if Config is just a dict/dataclass - use real one"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.code.python.mock_boundaries_scanner.MockBoundariesScanner"
+}

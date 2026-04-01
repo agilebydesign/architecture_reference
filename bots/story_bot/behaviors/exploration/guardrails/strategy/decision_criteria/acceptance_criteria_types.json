@@ -1,0 +1,13 @@
+{
+  "description": "Acceptance criteria types",
+  "question": "Are we capturing both behavioral (user-system) and domain (concept-relationship) criteria?",
+  "outcome": "Ensures comprehensive coverage of both user interactions and domain concepts",
+  "options": [
+    "Behavioral only – Focus on user-system interactions and user-facing behavior",
+    "Domain only – Focus on domain concepts, relationships, and business rules",
+    "Both behavioral and domain – Capture user-system interactions AND domain concepts/relationships",
+    "Behavioral primary, domain secondary – Emphasize user interactions with domain concepts as supporting context",
+    "Domain primary, behavioral secondary – Emphasize domain structure with user interactions as examples"
+  ]
+}
+

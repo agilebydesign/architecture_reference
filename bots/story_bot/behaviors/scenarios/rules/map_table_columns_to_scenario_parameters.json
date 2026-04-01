@@ -1,0 +1,70 @@
+{
+    "priority":  9,
+    "description":  "Map example tables to {Concept} references bidirectionally. Every example table maps to a {Concept} in Background/Steps. Use {Concept} for object references and {Concept.property} for specific attributes. Keep tables minimal and domain-focused.",
+    "do":  {
+               "description":  "Bidirectional mapping: Example table name ↔ {Concept} reference in steps.",
+               "guidance":  [
+                                {
+                                    "description":  "Every {Concept} in Background/Steps has a matching example table",
+                                    "example":  [
+                                                    "Given {User} is logged in → 'User' example table exists",
+                                                    "And {User} is entitled to {Entitlement} → Both 'User' and 'Entitlement' tables exist"
+                                                ]
+                                },
+                                {
+                                    "description":  "Every example table is referenced as {Concept} in steps",
+                                    "example":  [
+                                                    "'User' table → Steps contain {User}",
+                                                    "'Enterprise' table → Steps contain {Enterprise}"
+                                                ]
+                                },
+                                {
+                                    "description":  "Use {Concept.property} when a specific attribute is important",
+                                    "example":  [
+                                                    "Given {Account} with {Account.activation_status}",
+                                                    "Then {Recipient.status} is Active",
+                                                    "And {WirePayment} holds {PaymentAmount.amount}"
+                                                ]
+                                },
+                                {
+                                    "description":  "Verification properties must be referenced in Then steps",
+                                    "example":  [
+                                                    "'is_active' column → Then step uses {Recipient.is_active}",
+                                                    "'expected_balance' column → Then {Account.expected_balance} is shown"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don't use <column_name> notation - use {Concept} or {Concept.property}. Don't have orphaned tables or references.",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don't use <column_name> notation - use {Concept} references",
+                                      "example":  [
+                                                      "WRONG: Given User <user_name> is logged in",
+                                                      "CORRECT: Given {User} is logged in"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don't have {Concept} without matching example table",
+                                      "example":  [
+                                                      "Steps use {PaymentAmount} but no 'PaymentAmount' example table exists (WRONG)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don't have example tables not referenced in steps",
+                                      "example":  [
+                                                      "'ApprovalWorkflow' table exists but no {ApprovalWorkflow} in steps (WRONG)"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don't use column names directly in step text",
+                                      "example":  [
+                                                      "WRONG: Given User <user_name> with <entitlement_name>",
+                                                      "CORRECT: Given {User} is entitled to {Entitlement}"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.table_column_parameter_scanner.TableColumnParameterScanner"
+}

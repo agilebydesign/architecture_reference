@@ -1,0 +1,6 @@
+{
+  "behaviorName": "exploration",
+  "instructions": [
+    "Render exploration story maps with acceptance criteria to diagrams and markdown. Supports multiple scopes (epic, increment, story) - output filenames include scope identifiers."
+  ]
+}

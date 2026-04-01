@@ -5,6 +5,8 @@ import { CounterTest } from "../counter/counter_test.js";
 import type { ICounter, IFoo, HydrateData } from "../../src/counter/counter.js";
 import { ContextFolderTest } from "../context_folder/context_folder_test.js";
 import type { IContextFolder, IBotInfo, ContextFolderHydrateData } from "../../src/context_folder/context_folder.js";
+import { BotBehaviorTest, testAllowedBehaviors, testBehaviorConfigs, testBaseActionConfigs } from "../bot_behavior/bot_behavior_test.js";
+import type { IBotBehavior, IBehaviorConfig, IActionConfig, IBaseActionConfig, BotBehaviorHydrateData } from "../../src/bot_behavior/bot_behavior.js";
 
 /**
  * Wraps EngineCLI.run as ICounter for Template Method tests.
@@ -150,4 +152,83 @@ describe("EngineCLI — ContextFolder", () => {
   }
 
   new CliContextFolderTest().registerTests();
+});
+
+/**
+ * Wraps EngineCLI.run as IBotBehavior for Template Method tests.
+ * Implements IBotBehavior interface by delegating to CLI commands.
+ */
+class CliBotBehaviorWrapper implements IBotBehavior {
+  loadBehaviors(allowedBehaviors: string[], behaviorConfigs: IBehaviorConfig[]): void {
+    // CLI can't pass complex objects via command string; delegate directly to engine
+    EngineCLI.engine.botBehavior.loadBehaviors(allowedBehaviors, behaviorConfigs);
+  }
+
+  loadActions(baseActionConfigs?: IBaseActionConfig[]): void {
+    EngineCLI.engine.botBehavior.loadActions(baseActionConfigs);
+  }
+
+  get currentBehavior(): IBehaviorConfig | null {
+    return EngineCLI.engine.botBehavior.currentBehavior;
+  }
+
+  get currentAction(): IActionConfig | null {
+    return EngineCLI.engine.botBehavior.currentAction;
+  }
+
+  get behaviors(): IBehaviorConfig[] {
+    return EngineCLI.engine.botBehavior.behaviors;
+  }
+
+  get actions(): IActionConfig[] {
+    return EngineCLI.engine.botBehavior.actions;
+  }
+
+  hydrate(data?: BotBehaviorHydrateData): void {
+    EngineCLI.engine.botBehavior.hydrate?.(data ?? {});
+  }
+}
+
+describe("EngineCLI — BotBehavior", () => {
+  beforeEach(() => {
+    EngineCLI.reset();
+  });
+
+  class CliBotBehaviorTest extends BotBehaviorTest {
+    protected createBotBehavior(): IBotBehavior {
+      return new CliBotBehaviorWrapper();
+    }
+
+    protected override assertCurrentBehavior(botBehavior: IBotBehavior, expected: string): void {
+      // First: standard domain assertion
+      super.assertCurrentBehavior(botBehavior, expected);
+
+      // CLI layer adds: verify all output formats produce correct output
+      const outJson = EngineCLI.run("botBehavior.currentBehavior", { format: "json" });
+      expect(JSON.parse(outJson).currentBehavior).toBe(expected);
+
+      const outTty = EngineCLI.run("botBehavior.currentBehavior", { format: "tty" });
+      expect(outTty).toContain(expected);
+
+      const outMd = EngineCLI.run("botBehavior.currentBehavior", { format: "markdown" });
+      expect(outMd).toContain(expected);
+    }
+
+    protected override assertCurrentAction(botBehavior: IBotBehavior, expected: string): void {
+      // First: standard domain assertion
+      super.assertCurrentAction(botBehavior, expected);
+
+      // CLI layer adds: verify all output formats produce correct output
+      const outJson = EngineCLI.run("botBehavior.currentAction", { format: "json" });
+      expect(JSON.parse(outJson).currentAction).toBe(expected);
+
+      const outTty = EngineCLI.run("botBehavior.currentAction", { format: "tty" });
+      expect(outTty).toContain(expected);
+
+      const outMd = EngineCLI.run("botBehavior.currentAction", { format: "markdown" });
+      expect(outMd).toContain(expected);
+    }
+  }
+
+  new CliBotBehaviorTest().registerTests();
 });

@@ -1,0 +1,20 @@
+{
+  "name": "build_story_scenarios",
+  "description": "Build story graph with scenarios added to each story (with optional examples for data-driven testing when decision criteria chosen)",
+  "input": "story-graph.json",
+  "output": "story-graph.json",
+  "template": "story-graph-examples.json",
+  "process": [
+    "Check decision criteria: agile_bot/bots/story_bot/behaviors/scenarios/guardrails/strategy/decision_criteria/scenario_outline.json",
+    "Load existing story graph from project area",
+    "For each story in graph, analyze acceptance criteria",
+    "Generate scenarios (happy_path, edge_case, error_case)",
+    "Add test metadata to story: test_file (path to test file), test_class (test class name), test_line (line number of test class)",
+    "For each scenario, add test metadata: test_method (test method name matching scenario), test_line (line number of test method)",
+    "IF decision criteria = 'Yes': Identify scenarios needing data variation and add Examples tables to those scenarios",
+    "Add scenarios to story in graph (some scenarios will have examples field for data-driven testing)",
+    "Save updated story graph to project area"
+  ]
+}
+
+

@@ -1,0 +1,67 @@
+{
+  "description": "CRITICAL: Separate pure logic from side effects and infrastructure. Keep pure calculations separate from I/O, isolate business logic from infrastructure, and separate queries from commands.",
+  "examples": [
+    {
+      "do": {
+        "description": "Separate different concerns into distinct layers",
+        "content": [
+          "Keep pure calculations separate from I/O",
+          "Isolate business logic from infrastructure",
+          "Separate queries from commands (CQRS principle)",
+          "Separate data access from business rules",
+          "",
+          "Correct Examples (separated concerns):",
+          "- calculateTotal(items) → pure calculation, no I/O",
+          "- validateOrder(order) → pure business rules, no database",
+          "- saveOrder(order) → I/O only, minimal logic",
+          "- getOrder(id) → query, no mutations",
+          "",
+          "Separation Requirements:",
+          "- Pure functions for calculations/transformations",
+          "- Business logic independent of infrastructure",
+          "- Queries don't modify state",
+          "- Commands don't return data (unless created entity)",
+          "- Clear boundaries between layers",
+          "",
+          "Domain-Based Organization:",
+          "- Group by domain/feature, not by technical type",
+          "- bot/ (orchestration), state/ (data), mcp/ (tools)",
+          "- Each domain has clear boundaries",
+          "- Minimal dependencies between domains",
+          "- Example: src/bot/, src/state/, src/mcp/ vs src/models/, src/views/"
+        ]
+      },
+      "dont": {
+        "description": "Don't mix business logic with logging, metrics, or I/O",
+        "content": [
+          "Don't mix business logic with logging/metrics",
+          "Don't combine data access with business rules",
+          "Don't perform I/O in calculation functions",
+          "",
+          "Wrong Examples (mixed concerns):",
+          "- calculateTotal() that also logs and saves to database",
+          "- validateUser() that also sends emails",
+          "- getUser() that also updates last login time",
+          "- processOrder() that mixes validation, calculation, and persistence",
+          "",
+          "Mixed Concerns Indicators (REFACTOR):",
+          "- Functions performing calculations AND I/O",
+          "- Business logic mixed with database queries",
+          "- Validation mixed with persistence",
+          "- Query operations that modify state",
+          "- Infrastructure dependencies in business logic",
+          "",
+          "Refactoring Strategy:",
+          "- Extract pure calculations (no I/O)",
+          "- Separate business rules from infrastructure",
+          "- Create service layer for orchestration",
+          "- Use dependency injection for infrastructure",
+          "- Follow layered architecture (UI → Business → Data)",
+          "- Organize by domain folders, not technical layers",
+          "- Move related concerns into domain-specific modules"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.separate_concerns_scanner.SeparateConcernsScanner"
+}

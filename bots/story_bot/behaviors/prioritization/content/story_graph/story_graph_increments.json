@@ -1,0 +1,64 @@
+{
+  "_explanation": {
+    "purpose": "Prioritization phase - organizes stories into prioritized increments for delivery planning",
+    "increments_field": "Groups stories by priority order. Each increment has a name, priority number, and list of story names",
+    "scope": "Adds increment organization to existing story graph structure. Stories are referenced by name",
+    "structure": "Inherits story graph from shape phase. Adds increments array with priority-ordered delivery slices"
+  },
+  "epics": [
+    {
+      "name": "Epic Name",
+      "sequential_order": null,
+      "behavior": "scenarios",
+      "notes": "",
+      "sub_epics": [
+        {
+          "name": "Sub Epic Name",
+          "sequential_order": 0.0,
+          "behavior": "code",
+          "notes": "",
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "name": "",
+              "sequential_order": 0.0,
+              "type": "and",
+              "connector": "or",
+              "behavior": "code",
+              "notes": "",
+              "stories": [
+                {
+                  "name": "Story Name",
+                  "sequential_order": 0.0,
+                  "connector": "and",
+                  "story_type": "user",
+                  "behavior": "code",
+                  "notes": ""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "story_groups": []
+    }
+  ],
+  "increments": [
+    {
+      "name": "Increment 1",
+      "priority": 1,
+      "stories": [
+        "Story Name",
+        "Another Story"
+      ]
+    },
+    {
+      "name": "Increment 2",
+      "priority": 2,
+      "description": "Optional description",
+      "stories": [
+        "Third Story"
+      ]
+    }
+  ]
+}

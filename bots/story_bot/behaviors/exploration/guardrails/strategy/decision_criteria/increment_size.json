@@ -1,0 +1,49 @@
+{
+  "description": "Increment size",
+  "question": "Is this increment too large? Should it be broken into smaller increments?",
+  "outcome": "Determines whether to split increments for better manageability and delivery",
+  "options": [
+    "Keep increment as-is – Current scope is appropriate",
+    "Split by user journey stage – Break into increments that represent distinct journey phases",
+    "Split by user type – Separate increments for different user personas or roles",
+    "Split by capability – Break into increments representing distinct system capabilities",
+    "Split by domain boundary – Separate increments by bounded context or domain area",
+    "Split by risk/value – Separate high-risk or high-value items into dedicated increments",
+    "Split by dependency – Separate increments based on technical or business dependencies"
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

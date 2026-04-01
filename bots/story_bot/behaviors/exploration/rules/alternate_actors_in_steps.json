@@ -1,0 +1,57 @@
+{
+    "priority":  3,
+    "description":  "Alternate between actors every 1-2 steps. Scenarios should show back-and-forth interaction between user and system. Example: When user submits â†’ Then system validates â†’ When system displays â†’ Then user confirms.",
+    "do":  {
+               "description":  "Alternate actors every 1-2 steps to show interaction flow. Example: When user â†’ Then system; When system â†’ Then actor",
+               "guidance":  [
+                                {
+                                    "description":  "When actor acts, system responds",
+                                    "example":  [
+                                                    "When user submits order",
+                                                    "Then system validates payment"
+                                                ]
+                                },
+                                {
+                                    "description":  "When system completes, actor reacts or system continues briefly",
+                                    "example":  [
+                                                    "When system displays confirmation",
+                                                    "Then user reviews details"
+                                                ]
+                                },
+                                {
+                                    "description":  "System can chain 1-2 sequential actions before returning to actor",
+                                    "example":  [
+                                                    "When user submits form",
+                                                    "Then system validates input",
+                                                    "And system saves data",
+                                                    "When system displays result",
+                                                    "Then user confirms"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t have long runs of same actor without switching. Example: 5 consecutive \u0027system does X\u0027 steps without user interaction",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t have more than 2 consecutive steps from same actor",
+                                      "example":  [
+                                                      "Then system validates (1)",
+                                                      "And system processes (2)",
+                                                      "And system stores (3)",
+                                                      "And system notifies (4) - TOO MANY consecutive system steps"
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t write scenarios where user acts multiple times without system response",
+                                      "example":  [
+                                                      "When user enters name",
+                                                      "And user enters email",
+                                                      "And user enters password",
+                                                      "And user clicks submit - should have system validation between steps"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.actor_alternation_scanner.ActorAlternationScanner"
+}

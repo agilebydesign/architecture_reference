@@ -1,0 +1,27 @@
+(E) Epic Name
+    (E) Sub-Epic Name
+        (E) Nested Sub-Epic Name (optional)
+            (S) Actor --> Story Name
+            (S) Actor --> Story Name
+            or (S) Actor --> Story Name
+                (AC) Actor --> Acceptance Criteria
+                (AC) Actor --> Acceptance Criteria
+            (S) Actor --> Story Name
+                (AC) Actor --> Acceptance Criteria
+                (AC) Actor --> Acceptance Criteria
+        (E) Another Nested Sub-Epic Name
+            (S) Actor --> Story Name
+            (S) Actor --> Story Name
+
+(E) {epic_name}
+    (E) {sub_epic_name}
+        (S) {actor} --> {story_name}
+        (S) {actor} --> {story_name}
+        or (S) {actor} --> {story_name}
+            (AC) {actor} --> {acceptance_criteria}
+            (AC) {actor} --> {acceptance_criteria}
+            (S) {actor} --> {story_name}
+                (AC) {actor} --> {acceptance_criteria}
+                (AC) {actor} --> {acceptance_criteria}
+        (S) {actor} --> {story_name}
+

@@ -1,0 +1,66 @@
+{
+    "priority":  19,
+    "description":  "Use pytest with orchestrator pattern for story-based tests. NO FEATURE FILES. Test classes contain orchestrator methods (under 20 lines) showing Given-When-Then flow by calling helper functions. Example: def test_agent_loads_config(): given_config_exists(); agent = when_agent_initialized(); then_agent_is_configured(agent)",
+    "do":  {
+               "description":  "Orchestrator pattern: test shows flow, delegates to helpers. Example: # Given; create_config_file(); # When; agent.initialize(); # Then; assert agent.is_initialized",
+               "guidance":  [
+                                {
+                                    "description":  "Test methods show Given-When-Then flow (under 20 lines)",
+                                    "example":  [
+                                                    "def test_agent_loads_config():",
+                                                    "    # Given: Config exists",
+                                                    "    config_file = create_config_file(workspace)",
+                                                    "    # When: Agent initialized",
+                                                    "    agent = Agent(workspace).initialize()",
+                                                    "    # Then: Config loaded",
+                                                    "    assert agent.is_initialized"
+                                                ]
+                                },
+                                {
+                                    "description":  "Helper functions handle details (under 20 lines each)",
+                                    "example":  [
+                                                    "def create_config_file(workspace, name=\u0027bot\u0027):",
+                                                    "    path = workspace / \u0027config.json\u0027; path.write_text(\u0027{}\u0027)",
+                                                    "    return path"
+                                                ]
+                                },
+                                {
+                                    "description":  "Test classes under 300 lines",
+                                    "example":  [
+                                                    "class TestAgentConfiguration:",
+                                                    "    # Multiple test methods, each under 20 lines",
+                                                    "    # Extract shared setup to helpers"
+                                                ]
+                                }
+                            ]
+           },
+    "dont":  {
+                 "description":  "Don\u0027t use feature files or inline complex setup. Example: @given(\u0027config exists\u0027) def step(): ... (wrong - use pytest directly)",
+                 "guidance":  [
+                                  {
+                                      "description":  "Don\u0027t use feature files or step definitions",
+                                      "example":  [
+                                                      "# WRONG: Feature file approach",
+                                                      "@given(\u0027config exists\u0027)",
+                                                      "def step_config_exists(): ..."
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t inline complex setup in tests",
+                                      "example":  [
+                                                      "def test_agent():",
+                                                      "    # WRONG: 15 lines of setup inline",
+                                                      "    config_dir = workspace / \u0027config\u0027; config_dir.mkdir()..."
+                                                  ]
+                                  },
+                                  {
+                                      "description":  "Don\u0027t exceed 20 lines in test methods",
+                                      "example":  [
+                                                      "def test_complex():  # WRONG - 40 lines",
+                                                      "    # Extract to helpers!"
+                                                  ]
+                                  }
+                              ]
+             },
+    "scanner":  "scanners.orchestrator_pattern_scanner.OrchestratorPatternScanner"
+}

@@ -1,0 +1,10 @@
+{
+  "description": "Uncertainty validation strategy",
+  "question": "What is the earliest uncertainty you need to validate?",
+  "options": [
+    "Architecture/Reuse - validate foundational patterns and reusable components early to prevent downstream rework",
+    "Impact - validate whether users care, intend to use, or will act on the solution (e.g., Wizard of Oz, landing pages, stubs)",
+    "Operations - validate operational readiness, deployment, monitoring, and support capabilities",
+    "System Integration - validate integration points with external systems, APIs, or partners"
+  ]
+}

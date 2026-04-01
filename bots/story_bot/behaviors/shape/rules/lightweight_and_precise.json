@@ -1,0 +1,22 @@
+{
+  "priority": 4,
+  "description": "Create lightweight but precise documentation during shaping. Focus on structure and scope, not detailed specifications.",
+  "do": {
+    "description": "Keep documentation lightweight and easy to walk through. Example: '(E) Manage Orders → (SE) Place Order → (S) Validate Order Items' (shows hierarchy, not specs)",
+    "guidance": [
+      {
+        "description": "Focus on structure and scope without over-elaboration - make the map easy to walk through as it tells a story, showing hierarchy and flow without detailed specifications",
+        "example": ["(E) Manage Orders\n  (SE) Place Order\n    (S) Validate Order Items\n(Shows hierarchy and flow, not detailed specs)"]
+      }
+    ]
+  },
+  "dont": {
+    "description": "Don't over-elaborate or add detailed specifications during shaping. Example: '(E) Manage Orders → Detailed API specs, database schema, UI mockups' (TOO MUCH)",
+    "guidance": [
+      {
+        "description": "Don't add detailed technical specifications or over-elaborate story mapping during the shaping phase - keep it lightweight",
+        "example": ["(E) Manage Orders\n  → Detailed API specs, database schema, UI mockups, validation rules\n(Too much detail for shaping phase)"]
+      }
+    ]
+  }
+}

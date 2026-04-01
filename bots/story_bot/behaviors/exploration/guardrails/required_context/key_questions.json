@@ -1,0 +1,14 @@
+{
+  "description": "Key questions that must be answered before this behavior can proceed",
+  "questions": [
+    "Which increment are we exploring?",
+    "What is the overarching outcome or user goal that unites this increment?",
+    "What is the first thing the user will try to do in this flow?",
+    "What system reactions are expected for each user input?",
+    "Where do we 'pass the ball' between the user and system in this flow?",
+    "What are the likely unknowns, edge cases, or domain complexities?",
+    "Are there domain rules or constraints that govern this behavior?",
+    "What parts of this increment are likely to involve integration or coordination across systems?",
+    "Where do we face architectural risk or uncertainty that should be explored further before proceeding?"
+  ]
+}

@@ -128,7 +128,7 @@ graph TB
 **Key Characteristics:**
 - Full Node.js API access (fs, path, crypto, etc.)
 - VS Code extension API access
-- Handles persistence (counter.json)
+- Handles persistence (persistence/counter.json)
 - Provides CLI interface via engine_cli.ts
 - Communicates with webview via `postMessage` API
 

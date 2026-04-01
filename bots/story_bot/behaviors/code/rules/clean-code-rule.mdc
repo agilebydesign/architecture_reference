@@ -1,0 +1,457 @@
+---
+description: Framework-agnostic clean code practices
+globs:
+  - "**/*.js"
+  - "**/*.mjs"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.py"
+  - "**/*.java"
+  - "**/*.cs"
+alwaysApply: false
+---
+**When** writing or reviewing code across any codebase,
+**then** apply clean code principles to ensure maintainability, readability, and robustness.
+
+This rule defines universal clean code principles applicable across all programming languages and frameworks.
+
+**Executing Commands:**
+* `\clean-code-validate` — Validate code quality and optionally apply automated fixes
+
+## Conventions
+
+**File Organization:**
+- Keep files under 500 lines when possible
+- Group related functions together
+- Follow "newspaper metaphor" (high-level first, details below)
+
+**Naming Patterns:**
+- Use intention-revealing names that answer "why does this exist?"
+- Pick one word per concept (get/fetch/retrieve → choose one)
+- Use longer names for longer scopes
+
+**Code Structure:**
+- Keep functions under 20 lines when possible
+- Keep classes under 200-300 lines
+- Prefer 0-2 parameters; use objects for more complex needs
+- Nest conditionals no more than 2-3 levels deep
+
+## 1. Functions
+
+### 1.1 Single Responsibility
+Functions should do one thing and do it well, with no hidden side effects.
+
+**[DO]:**
+- Keep functions focused on a single task
+- Extract multiple concerns into separate functions
+- Name functions to reveal their complete behavior
+
+**[DON'T]:**
+- Mix business logic with side effects (logging, I/O, mutations)
+- Create functions that perform multiple unrelated operations
+- Hide side effects in function implementations
+
+### 1.2 Small and Focused
+Functions should be small enough to understand at a glance.
+
+**[DO]:**
+- Keep functions under 20 lines when possible
+- Extract complex logic into named helper functions
+- Use descriptive names that eliminate need for comments
+
+**[DON'T]:**
+- Create large, monolithic functions
+- Mix abstraction levels within a single function
+- Keep "dead" (unused) functions in the codebase
+
+### 1.3 Clear Parameters
+Function signatures should be simple and intention-revealing.
+
+**[DO]:**
+- Prefer 0-2 parameters; use objects for more complex needs
+- Use descriptive parameter names
+- Make function names encode parameter meaning
+
+**[DON'T]:**
+- Use boolean flags as parameters (create two functions instead)
+- Exceed 3 parameters without using a parameter object
+- Use output parameters (return values instead)
+
+### 1.4 Simple Control Flow
+Keep nesting minimal and control flow straightforward.
+
+**[DO]:**
+- Use guard clauses to reduce nesting
+- Extract nested blocks into separate functions
+- Prefer early returns for edge cases
+
+**[DON'T]:**
+- Nest conditionals more than 2-3 levels deep
+- Use complex switch statements outside factory methods
+- Mix multiple control flow patterns in one function
+
+## 2. Naming
+
+### 2.1 Intention-Revealing
+Names should clearly communicate purpose and usage.
+
+**[DO]:**
+- Use names that answer "why does this exist?"
+- Make names searchable and pronounceable
+- Choose names that reveal the problem domain
+
+**[DON'T]:**
+- Use single-letter names (except loop counters in tiny scopes)
+- Rely on "mental mapping" or cryptic abbreviations
+- Use "cute" or clever names that obscure meaning
+
+### 2.2 Consistency
+Use one word per concept across the entire codebase.
+
+**[DO]:**
+- Pick one term per concept (get/fetch/retrieve → choose one)
+- Use consistent naming patterns for similar operations
+- Follow domain language for business concepts
+
+**[DON'T]:**
+- Mix synonyms for the same concept
+- Use different names for same abstraction
+- Encode type information in names (Hungarian notation)
+
+### 2.3 Meaningful Context
+Names should provide appropriate context without redundancy.
+
+**[DO]:**
+- Use longer names for longer scopes
+- Add contextual prefixes when clarifying relationships
+- Replace magic numbers with named constants
+
+**[DON'T]:**
+- Add gratuitous context that's obvious from structure
+- Use meaningless distinctions (data1, data2, dataInfo)
+- Leave magic numbers unexplained
+
+## 3. Code Structure
+
+### 3.1 Eliminate Duplication (DRY)
+Every piece of knowledge should have a single, authoritative representation.
+
+**[DO]:**
+- Extract repeated logic into reusable functions
+- Use abstraction to capture common patterns
+- Apply DRY principle to both code and data
+
+**[DON'T]:**
+- Copy-paste code blocks
+- Maintain multiple versions of same logic
+- Ignore structural duplication
+
+### 3.2 Separation of Concerns
+Separate pure logic from side effects and infrastructure.
+
+**[DO]:**
+- Keep pure calculations separate from I/O
+- Isolate business logic from infrastructure
+- Separate queries from commands
+
+**[DON'T]:**
+- Mix business logic with logging/metrics
+- Combine data access with business rules
+- Perform I/O in calculation functions
+
+### 3.3 Proper Abstraction Levels
+Code should flow from high-level concepts down to details.
+
+**[DO]:**
+- Follow "newspaper metaphor" (high-level first)
+- Keep related functions close together
+- Step down one abstraction level at a time
+
+**[DON'T]:**
+- Mix low-level details with high-level concepts
+- Jump between abstraction levels randomly
+- Scatter related logic across file
+
+## 4. Error Handling
+
+### 4.1 Use Exceptions Properly
+Prefer exceptions over error codes for exceptional conditions.
+
+**[DO]:**
+- Use exceptions for truly exceptional situations
+- Provide informative error messages
+- Create domain-specific exception types
+
+**[DON'T]:**
+- Use exceptions for normal control flow
+- Swallow exceptions silently
+- Return error codes from modern APIs
+
+### 4.2 Isolate Error Handling
+Keep error handling separate from business logic.
+
+**[DO]:**
+- Extract try/catch blocks into dedicated functions
+- Handle errors at appropriate abstraction levels
+- Write tests for error scenarios first
+
+**[DON'T]:**
+- Mix error handling with business logic
+- Propagate checked exceptions through many layers
+- Leave error handling as an afterthought
+
+### 4.3 Classify by Caller Needs
+Design exceptions based on how callers will handle them.
+
+**[DO]:**
+- Create exception types based on caller's needs
+- Use special case objects for predictable failures
+- Wrap third-party exceptions at boundaries
+
+**[DON'T]:**
+- Create exception hierarchies by component/type only
+- Force callers to handle many similar exception types
+- Leak third-party exception types
+
+## 5. State Management
+
+### 5.1 Minimize Mutable State
+Prefer immutable data structures and pure functions.
+
+**[DO]:**
+- Use immutable data structures by default
+- Create new objects instead of mutating
+- Make immutability explicit in type system
+
+**[DON'T]:**
+- Mutate shared global state
+- Modify function parameters
+- Use mutable variables when const/final works
+
+### 5.2 Encapsulation
+Hide implementation details and expose minimal interface.
+
+**[DO]:**
+- Make fields private by default
+- Expose behavior, not data
+- Follow Law of Demeter (principle of least knowledge)
+
+**[DON'T]:**
+- Use getters/setters as glorified public fields
+- Return references to mutable internal state
+- Chain method calls through multiple objects
+
+### 5.3 Explicit Dependencies
+Make dependencies visible through constructor injection.
+
+**[DO]:**
+- Pass dependencies through constructors
+- Make all dependencies explicit and visible
+- Use dependency injection for flexibility
+
+**[DON'T]:**
+- Use hidden global state
+- Create dependencies inside classes
+- Access singletons directly
+
+## 6. Classes and Objects
+
+### 6.1 Single Responsibility
+Each class should have one reason to change.
+
+**[DO]:**
+- Keep classes cohesive (methods/data interdependent)
+- Focus on single responsibility
+- Extract multi-responsibility classes
+
+**[DON'T]:**
+- Create "god objects" doing everything
+- Mix unrelated responsibilities
+- Keep private methods used by only few methods
+
+### 6.2 Small and Compact
+Classes should be small and free of dead code.
+
+**[DO]:**
+- Keep classes under 200-300 lines
+- Eliminate dead/unused code
+- Favor many small classes over few large ones
+
+**[DON'T]:**
+- Let classes grow without bounds
+- Keep commented-out code
+- Mix multiple languages in one source file
+
+### 6.3 Open/Closed Principle
+Open for extension, closed for modification.
+
+**[DO]:**
+- Design for extension without modification
+- Depend on interfaces/abstractions, not concrete types
+- Use composition over inheritance
+
+**[DON'T]:**
+- Hardcode dependencies on concrete classes
+- Let derived classes leak into base classes
+- Create fragile inheritance hierarchies
+
+## 7. Comments
+
+### 7.1 Prefer Code Over Comments
+Express intent in code first, comments second.
+
+**[DO]:**
+- Rename variables/functions instead of commenting
+- Extract methods to make intent clear
+- Use comments only when code can't express intent
+
+**[DON'T]:**
+- Use comments to explain bad code
+- Add noise comments stating the obvious
+- Let comments become outdated
+
+### 7.2 Good Comments
+Some comments add genuine value.
+
+**[DO]:**
+- Explain business rules and complex algorithms
+- Warn of consequences or performance issues
+- Add TODO for near-term work
+- Include required legal/license comments
+
+**[DON'T]:**
+- Add attribution or change history (use git)
+- Create closing-brace comments
+- Write extensive JavaDoc for obvious methods
+
+### 7.3 Bad Comments
+Some comments actively harm readability.
+
+**[DO]:**
+- Delete commented-out code (it's in git)
+- Remove misleading or outdated comments
+- Eliminate redundant noise
+
+**[DON'T]:**
+- Keep commented-out "backup" code
+- Write misleading or contradictory comments
+- Use HTML markup in comments
+
+## 8. Formatting
+
+### 8.1 Team Consensus
+Formatting should be consistent and automated.
+
+**[DO]:**
+- Agree on formatting rules as a team
+- Use automated formatters (prettier, black, gofmt)
+- Enforce formatting in CI/CD pipeline
+
+**[DON'T]:**
+- Have "formatting wars" in code reviews
+- Let individual preferences override team standards
+- Format code manually
+
+### 8.2 Vertical Density
+Related code should be visually close.
+
+**[DO]:**
+- Group related concepts together
+- Declare variables close to usage
+- Keep files under 500 lines when possible
+
+**[DON'T]:**
+- Separate related code with blank lines
+- Put variables far from their usage
+- Create excessively long files
+
+### 8.3 Consistent Indentation
+Use consistent, meaningful indentation.
+
+**[DO]:**
+- Use 2-4 spaces consistently (or tabs if team prefers)
+- Indent to show code structure
+- Keep lines under 80-120 characters
+
+**[DON'T]:**
+- Mix tabs and spaces
+- Use inconsistent indentation
+- Create extremely long lines
+
+## 9. Testing
+
+### 9.1 Test Quality
+Tests should be as clean as production code.
+
+**[DO]:**
+- Keep tests readable and maintainable
+- Use descriptive test names
+- Follow FIRST principles (Fast, Independent, Repeatable, Self-validating, Timely)
+
+**[DON'T]:**
+- Let test code decay
+- Skip "trivial" tests
+- Make tests dependent on each other
+
+### 9.2 One Concept Per Test
+Each test should verify a single concept.
+
+**[DO]:**
+- Test one behavior per test
+- Use minimal assertions per test
+- Build domain-specific test utilities
+
+**[DON'T]:**
+- Test multiple unrelated concepts together
+- Create massive test setups
+- Repeat setup code across tests
+
+### 9.3 Test-Driven Development
+Write tests before production code.
+
+**[DO]:**
+- Write failing test first (Red)
+- Write minimal code to pass (Green)
+- Refactor with confidence (Refactor)
+
+**[DON'T]:**
+- Write tests after code is "done"
+- Skip refactoring step
+- Make code too hard to test
+
+## 10. System Boundaries
+
+### 10.1 Isolate Third-Party Code
+Don't let external APIs spread through your codebase.
+
+**[DO]:**
+- Wrap third-party APIs behind your interfaces
+- Create learning tests for external dependencies
+- Isolate boundary code from business logic
+
+**[DON'T]:**
+- Pass third-party types between your functions
+- Let external APIs dictate your design
+- Skip learning tests for dependencies
+
+### 10.2 Adapt and Test
+Ensure boundaries work as expected.
+
+**[DO]:**
+- Create adapters for third-party code
+- Test boundary behavior explicitly
+- Update tests when upgrading dependencies
+
+**[DON'T]:**
+- Trust third-party code implicitly
+- Skip testing boundary integrations
+- Let boundary changes break your code
+
+## Templates
+
+* `clean-code-python-rule.mdc` - Python-specific clean code patterns
+* `clean-code-js-rule.mdc` - JavaScript/TypeScript-specific clean code patterns
+
+## Commands
+
+* `/clean-code-validate` — Validate code quality and optionally apply automated fixes (use --fix flag for auto-fixes)

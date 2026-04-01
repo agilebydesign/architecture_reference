@@ -1,0 +1,10 @@
+{
+  "name": "render_story_map",
+  "type": "builder",
+  "builder": "render_story_map_md.py",
+  "path": "docs/story/shape",
+  "input": "story-graph.json",
+  "template": "templates/story-map.md",
+  "output": "story-map.md",
+  "instructions": "Render story-graph.json to story-map.md format using the render_story_map_md.py builder script. The builder reads story-graph.json and generates a formatted markdown file with epics, sub-epics, and stories."
+}

@@ -1,0 +1,80 @@
+{
+  "description": "CRITICAL: Don't let external APIs spread through your codebase. Wrap third-party APIs behind your interfaces, create learning tests for external dependencies, and isolate boundary code from business logic.",
+  "examples": [
+    {
+      "do": {
+        "description": "Isolate third-party code behind your interfaces",
+        "content": [
+          "Wrap third-party APIs behind your interfaces",
+          "Create learning tests for external dependencies",
+          "Isolate boundary code from business logic",
+          "Limit third-party API exposure to boundary layer",
+          "",
+          "Correct Examples (isolated boundaries):",
+          "// Your interface",
+          "interface EmailService {",
+          "  send(to: string, subject: string, body: string): Promise<void>;",
+          "}",
+          "",
+          "// Adapter wrapping third-party library",
+          "class SendGridEmailService implements EmailService {",
+          "  constructor(private sendGridClient: SendGridAPI) {}",
+          "  ",
+          "  async send(to: string, subject: string, body: string) {",
+          "    // Translate to SendGrid API",
+          "    await this.sendGridClient.sendEmail({ to, subject, html: body });",
+          "  }",
+          "}",
+          "",
+          "// Business logic depends on YOUR interface",
+          "class OrderService {",
+          "  constructor(private emailService: EmailService) {}",
+          "  // No knowledge of SendGrid",
+          "}",
+          "",
+          "Boundary Isolation Benefits:",
+          "- Easy to swap implementations",
+          "- Business logic independent of third-party changes",
+          "- Learning tests verify third-party behavior",
+          "- Clear separation of concerns"
+        ]
+      },
+      "dont": {
+        "description": "Don't pass third-party types through your functions",
+        "content": [
+          "Don't pass third-party types between your functions",
+          "Don't let external APIs dictate your design",
+          "Don't skip learning tests for dependencies",
+          "",
+          "Wrong Examples (leaky boundaries):",
+          "class OrderService {",
+          "  processOrder(order: Order, sendGridClient: SendGridAPI) {",
+          "    // SendGrid types in business logic!",
+          "    await sendGridClient.sendEmail({...});",
+          "  }",
+          "}",
+          "",
+          "// Third-party types spreading",
+          "function createUser(userData: Auth0User) { // Auth0 type leaked",
+          "  return new User(userData.sub, userData.email);",
+          "}",
+          "",
+          "Leaky Boundary Indicators (REFACTOR):",
+          "- Third-party types in function signatures",
+          "- External API calls scattered throughout codebase",
+          "- Business logic coupled to specific libraries",
+          "- No adapters or wrappers",
+          "- Changing library requires changing many files",
+          "",
+          "Refactoring Strategy:",
+          "- Create interface defining what YOU need",
+          "- Create adapter implementing your interface",
+          "- Wrap third-party calls in adapter",
+          "- Use YOUR types in business logic",
+          "- Write learning tests for third-party behavior"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.third_party_isolation_scanner.ThirdPartyIsolationScanner"
+}

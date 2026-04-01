@@ -1,0 +1,56 @@
+{
+  "description": "CRITICAL: Code must hide calculations. Properties hide logic that occurs—it may be computed on-demand, cached, pre-computed, or loaded from storage. The caller shouldn't know or care when the values are calculated / determined.",
+  "scanner": "scanners.code.python.calculation_timing_code_scanner.CalculationTimingCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Hide the inner workings of business logic and functions",
+        "content": [
+          "Expose only what the caller needs to know; hide internal business logic details",
+          "Keep interfaces simple and focused on business concepts, not implementation details",
+          "Callers should not know or care how results are produced, only that they are correct",
+          "",
+          "Correct Examples (logic hidden):",
+          "class OrderService:",
+          "    def approve(self, user: User) -> ApprovalResult:",
+          "        # Logic for validation, third-party checks, notifications are all hidden from caller",
+          "        # Caller only cares about result, not how it is produced",
+          "        ...",
+          "",
+          "class ShoppingCart:",
+          "    def total(self) -> Money:",
+          "        # Returns total cost; discounts, taxes, and special offers are handled internally",
+          "        ...",
+          "",
+          "# External API hides if value is loaded, fetched, calculated, etc.",
+          "order_service.status  # May involve complex rule checks or state machines, but all hidden"
+        ]
+      },
+      "dont": {
+        "description": "Don't reveal business logic, strategies, or implementation decisions in public methods",
+        "content": [
+          "Don't use method names or signatures that describe how results are produced (e.g., 'validate_and_apply_discounts()', 'fetch_and_cache_data()')",
+          "Don't leak the steps or strategies used within your public interface",
+          "Don't require the caller to understand internal processes or logic branches",
+          "",
+          "Wrong Examples (logic exposed):",
+          "class ShoppingCart:",
+          "    def calculate_total_with_discounts_and_tax(self) -> Money:",
+          "        # Caller is aware of and must think about how the value is arrived at",
+          "        ...",
+          "",
+          "class UserAccount:",
+          "    def fetch_and_merge_external_profiles(self):",
+          "        # Implementation strategy exposed to caller",
+          "        ...",
+          "",
+          "Logic Exposure Indicators (REFACTOR):",
+          "- Methods naming specific logic or strategies ('validate_and_x', 'process_then_y', 'with_cache')",
+          "- Interfaces that require caller to invoke internal workflow steps directly",
+          "- Public methods or attributes reflecting the order of internal operations"
+        ]
+      }
+    }
+  ]
+}
+

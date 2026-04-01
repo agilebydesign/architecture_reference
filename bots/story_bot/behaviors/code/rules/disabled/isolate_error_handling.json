@@ -1,0 +1,66 @@
+{
+  "description": "Keep error handling separate from business logic. Extract try/catch blocks into dedicated functions and handle errors at appropriate abstraction levels.",
+  "examples": [
+    {
+      "do": {
+        "description": "Separate error handling from business logic",
+        "content": [
+          "Extract try/catch blocks into dedicated functions",
+          "Handle errors at appropriate abstraction levels",
+          "Write tests for error scenarios first",
+          "Keep business logic clean and focused",
+          "",
+          "Correct Examples (isolated error handling):",
+          "function processOrderSafely(order) {",
+          "  try {",
+          "    return processOrder(order); // pure business logic",
+          "  } catch (error) {",
+          "    logError(error);",
+          "    notifyAdmin(error);",
+          "    throw new OrderProcessingError(error);",
+          "  }",
+          "}",
+          "",
+          "Error Handling Structure:",
+          "- Business logic functions: focus on happy path",
+          "- Wrapper functions: handle errors and orchestrate",
+          "- Error boundary functions: catch, log, transform",
+          "- Each layer handles errors appropriate to its level"
+        ]
+      },
+      "dont": {
+        "description": "Don't mix error handling with business logic",
+        "content": [
+          "Don't mix error handling with business logic",
+          "Don't propagate checked exceptions through many layers",
+          "Don't leave error handling as an afterthought",
+          "",
+          "Wrong Examples (mixed error handling):",
+          "function processOrder(order) {",
+          "  try {",
+          "    const valid = validateOrder(order);",
+          "  } catch (e) { log(e); }",
+          "  try {",
+          "    const total = calculateTotal(order);",
+          "  } catch (e) { log(e); }",
+          "  // business logic mixed with error handling",
+          "}",
+          "",
+          "Mixed Error Handling Indicators (REFACTOR):",
+          "- Try/catch blocks scattered throughout business logic",
+          "- Multiple try/catch in single function",
+          "- Business operations wrapped individually",
+          "- Error handling interrupting main logic flow",
+          "",
+          "Refactoring Strategy:",
+          "- Extract business logic to pure functions",
+          "- Create wrapper for error handling",
+          "- Handle errors at function boundaries",
+          "- Keep core logic error-free (let exceptions bubble)",
+          "- Use higher-order functions for error handling patterns"
+        ]
+      }
+    }
+  ],
+  "scanner": "scanners.code.python.error_handling_isolation_scanner.ErrorHandlingIsolationScanner"
+}

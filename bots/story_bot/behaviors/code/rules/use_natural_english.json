@@ -1,0 +1,72 @@
+{
+  "description": "CRITICAL: Code must use natural English for method names, variable names, and relationships. Use 'many' for collections, 'may' for optional, 'will' for required. Don't use technical notation or abbreviations.",
+  "scanner": "scanners.code.python.natural_english_code_scanner.NaturalEnglishCodeScanner",
+  "examples": [
+    {
+      "do": {
+        "description": "Use natural English in code",
+        "content": [
+          "Use descriptive method names in natural English",
+          "Use 'many' for collections (get_many_positions)",
+          "Use 'may' for optional (may_find_position)",
+          "Use 'will' for required (will_create_portfolio)",
+          "",
+          "Correct Examples (natural English):",
+          "class WealthAdvisor:",
+          "    def create_portfolio(self, client: Client, strategy: InvestmentStrategy) -> Portfolio:",
+          "        # 'Create' - required action",
+          "        pass",
+          "",
+          "    def get_portfolio(self) -> Optional[Portfolio]:",
+          "        # 'Get' - may return None, but method name doesn't need 'may'",
+          "        return self._portfolio",
+          "",
+          "    def may_update_portfolio(self, portfolio: Portfolio) -> bool:",
+          "        # 'May' - optional action",
+          "        return self._can_update(portfolio)",
+          "",
+          "    def get_many_clients(self) -> List[Client]:",
+          "        # 'Get many' - accessing collection",
+          "        return self._clients",
+          "",
+          "class Holdings:",
+          "    def get_many_positions(self) -> List[Position]:",
+          "        # 'Get many' - accessing collection",
+          "        return self._positions",
+          "",
+          "    def may_find_position(self, symbol: str) -> Optional[Position]:",
+          "        # 'May find' - optional, may not exist",
+          "        return self._positions.get(symbol)"
+        ]
+      },
+      "dont": {
+        "description": "Don't use technical notation or abbreviations",
+        "content": [
+          "Don't use abbreviations or technical notation",
+          "Don't use cryptic names",
+          "",
+          "Wrong Examples (technical notation):",
+          "class WealthAdvisor:",
+          "    def get_portfolio_0_1(self) -> Optional[Portfolio]:",
+          "        # Technical notation in name",
+          "        pass",
+          "",
+          "    def get_clients_1_star(self) -> List[Client]:",
+          "        # Technical notation",
+          "        pass",
+          "",
+          "    def update_portfolio_optional(self, portfolio: Portfolio):",
+          "        # 'optional' suffix instead of 'may'",
+          "        pass",
+          "",
+          "Technical Notation Indicators (REFACTOR):",
+          "- Method names with '0_1', '1_star', 'optional', 'nullable'",
+          "- Abbreviations instead of full words",
+          "- Cryptic names that require domain knowledge to understand"
+        ]
+      }
+    }
+  ]
+}
+
+

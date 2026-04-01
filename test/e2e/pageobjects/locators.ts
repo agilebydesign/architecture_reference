@@ -21,3 +21,14 @@ export const contextFolderLocators = {
   /** Span displaying current bot directory */
   botDirectory: "#botDirectory",
 };
+
+export const botBehaviorLocators = {
+  /** Span displaying current behavior name */
+  currentBehavior: "#currentBehavior",
+  /** Span displaying behavior count */
+  behaviorCount: "#behaviorCount",
+  /** Span displaying current action name */
+  currentAction: "#currentAction",
+  /** Span displaying action count */
+  actionCount: "#actionCount",
+};
