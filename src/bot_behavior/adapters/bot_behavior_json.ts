@@ -25,6 +25,21 @@ export class BotBehaviorJson implements IBotBehaviorOutputAdapter {
     });
   }
 
+  get position(): string {
+    return JSON.stringify(this._botBehavior.pos());
+  }
+
+  get tree(): string {
+    return JSON.stringify({ tree: this._botBehavior.tree() });
+  }
+
+  get navigation(): string {
+    return JSON.stringify({
+      behavior: this._botBehavior.currentBehavior?.name ?? "",
+      action: this._botBehavior.currentAction?.name ?? "",
+    });
+  }
+
   get internals(): IBotBehavior {
     return this._botBehavior;
   }

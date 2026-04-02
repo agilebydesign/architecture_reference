@@ -1,6 +1,6 @@
 // bot_behavior/bot_behavior_server.ts — server domain: implements IBotBehavior via BotBehavior, adds persistence + config loading
 import { BotBehavior } from "./bot_behavior.js";
-import type { IBehaviorConfig, IBaseActionConfig, IActionWorkflowEntry, ExecutionSetting } from "./bot_behavior.js";
+import type { IBehaviorConfig, IBaseActionConfig, IActionWorkflowEntry, ExecutionSetting, NavigationResult } from "./bot_behavior.js";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -134,5 +134,33 @@ export class BotBehaviorServer extends BotBehavior {
   override setExecutionSetting(key: string, value: ExecutionSetting): void {
     super.setExecutionSetting(key, value);
     this._save();
+  }
+
+  override navigateToBehavior(name: string): void {
+    super.navigateToBehavior(name);
+    this._save();
+  }
+
+  override navigateToAction(name: string): void {
+    super.navigateToAction(name);
+    this._save();
+  }
+
+  override next(): NavigationResult {
+    const result = super.next();
+    this._save();
+    return result;
+  }
+
+  override back(): NavigationResult {
+    const result = super.back();
+    this._save();
+    return result;
+  }
+
+  override closeCurrent(): NavigationResult {
+    const result = super.closeCurrent();
+    this._save();
+    return result;
   }
 }

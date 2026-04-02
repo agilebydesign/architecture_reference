@@ -39,6 +39,25 @@ export interface BotBehaviorHydrateData {
   currentBehavior?: string;
   currentAction?: string;
   executionSettings?: Record<string, ExecutionSetting>;
+  /** Full init payload — sent once on webview open so client can populate domain. */
+  allowedBehaviors?: string[];
+  behaviorConfigs?: IBehaviorConfig[];
+  baseActionConfigs?: IBaseActionConfig[];
+}
+
+export interface NavigationResult {
+  status: "success" | "complete" | "error";
+  message: string;
+  behavior?: string;
+  action?: string;
+}
+
+export interface PositionResult {
+  status: "success" | "error";
+  behavior?: string;
+  action?: string;
+  position?: string;
+  message?: string;
 }
 
 /** Shared interface: BotBehavior, BotBehaviorServer, BotBehaviorView, and client implement this. */
@@ -49,8 +68,25 @@ export interface IBotBehavior {
   readonly currentAction: IActionConfig | null;
   readonly behaviors: IBehaviorConfig[];
   readonly actions: IActionConfig[];
+  readonly baseActionConfigs: IBaseActionConfig[];
+  readonly behaviorNames: string[];
+  readonly actionNames: string[];
   readonly executionSettings: Record<string, ExecutionSetting>;
   setExecutionSetting(key: string, value: ExecutionSetting): void;
+  navigateToBehavior(name: string): void;
+  navigateToAction(name: string): void;
+  next(): NavigationResult;
+  back(): NavigationResult;
+  pos(): PositionResult;
+  tree(): string;
+  nextBehavior(): IBehaviorConfig | null;
+  previousBehavior(): IBehaviorConfig | null;
+  nextAction(): IActionConfig | null;
+  findBehavior(name: string): IBehaviorConfig | null;
+  findAction(name: string): IActionConfig | null;
+  checkBehaviorExists(name: string): boolean;
+  isFinalAction(): boolean;
+  closeCurrent(): NavigationResult;
   hydrate?(data: BotBehaviorHydrateData): void;
 }
 
@@ -98,6 +134,7 @@ export class BotBehavior implements IBotBehavior {
   private _actions: IActionConfig[] = [];
   private _currentActionIndex: number = -1;
   private _executionSettings: Record<string, ExecutionSetting> = {};
+  private _baseActionConfigs: IBaseActionConfig[] = [];
 
   loadBehaviors(allowedBehaviors: string[], behaviorConfigs: IBehaviorConfig[]): void {
     // Filter by allowed list
@@ -114,14 +151,16 @@ export class BotBehavior implements IBotBehavior {
   }
 
   loadActions(baseActionConfigs?: IBaseActionConfig[]): void {
+    if (baseActionConfigs) {
+      this._baseActionConfigs = baseActionConfigs;
+    }
+
     const behavior = this.currentBehavior;
     if (!behavior) return;
 
     const baseMap = new Map<string, IBaseActionConfig>();
-    if (baseActionConfigs) {
-      for (const bc of baseActionConfigs) {
-        baseMap.set(bc.name, bc);
-      }
+    for (const bc of this._baseActionConfigs) {
+      baseMap.set(bc.name, bc);
     }
 
     // Build actions from behavior's workflow, merge with base configs
@@ -164,12 +203,189 @@ export class BotBehavior implements IBotBehavior {
     return [...this._actions];
   }
 
+  get baseActionConfigs(): IBaseActionConfig[] {
+    return [...this._baseActionConfigs];
+  }
+
+  get behaviorNames(): string[] {
+    return this._behaviors.map((b) => b.name);
+  }
+
+  get actionNames(): string[] {
+    return this._actions.map((a) => a.name);
+  }
+
   get executionSettings(): Record<string, ExecutionSetting> {
     return { ...this._executionSettings };
   }
 
   setExecutionSetting(key: string, value: ExecutionSetting): void {
     this._executionSettings[key] = value;
+  }
+
+  navigateToBehavior(name: string): void {
+    const index = this._behaviors.findIndex((b) => b.name === name);
+    if (index < 0) {
+      throw new Error(`Behavior '${name}' not found`);
+    }
+    this._currentBehaviorIndex = index;
+    // Reload actions for the new behavior
+    this.loadActions();
+  }
+
+  navigateToAction(name: string): void {
+    const index = this._actions.findIndex((a) => a.name === name);
+    if (index < 0) {
+      throw new Error(`Action '${name}' not found`);
+    }
+    this._currentActionIndex = index;
+  }
+
+  next(): NavigationResult {
+    if (this._currentBehaviorIndex < 0) {
+      return { status: "error", message: "No current behavior set" };
+    }
+
+    // If not at last action, advance action
+    if (this._currentActionIndex < this._actions.length - 1) {
+      this._currentActionIndex++;
+      return {
+        status: "success",
+        message: `Advanced to action: ${this.currentAction!.name}`,
+        behavior: this.currentBehavior!.name,
+        action: this.currentAction!.name,
+      };
+    }
+
+    // At last action — advance to next behavior
+    if (this._currentBehaviorIndex < this._behaviors.length - 1) {
+      this._currentBehaviorIndex++;
+      this.loadActions();
+      return {
+        status: "success",
+        message: `Advanced to behavior: ${this.currentBehavior!.name}`,
+        behavior: this.currentBehavior!.name,
+        action: this.currentAction?.name,
+      };
+    }
+
+    // At last behavior + last action
+    return { status: "complete", message: "Workflow complete - no more behaviors" };
+  }
+
+  back(): NavigationResult {
+    if (this._currentBehaviorIndex < 0) {
+      return { status: "error", message: "No current behavior set" };
+    }
+
+    // If not at first action, go back one action
+    if (this._currentActionIndex > 0) {
+      this._currentActionIndex--;
+      return {
+        status: "success",
+        message: `Moved back to action: ${this.currentAction!.name}`,
+        behavior: this.currentBehavior!.name,
+        action: this.currentAction!.name,
+      };
+    }
+
+    // At first action — go to previous behavior's last action
+    if (this._currentBehaviorIndex > 0) {
+      this._currentBehaviorIndex--;
+      this.loadActions();
+      // Set to last action of previous behavior
+      if (this._actions.length > 0) {
+        this._currentActionIndex = this._actions.length - 1;
+      }
+      return {
+        status: "success",
+        message: `Moved back to behavior: ${this.currentBehavior!.name}`,
+        behavior: this.currentBehavior!.name,
+        action: this.currentAction?.name,
+      };
+    }
+
+    // At first behavior + first action
+    return {
+      status: "error",
+      message: `Already at first action in ${this.currentBehavior!.name}`,
+      behavior: this.currentBehavior!.name,
+      action: this.currentAction?.name,
+    };
+  }
+
+  pos(): PositionResult {
+    if (!this.currentBehavior) {
+      return { status: "error", message: "No behavior is currently active" };
+    }
+    if (!this.currentAction) {
+      return { status: "error", message: `No action is currently active in ${this.currentBehavior.name}` };
+    }
+    return {
+      status: "success",
+      behavior: this.currentBehavior.name,
+      action: this.currentAction.name,
+      position: `${this.currentBehavior.name}.${this.currentAction.name}`,
+    };
+  }
+
+  tree(): string {
+    const lines: string[] = [];
+    for (let i = 0; i < this._behaviors.length; i++) {
+      const behavior = this._behaviors[i];
+      const isLast = i === this._behaviors.length - 1;
+      const isCurrent = i === this._currentBehaviorIndex;
+      const prefix = isLast ? "└──" : "├──";
+      const marker = isCurrent ? "➤ " : "";
+      lines.push(`${prefix} ${marker}${behavior.name}`);
+
+      const workflow = [...behavior.actionsWorkflow].sort((a, b) => a.order - b.order);
+      for (let j = 0; j < workflow.length; j++) {
+        const action = workflow[j];
+        const isLastAction = j === workflow.length - 1;
+        const branch = isLast ? "    " : "│   ";
+        const actionPrefix = isLastAction ? "└──" : "├──";
+        const isCurrentAction = isCurrent && this._actions[this._currentActionIndex]?.name === action.name;
+        const actionMarker = isCurrentAction ? "➤ " : "";
+        lines.push(`${branch}${actionPrefix} ${actionMarker}${action.name}`);
+      }
+    }
+    return lines.join("\n");
+  }
+
+  nextBehavior(): IBehaviorConfig | null {
+    const nextIndex = this._currentBehaviorIndex + 1;
+    return nextIndex < this._behaviors.length ? this._behaviors[nextIndex] : null;
+  }
+
+  previousBehavior(): IBehaviorConfig | null {
+    const prevIndex = this._currentBehaviorIndex - 1;
+    return prevIndex >= 0 ? this._behaviors[prevIndex] : null;
+  }
+
+  nextAction(): IActionConfig | null {
+    const nextIndex = this._currentActionIndex + 1;
+    return nextIndex < this._actions.length ? this._actions[nextIndex] : null;
+  }
+
+  findBehavior(name: string): IBehaviorConfig | null {
+    return this._behaviors.find((b) => b.name === name) ?? null;
+  }
+
+  findAction(name: string): IActionConfig | null {
+    return this._actions.find((a) => a.name === name) ?? null;
+  }
+
+  checkBehaviorExists(name: string): boolean {
+    return this._behaviors.some((b) => b.name === name);
+  }
+
+  isFinalAction(): boolean {
+    return this._actions.length > 0 && this._currentActionIndex === this._actions.length - 1;
+  }
+
+  closeCurrent(): NavigationResult {
+    return this.next();
   }
 
   hydrate(data: BotBehaviorHydrateData): void {

@@ -6,7 +6,7 @@ import type { ICounter, IFoo, HydrateData } from "../../src/counter/counter.js";
 import { ContextFolderTest } from "../context_folder/context_folder_test.js";
 import type { IContextFolder, IBotInfo, ContextFolderHydrateData } from "../../src/context_folder/context_folder.js";
 import { BotBehaviorTest, testAllowedBehaviors, testBehaviorConfigs, testBaseActionConfigs } from "../bot_behavior/bot_behavior_test.js";
-import type { IBotBehavior, IBehaviorConfig, IActionConfig, IBaseActionConfig, BotBehaviorHydrateData } from "../../src/bot_behavior/bot_behavior.js";
+import type { IBotBehavior, IBehaviorConfig, IActionConfig, IBaseActionConfig, BotBehaviorHydrateData, NavigationResult, PositionResult, ExecutionSetting } from "../../src/bot_behavior/bot_behavior.js";
 
 /**
  * Wraps EngineCLI.run as ICounter for Template Method tests.
@@ -184,6 +184,82 @@ class CliBotBehaviorWrapper implements IBotBehavior {
     return EngineCLI.engine.botBehavior.actions;
   }
 
+  get baseActionConfigs(): IBaseActionConfig[] {
+    return EngineCLI.engine.botBehavior.baseActionConfigs;
+  }
+
+  get behaviorNames(): string[] {
+    return EngineCLI.engine.botBehavior.behaviorNames;
+  }
+
+  get actionNames(): string[] {
+    return EngineCLI.engine.botBehavior.actionNames;
+  }
+
+  get executionSettings(): Record<string, ExecutionSetting> {
+    return EngineCLI.engine.botBehavior.executionSettings;
+  }
+
+  setExecutionSetting(key: string, value: ExecutionSetting): void {
+    EngineCLI.engine.botBehavior.setExecutionSetting(key, value);
+  }
+
+  navigateToBehavior(name: string): void {
+    EngineCLI.engine.botBehavior.navigateToBehavior(name);
+  }
+
+  navigateToAction(name: string): void {
+    EngineCLI.engine.botBehavior.navigateToAction(name);
+  }
+
+  next(): NavigationResult {
+    return EngineCLI.engine.botBehavior.next();
+  }
+
+  back(): NavigationResult {
+    return EngineCLI.engine.botBehavior.back();
+  }
+
+  pos(): PositionResult {
+    return EngineCLI.engine.botBehavior.pos();
+  }
+
+  tree(): string {
+    return EngineCLI.engine.botBehavior.tree();
+  }
+
+  nextBehavior(): IBehaviorConfig | null {
+    return EngineCLI.engine.botBehavior.nextBehavior();
+  }
+
+  previousBehavior(): IBehaviorConfig | null {
+    return EngineCLI.engine.botBehavior.previousBehavior();
+  }
+
+  nextAction(): IActionConfig | null {
+    return EngineCLI.engine.botBehavior.nextAction();
+  }
+
+  findBehavior(name: string): IBehaviorConfig | null {
+    return EngineCLI.engine.botBehavior.findBehavior(name);
+  }
+
+  findAction(name: string): IActionConfig | null {
+    return EngineCLI.engine.botBehavior.findAction(name);
+  }
+
+  checkBehaviorExists(name: string): boolean {
+    return EngineCLI.engine.botBehavior.checkBehaviorExists(name);
+  }
+
+  isFinalAction(): boolean {
+    return EngineCLI.engine.botBehavior.isFinalAction();
+  }
+
+  closeCurrent(): NavigationResult {
+    return EngineCLI.engine.botBehavior.closeCurrent();
+  }
+
   hydrate(data?: BotBehaviorHydrateData): void {
     EngineCLI.engine.botBehavior.hydrate?.(data ?? {});
   }
@@ -227,6 +303,19 @@ describe("EngineCLI — BotBehavior", () => {
 
       const outMd = EngineCLI.run("botBehavior.currentAction", { format: "markdown" });
       expect(outMd).toContain(expected);
+    }
+
+    protected override assertNavigation(botBehavior: IBotBehavior, result: NavigationResult, expectedBehavior: string, expectedAction: string): void {
+      super.assertNavigation(botBehavior, result, expectedBehavior, expectedAction);
+
+      // CLI layer adds: verify position output in all formats
+      const outJson = EngineCLI.run("botBehavior.pos", { format: "json" });
+      const parsed = JSON.parse(outJson);
+      expect(parsed.behavior).toBe(expectedBehavior);
+      expect(parsed.action).toBe(expectedAction);
+
+      const outTty = EngineCLI.run("botBehavior.pos", { format: "tty" });
+      expect(outTty).toContain(`${expectedBehavior}.${expectedAction}`);
     }
   }
 

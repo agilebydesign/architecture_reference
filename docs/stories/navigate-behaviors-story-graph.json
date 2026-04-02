@@ -1,0 +1,779 @@
+{
+    "test_file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+    "sub_epics": [],
+    "story_groups": [
+    {
+        "name": "",
+        "sequential_order": 0.0,
+        "type": "and",
+        "connector": null,
+        "behavior": null,
+        "stories": [
+        {
+            "name": "Navigate Sequentially",
+            "sequential_order": 0.0,
+            "connector": "or",
+            "story_type": "user",
+            "users": [
+            "Bot Behavior"
+            ],
+            "test_class": "TestNavigateSequentially",
+            "scenarios": [
+            {
+                "name": "bot.next() moves to next action",
+                "sequential_order": 1.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_bot_next_navigates_to_next_action_in_workflow",
+                "steps": "Given Bot is at clarify action\nWhen bot.next() is called\nThen Bot moves to strategy (next action in workflow)",
+                "test": {
+                "method": "test_bot_next_navigates_to_next_action_in_workflow",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 357
+                }
+            },
+            {
+                "name": "bot.next() progresses through workflow sequence",
+                "sequential_order": 2.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_bot_next_progresses_through_entire_workflow",
+                "steps": "Given Bot is at first action\nWhen bot.next() is called multiple times\nThen Bot progresses through clarify -> strategy -> build -> validate -> render",
+                "test": {
+                "method": "test_bot_next_progresses_through_entire_workflow",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 379
+                }
+            },
+            {
+                "name": "bot.next() at final action advances to next behavior",
+                "sequential_order": 3.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_bot_next_at_final_action_advances_to_next_behavior",
+                "steps": "Given Bot is at render (final action of shape)\nWhen bot.next() is called\nThen Bot advances to next behavior (discovery) first action (clarify)",
+                "test": {
+                "method": "test_bot_next_at_final_action_advances_to_next_behavior",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 404
+                }
+            },
+            {
+                "name": "bot.current() returns current action instructions",
+                "sequential_order": 4.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_bot_current_returns_current_action_instructions",
+                "steps": "Given Bot is at a specific action\nWhen bot.current() is called\nThen Current action instructions object is returned",
+                "test": {
+                "method": "test_bot_current_returns_current_action_instructions",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 431
+                }
+            },
+            {
+                "name": "bot.next() respects behavior.json workflow sequence",
+                "sequential_order": 5.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_bot_next_respects_workflow_sequence",
+                "steps": "Given Bot is at strategy (second action)\nWhen bot.next() is called\nThen Bot moves to build (third action), following behavior.json order",
+                "test": {
+                "method": "test_bot_next_respects_workflow_sequence",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 458
+                }
+            },
+            {
+                "name": "bot.next() with no behavior selected starts workflow",
+                "sequential_order": 6.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_bot_next_with_no_behavior_starts_at_first_behavior",
+                "steps": "Given No behavior is selected\nWhen bot.next() is called\nThen Bot starts at first behavior (shape), first action (clarify)\nThen NOTE: Currently bot.next() returns an error when no behavior is selected.\nThen This test documents the DESIRED behavior - bot should be smart enough\nThen to start at the beginning of the workflow automatically.",
+                "test": {
+                "method": "test_bot_next_with_no_behavior_starts_at_first_behavior",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 480
+                }
+            },
+            {
+                "name": "Can navigate to a specific behavior",
+                "sequential_order": 7.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_navigate_to_behavior",
+                "steps": "Given Bot exists with multiple behaviors\nWhen behaviors.navigate_to('discovery') called\nThen Current behavior is set to discovery",
+                "test": {
+                "method": "test_navigate_to_behavior",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 505
+                }
+            },
+            {
+                "name": "Next behavior in sequence can be retrieved",
+                "sequential_order": 8.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_next_behavior_in_sequence_can_be_retrieved",
+                "steps": "Given Bot is at scenarios behavior\nWhen behaviors.next() called\nThen Returns next behavior (tests) with complete structure",
+                "test": {
+                "method": "test_next_behavior_in_sequence_can_be_retrieved",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 516
+                }
+            },
+            {
+                "name": "Getting next behavior returns None when at last behavior",
+                "sequential_order": 9.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_get_next_behavior_returns_none_at_end",
+                "steps": "Given Bot is at last behavior in list\nWhen behaviors.next() called\nThen Returns None",
+                "test": {
+                "method": "test_get_next_behavior_returns_none_at_end",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 538
+                }
+            },
+            {
+                "name": "Can navigate to a specific action",
+                "sequential_order": 10.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_can_navigate_to_a_specific_action",
+                "steps": "Given Bot is at a behavior with multiple actions\nWhen actions.navigate_to('build') called\nThen Current action is set to build",
+                "test": {
+                "method": "test_can_navigate_to_a_specific_action",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 552
+                }
+            },
+            {
+                "name": "Next action in sequence can be retrieved",
+                "sequential_order": 11.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_next_action_in_sequence_can_be_retrieved",
+                "steps": "Given Bot is at clarify action (first action)\nWhen actions.next() called\nThen Returns strategy action (second action)",
+                "test": {
+                "method": "test_next_action_in_sequence_can_be_retrieved",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 564
+                }
+            },
+            {
+                "name": "Getting next action returns None when at last action",
+                "sequential_order": 12.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_get_next_action_returns_none_at_end",
+                "steps": "Given Bot is at last action in behavior\nWhen actions.next() called\nThen Returns None",
+                "test": {
+                "method": "test_get_next_action_returns_none_at_end",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 579
+                }
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        },
+        {
+            "name": "Navigate To First Behavior Action",
+            "sequential_order": 1.0,
+            "connector": null,
+            "story_type": "system",
+            "users": [
+            "System"
+            ],
+            "test_class": null,
+            "scenarios": [
+            {
+                "name": "Navigate sets current behavior and first action",
+                "sequential_order": 1.0,
+                "type": "",
+                "background": [],
+                "test_method": "test_navigate_sets_current_behavior_and_first_action",
+                "steps": "GIVEN: Bot has behaviors configured\nWHEN: bot.behaviors.navigate_to('shape') is called\nTHEN: bot.behaviors.current.name == 'shape'\nAND: bot.behaviors.current.actions.current_action_name == 'clarify'"
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        },
+        {
+            "name": "Navigate Using CLI Dot Notation",
+            "sequential_order": 2.0,
+            "connector": null,
+            "story_type": "user",
+            "users": [
+            "User"
+            ],
+            "test_class": "TestNavigateToBehaviorActionAndExecute",
+            "scenarios": [
+            {
+                "name": "User navigates with behavior only (no dots)",
+                "sequential_order": 1.0,
+                "type": "",
+                "background": [],
+                "test_method": "test_user_navigates_with_behavior_only",
+                "steps": "GIVEN: CLI is at shape.clarify.instructions\nWHEN: user enters 'discovery'\nTHEN: CLI navigates to discovery.clarify (first action)"
+            },
+            {
+                "name": "User navigates with behavior.action (one dot)",
+                "sequential_order": 2.0,
+                "type": "",
+                "background": [],
+                "test_method": "test_user_navigates_with_behavior_dot_action",
+                "steps": "GIVEN: CLI is at shape.clarify.instructions\nWHEN: user enters 'discovery.build'\nTHEN: CLI navigates to discovery.build.instructions"
+            },
+            {
+                "name": "User navigates with behavior.action.operation (two dots)",
+                "sequential_order": 3.0,
+                "type": "",
+                "background": [],
+                "test_method": "test_user_navigates_with_full_dot_notation",
+                "steps": "GIVEN: CLI is at shape.clarify.instructions\nWHEN: user enters 'discovery.build.instructions'\nTHEN: CLI executes discovery.build.instructions"
+            },
+            {
+                "name": "User enters invalid behavior in dot notation",
+                "sequential_order": 4.0,
+                "type": "",
+                "background": [],
+                "test_method": "test_user_enters_invalid_behavior_in_dot_notation",
+                "steps": "GIVEN: CLI is at shape.clarify.instructions\nWHEN: user enters 'invalid_behavior.build.instructions'\nTHEN: CLI displays error message"
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        },
+        {
+            "name": "Navigate Sequentially Using CLI Commands",
+            "sequential_order": 3.0,
+            "connector": "and",
+            "story_type": "user",
+            "users": [
+            "User"
+            ],
+            "test_class": "TestNavigateSequentially",
+            "scenarios": [
+            {
+                "name": "User navigates with next command",
+                "sequential_order": 1.0,
+                "type": "",
+                "background": [],
+                "test_method": "test_user_navigates_with_next_command",
+                "steps": "GIVEN: CLI is at shape.clarify.instructions\nWHEN: user enters 'next'\nTHEN: CLI navigates to shape.strategy"
+            },
+            {
+                "name": "User navigates with back command",
+                "sequential_order": 2.0,
+                "type": "",
+                "background": [],
+                "test_method": "test_user_navigates_with_back_command",
+                "steps": "GIVEN: CLI is at shape.strategy.instructions\nWHEN: user enters 'back'\nTHEN: CLI navigates to shape.clarify"
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        },
+        {
+            "name": "Navigate Behavior Action Panel",
+            "sequential_order": 4.0,
+            "connector": "and",
+            "story_type": "user",
+            "users": [
+            "User"
+            ],
+            "test_class": "TestNavigateBehaviorAction",
+            "scenarios": [
+            {
+                "name": "",
+                "sequential_order": 1.0,
+                "type": "",
+                "background": [],
+                "test_method": null,
+                "steps": "Given Panel displays behavior hierarchy\nAnd Bot is at shape.clarify\nWhen User clicks on discovery.build action link\nThen Bot navigates to discovery.build\nAnd Panel refreshes to show new current position\nAnd discovery.build is highlighted as current action"
+            },
+            {
+                "name": "",
+                "sequential_order": 2.0,
+                "type": "",
+                "background": [],
+                "test_method": null,
+                "steps": "Given Bot is at shape.clarify\nWhen User clicks next button\nThen Bot navigates to shape.strategy\nAnd Panel displays shape.strategy as current\nAnd Panel displays shape.strategy in-progress indicator"
+            },
+            {
+                "name": "",
+                "sequential_order": 3.0,
+                "type": "",
+                "background": [],
+                "test_method": null,
+                "steps": "Given Bot is at shape.strategy\nWhen User clicks back button\nThen Bot navigates to shape.clarify\nAnd Panel displays shape.clarify as current\nAnd Panel displays shape.clarify in-progress indicator"
+            },
+            {
+                "name": "",
+                "sequential_order": 4.0,
+                "type": "",
+                "background": [],
+                "test_method": null,
+                "steps": "Given Bot is at last action of last behavior\nWhen User views next button\nThen Next button is disabled"
+            }
+            ],
+            "acceptance_criteria": [
+            {
+                "name": "WHEN User clicks back button\nTHEN System  sets previous action as current AND System displays previous action in-progress indicator AND System reruns previous action details",
+                "text": "WHEN User clicks back button\nTHEN System  sets previous action as current AND System displays previous action in-progress indicator AND System reruns previous action details",
+                "sequential_order": 1.0
+            },
+            {
+                "name": "WHEN User clicks next button\nTHEN System sets next action as current AND System displays next action in-progress indicator AND System reruns next action details",
+                "text": "WHEN User clicks next button\nTHEN System sets next action as current AND System displays next action in-progress indicator AND System reruns next action details",
+                "sequential_order": 2.0
+            },
+            {
+                "name": "WHEN User clicks current button\nTHEN System reruns current action details",
+                "text": "WHEN User clicks current button\nTHEN System reruns current action details",
+                "sequential_order": 3.0
+            },
+            {
+                "name": "WHEN User is on the last operation of an action\nTHEN System moves to the next action and selects its first operation",
+                "text": "WHEN User is on the last operation of an action\nTHEN System moves to the next action and selects its first operation",
+                "sequential_order": 4.0
+            },
+            {
+                "name": "WHEN User is on the last action of a behavior\nTHEN System moves to the next behavior and selects its first action and first operation",
+                "text": "WHEN User is on the last action of a behavior\nTHEN System moves to the next behavior and selects its first action and first operation",
+                "sequential_order": 5.0
+            },
+            {
+                "name": "WHEN User is on the last behavior of a bot\nTHEN System disables next behavior navigation",
+                "text": "WHEN User is on the last behavior of a bot\nTHEN System disables next behavior navigation",
+                "sequential_order": 6.0
+            }
+            ],
+            "behavior": null
+        },
+        {
+            "name": "Manage Behaviors Using CLI",
+            "sequential_order": 5.0,
+            "connector": null,
+            "story_type": "user",
+            "users": [
+            "User"
+            ],
+            "test_class": "TestManageBehaviorsUsingCLI",
+            "scenarios": [
+            {
+                "name": "Cli current behavior accessible",
+                "sequential_order": 1.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_current_behavior_accessible",
+                "steps": "",
+                "test": {
+                "method": "test_cli_current_behavior_accessible",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 609
+                }
+            },
+            {
+                "name": "Cli navigate to behavior via command",
+                "sequential_order": 2.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_navigate_to_behavior_via_command",
+                "steps": "",
+                "test": {
+                "method": "test_cli_navigate_to_behavior_via_command",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 623
+                }
+            },
+            {
+                "name": "Cli execute current behavior action",
+                "sequential_order": 3.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_execute_current_behavior_action",
+                "steps": "",
+                "test": {
+                "method": "test_cli_execute_current_behavior_action",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 636
+                }
+            },
+            {
+                "name": "Cli find behavior by name",
+                "sequential_order": 4.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_find_behavior_by_name",
+                "steps": "",
+                "test": {
+                "method": "test_cli_find_behavior_by_name",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 650
+                }
+            },
+            {
+                "name": "Cli list all behaviors",
+                "sequential_order": 5.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_list_all_behaviors",
+                "steps": "",
+                "test": {
+                "method": "test_cli_list_all_behaviors",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 662
+                }
+            },
+            {
+                "name": "Cli find action by name via command",
+                "sequential_order": 6.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_find_action_by_name_via_command",
+                "steps": "",
+                "test": {
+                "method": "test_cli_find_action_by_name_via_command",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 676
+                }
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        },
+        {
+            "name": "Select Workspace Behavior",
+            "sequential_order": 6.0,
+            "connector": null,
+            "story_type": "user",
+            "users": [],
+            "test_class": "TestSelectWorkspaceBehavior",
+            "scenarios": [
+            {
+                "name": "User selects behavior and sees instructions update",
+                "sequential_order": 0.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_selecting_behavior_updates_current_and_instructions_reflect_it",
+                "steps": "Given {Behavior} registry has shape and prioritization\nAnd {InstructionsSection} is visible in workspace\nWhen User selects {Behavior} \"shape\"\nThen {InstructionsSection} displays {Behavior} shape instructions\nAnd {InstructionsSection} shows actions clarify, strategy, build"
+            },
+            {
+                "name": "Panel remembers selection across section toggles",
+                "sequential_order": 1.0,
+                "type": "edge_case",
+                "background": [],
+                "test_method": "test_behavior_selection_persists_across_state_refresh",
+                "steps": "Given User has selected {Behavior} \"shape\"\nAnd {InstructionsSection} displays shape instructions\nWhen User toggles workspace section collapsed\nAnd User expands workspace section\nThen {InstructionsSection} still displays {Behavior} shape instructions\nAnd {Behavior} \"shape\" remains selected"
+            },
+            {
+                "name": "Default behavior shown when none selected",
+                "sequential_order": 2.0,
+                "type": "edge_case",
+                "background": [],
+                "test_method": null,
+                "steps": "Given {Behavior} registry has shape and prioritization\nAnd no {Behavior} selected yet\nWhen User opens workspace section\nThen {InstructionsSection} displays default or last-selected {Behavior}\nAnd {InstructionsSection} does not show empty content"
+            }
+            ],
+            "acceptance_criteria": [
+            {
+                "name": "WHEN User opens panel AND workspace section is visible\nTHEN Panel displays behavior dropdown with available behaviors AND User can select a behavior from dropdown AND Selected behavior becomes active scope for instructions",
+                "text": "WHEN User opens panel AND workspace section is visible\nTHEN Panel displays behavior dropdown with available behaviors AND User can select a behavior from dropdown AND Selected behavior becomes active scope for instructions",
+                "sequential_order": 0.0
+            },
+            {
+                "name": "WHEN User selects behavior from dropdown\nTHEN Panel updates instructions section to show behavior-specific content AND Panel persists selection for session",
+                "text": "WHEN User selects behavior from dropdown\nTHEN Panel updates instructions section to show behavior-specific content AND Panel persists selection for session",
+                "sequential_order": 1.0
+            },
+            {
+                "name": "WHEN No behavior selected\nTHEN Panel shows default or last-selected behavior AND Panel does not show empty instructions",
+                "text": "WHEN No behavior selected\nTHEN Panel shows default or last-selected behavior AND Panel does not show empty instructions",
+                "sequential_order": 2.0
+            }
+            ],
+            "behavior": null,
+            "file_link": "C:\\dev\\agile_bots\\docs\\story\\scenarios\\Invoke Bot\\Navigate Behavior Actions\\Navigate Behavior And Actions\\📄 Select Workspace Behavior.md"
+        },
+        {
+            "name": "Select Workspace Behavior",
+            "sequential_order": 6.0,
+            "connector": null,
+            "story_type": "user",
+            "users": [],
+            "test_class": "TestSelectWorkspaceBehavior",
+            "scenarios": [
+            {
+                "name": "User selects behavior and sees instructions update",
+                "sequential_order": 0.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_selecting_behavior_updates_current_and_instructions_reflect_it",
+                "steps": "Given {Behavior} registry has shape and prioritization\nAnd {InstructionsSection} is visible in workspace\nWhen User selects {Behavior} \"shape\"\nThen {InstructionsSection} displays {Behavior} shape instructions\nAnd {InstructionsSection} shows actions clarify, strategy, build"
+            },
+            {
+                "name": "Panel remembers selection across section toggles",
+                "sequential_order": 1.0,
+                "type": "edge_case",
+                "background": [],
+                "test_method": "test_behavior_selection_persists_across_state_refresh",
+                "steps": "Given User has selected {Behavior} \"shape\"\nAnd {InstructionsSection} displays shape instructions\nWhen User toggles workspace section collapsed\nAnd User expands workspace section\nThen {InstructionsSection} still displays {Behavior} shape instructions\nAnd {Behavior} \"shape\" remains selected"
+            },
+            {
+                "name": "Default behavior shown when none selected",
+                "sequential_order": 2.0,
+                "type": "edge_case",
+                "background": [],
+                "test_method": null,
+                "steps": "Given {Behavior} registry has shape and prioritization\nAnd no {Behavior} selected yet\nWhen User opens workspace section\nThen {InstructionsSection} displays default or last-selected {Behavior}\nAnd {InstructionsSection} does not show empty content"
+            }
+            ],
+            "acceptance_criteria": [
+            {
+                "name": "WHEN User opens panel AND workspace section is visible\nTHEN Panel displays behavior dropdown with available behaviors AND User can select a behavior from dropdown AND Selected behavior becomes active scope for instructions",
+                "text": "WHEN User opens panel AND workspace section is visible\nTHEN Panel displays behavior dropdown with available behaviors AND User can select a behavior from dropdown AND Selected behavior becomes active scope for instructions",
+                "sequential_order": 0.0
+            },
+            {
+                "name": "WHEN User selects behavior from dropdown\nTHEN Panel updates instructions section to show behavior-specific content AND Panel persists selection for session",
+                "text": "WHEN User selects behavior from dropdown\nTHEN Panel updates instructions section to show behavior-specific content AND Panel persists selection for session",
+                "sequential_order": 1.0
+            },
+            {
+                "name": "WHEN No behavior selected\nTHEN Panel shows default or last-selected behavior AND Panel does not show empty instructions",
+                "text": "WHEN No behavior selected\nTHEN Panel shows default or last-selected behavior AND Panel does not show empty instructions",
+                "sequential_order": 2.0
+            }
+            ],
+            "behavior": null
+        },
+        {
+            "name": "Navigate Sequentially Using CLI",
+            "sequential_order": 7.0,
+            "connector": null,
+            "story_type": "user",
+            "users": [
+            "User"
+            ],
+            "test_class": "TestNavigateSequentiallyUsingCLI",
+            "scenarios": [
+            {
+                "name": "Cli next command navigates to next action",
+                "sequential_order": 1.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_next_command_navigates_to_next_action",
+                "steps": "",
+                "test": {
+                "method": "test_cli_next_command_navigates_to_next_action",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 823
+                }
+            },
+            {
+                "name": "Cli next progresses through entire workflow",
+                "sequential_order": 2.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_next_progresses_through_entire_workflow",
+                "steps": "",
+                "test": {
+                "method": "test_cli_next_progresses_through_entire_workflow",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 838
+                }
+            },
+            {
+                "name": "Cli next at final action advances to next behavior",
+                "sequential_order": 3.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_next_at_final_action_advances_to_next_behavior",
+                "steps": "",
+                "test": {
+                "method": "test_cli_next_at_final_action_advances_to_next_behavior",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 857
+                }
+            },
+            {
+                "name": "Cli status shows current position",
+                "sequential_order": 4.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_status_shows_current_position",
+                "steps": "",
+                "test": {
+                "method": "test_cli_status_shows_current_position",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 872
+                }
+            },
+            {
+                "name": "Cli next respects behavior json workflow",
+                "sequential_order": 5.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_next_respects_behavior_json_workflow",
+                "steps": "",
+                "test": {
+                "method": "test_cli_next_respects_behavior_json_workflow",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 886
+                }
+            },
+            {
+                "name": "Cli navigate to specific behavior via command",
+                "sequential_order": 6.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_navigate_to_specific_behavior_via_command",
+                "steps": "",
+                "test": {
+                "method": "test_cli_navigate_to_specific_behavior_via_command",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 900
+                }
+            },
+            {
+                "name": "Cli back command navigates to previous action",
+                "sequential_order": 7.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_back_command_navigates_to_previous_action",
+                "steps": "",
+                "test": {
+                "method": "test_cli_back_command_navigates_to_previous_action",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 912
+                }
+            },
+            {
+                "name": "Cli pos command shows current position",
+                "sequential_order": 8.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_pos_command_shows_current_position",
+                "steps": "",
+                "test": {
+                "method": "test_cli_pos_command_shows_current_position",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 925
+                }
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null,
+            "file_link": "C:\\dev\\agile_bots\\docs\\story\\scenarios\\Invoke Bot\\Navigate Behavior Actions\\Navigate Behavior And Actions\\📄 Navigate Sequentially Using CLI.md"
+        },
+        {
+            "name": "Navigate To Behavior Action And Execute Using CLI",
+            "sequential_order": 8.0,
+            "connector": null,
+            "story_type": "user",
+            "users": [
+            "User"
+            ],
+            "test_class": "TestNavigateToBehaviorActionAndExecuteUsingCLI",
+            "scenarios": [
+            {
+                "name": "Cli execute behavior with action parameter",
+                "sequential_order": 1.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_execute_behavior_with_action_parameter",
+                "steps": "",
+                "test": {
+                "method": "test_cli_execute_behavior_with_action_parameter",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 703
+                }
+            },
+            {
+                "name": "Cli execute behavior without action uses current",
+                "sequential_order": 2.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_execute_behavior_without_action_uses_current",
+                "steps": "",
+                "test": {
+                "method": "test_cli_execute_behavior_without_action_uses_current",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 716
+                }
+            },
+            {
+                "name": "Cli execute behavior with no state starts at first",
+                "sequential_order": 3.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_execute_behavior_with_no_state_starts_at_first",
+                "steps": "",
+                "test": {
+                "method": "test_cli_execute_behavior_with_no_state_starts_at_first",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 729
+                }
+            },
+            {
+                "name": "Cli workflow order determines next action",
+                "sequential_order": 4.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_workflow_order_determines_next_action",
+                "steps": "",
+                "test": {
+                "method": "test_cli_workflow_order_determines_next_action",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 743
+                }
+            },
+            {
+                "name": "Cli starts at first action when no completed",
+                "sequential_order": 5.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_starts_at_first_action_when_no_completed",
+                "steps": "",
+                "test": {
+                "method": "test_cli_starts_at_first_action_when_no_completed",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 757
+                }
+            },
+            {
+                "name": "Cli falls back to completed actions list",
+                "sequential_order": 6.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_falls_back_to_completed_actions_list",
+                "steps": "",
+                "test": {
+                "method": "test_cli_falls_back_to_completed_actions_list",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 770
+                }
+            },
+            {
+                "name": "Cli different behaviors have different workflows",
+                "sequential_order": 7.0,
+                "type": "happy_path",
+                "background": [],
+                "test_method": "test_cli_different_behaviors_have_different_workflows",
+                "steps": "",
+                "test": {
+                "method": "test_cli_different_behaviors_have_different_workflows",
+                "file": "invoke_bot/navigate_behavior_actions/test_navigate_behavior_and_actions.py",
+                "line": 789
+                }
+            }
+            ],
+            "acceptance_criteria": [],
+            "behavior": null
+        }]
+    }]
+}

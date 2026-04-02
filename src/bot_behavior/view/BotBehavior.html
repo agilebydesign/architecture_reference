@@ -1,15 +1,18 @@
 <link rel="stylesheet" href="{{botBehaviorCssUri}}">
 <section class="bot-behavior-section">
-  <div class="behavior-info">
-    <span class="label">Current Behavior:</span>
-    <span id="currentBehavior">{{currentBehavior}}</span>
-    <span class="label">Behaviors:</span>
-    <span id="behaviorCount">{{behaviorCount}}</span>
+  <div class="behavior-status">
+    <div class="behavior-info">
+      <span class="label">Current Behavior:</span>
+      <span id="currentBehavior">{{currentBehavior}}</span>
+    </div>
+    <div class="action-info">
+      <span class="label">Current Action:</span>
+      <span id="currentAction">{{currentAction}}</span>
+    </div>
   </div>
-  <div class="action-info">
-    <span class="label">Current Action:</span>
-    <span id="currentAction">{{currentAction}}</span>
-    <span class="label">Actions:</span>
-    <span id="actionCount">{{actionCount}}</span>
+  <div class="behavior-nav">
+    <button id="backBtn" class="nav-btn" title="Back">◀ Back</button>
+    <button id="nextBtn" class="nav-btn" title="Next">Next ▶</button>
   </div>
+  <ul id="behaviorTree" class="behavior-tree">{{behaviorTreeHtml}}</ul>
 </section>

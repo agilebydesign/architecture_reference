@@ -6,5 +6,8 @@ export interface IBotBehaviorOutputAdapter {
   readonly behavior: string;
   readonly action: string;
   readonly executionSetting: string;
+  readonly position: string;
+  readonly tree: string;
+  readonly navigation: string;
   readonly internals: IBotBehavior;
 }

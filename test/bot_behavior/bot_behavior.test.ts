@@ -6,7 +6,7 @@ import * as os from "os";
 import { BotBehavior } from "../../src/bot_behavior/bot_behavior.js";
 import { BotBehaviorServer } from "../../src/bot_behavior/bot_behavior_server.js";
 import { BotBehaviorTest, testAllowedBehaviors, testBehaviorConfigs, testBaseActionConfigs } from "./bot_behavior_test.js";
-import type { IBotBehavior } from "../../src/bot_behavior/bot_behavior.js";
+import type { IBotBehavior, NavigationResult } from "../../src/bot_behavior/bot_behavior.js";
 
 /** Path to real bot config dir (bots/story_bot) in the project */
 const projectRoot = path.resolve(__dirname, "../..");
@@ -62,6 +62,17 @@ describe("BotBehaviorServer", () => {
       if (fs.existsSync(persistencePath)) {
         const reloaded = new BotBehaviorServer(persistencePath, botConfigDir);
         expect(reloaded.currentAction?.name).toBe(expected);
+      }
+    }
+
+    protected override assertNavigation(botBehavior: IBotBehavior, result: NavigationResult, expectedBehavior: string, expectedAction: string): void {
+      super.assertNavigation(botBehavior, result, expectedBehavior, expectedAction);
+
+      // Server domain adds: verify persistence survives reload
+      if (fs.existsSync(persistencePath)) {
+        const reloaded = new BotBehaviorServer(persistencePath, botConfigDir);
+        expect(reloaded.currentBehavior?.name).toBe(expectedBehavior);
+        expect(reloaded.currentAction?.name).toBe(expectedAction);
       }
     }
   }

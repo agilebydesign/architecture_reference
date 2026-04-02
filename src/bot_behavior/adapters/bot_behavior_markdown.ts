@@ -21,6 +21,21 @@ export class BotBehaviorMarkdown implements IBotBehaviorOutputAdapter {
     return `**Execution Setting:** ${this._botBehavior.currentAction?.executionSetting ?? "(none)"}\n`;
   }
 
+  get position(): string {
+    const p = this._botBehavior.pos();
+    return p.status === "success" ? `**Position:** ${p.position}\n` : `**Position:** (none)\n`;
+  }
+
+  get tree(): string {
+    return `## Behavior Tree\n\n\`\`\`\n${this._botBehavior.tree()}\n\`\`\`\n`;
+  }
+
+  get navigation(): string {
+    const b = this._botBehavior.currentBehavior?.name ?? "(none)";
+    const a = this._botBehavior.currentAction?.name ?? "(none)";
+    return `**Navigated to:** ${b}.${a}\n`;
+  }
+
   get internals(): IBotBehavior {
     return this._botBehavior;
   }

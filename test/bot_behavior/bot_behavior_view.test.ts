@@ -4,7 +4,7 @@ import * as path from "path";
 import { BotBehaviorView } from "../../src/bot_behavior/view/bot_behavior_view.js";
 import { BotBehavior } from "../../src/bot_behavior/bot_behavior.js";
 import { BotBehaviorTest, testAllowedBehaviors, testBehaviorConfigs, testBaseActionConfigs } from "./bot_behavior_test.js";
-import type { IBotBehavior } from "../../src/bot_behavior/bot_behavior.js";
+import type { IBotBehavior, NavigationResult } from "../../src/bot_behavior/bot_behavior.js";
 import { Uri, createMockWebviewPanel } from "../__mocks__/vscode.js";
 import type { WebviewPanel } from "../__mocks__/vscode.js";
 
@@ -54,6 +54,16 @@ describe("BotBehaviorView", () => {
       if (posted.length > 0) {
         expect(posted).toContainEqual(expect.objectContaining({ currentAction: expected }));
       }
+    }
+
+    protected override assertNavigation(botBehavior: IBotBehavior, result: NavigationResult, expectedBehavior: string, expectedAction: string): void {
+      super.assertNavigation(botBehavior, result, expectedBehavior, expectedAction);
+
+      // View adds: verify postMessage contains updated state
+      expect(posted).toContainEqual(expect.objectContaining({
+        currentBehavior: expectedBehavior,
+        currentAction: expectedAction,
+      }));
     }
   }
 

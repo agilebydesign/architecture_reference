@@ -77,6 +77,16 @@ export class EngineCLI {
       if (secondSegment === "currentAction" || secondSegment === "loadActions" || secondSegment === "actions") {
         return adapter.action;
       }
+      if (secondSegment === "pos") {
+        return adapter.position;
+      }
+      if (secondSegment === "tree") {
+        return adapter.tree;
+      }
+      if (secondSegment === "next" || secondSegment === "back" || secondSegment === "closeCurrent"
+        || secondSegment === "navigateToBehavior" || secondSegment === "navigateToAction") {
+        return adapter.navigation;
+      }
       return adapter.behavior;
     }
     const adapter = EngineCLI._getAdapter(format);

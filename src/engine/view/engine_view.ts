@@ -10,6 +10,7 @@ import { ContextFolderServer } from "../../context_folder/context_folder_server"
 import { ContextFolderView } from "../../context_folder/view/context_folder_view";
 import { BotBehaviorServer } from "../../bot_behavior/bot_behavior_server";
 import { BotBehaviorView } from "../../bot_behavior/view/bot_behavior_view";
+import type { ExecutionSetting } from "../../bot_behavior/bot_behavior";
 
 function getNonce(): string {
   return crypto.randomBytes(16).toString("hex");
@@ -91,6 +92,11 @@ export class EngineView extends BaseView {
       } else if (key === "name" && command.startsWith("contextFolder.")) {
         this._panel.webview.postMessage({ botName: value });
       }
+    }
+
+    // BotBehavior: setExecutionSetting sends key/value as separate properties
+    if (command === "botBehavior.setExecutionSetting" && "key" in message) {
+      this.botBehavior.setExecutionSetting(message.key as string, message.value as ExecutionSetting);
     }
   }
 

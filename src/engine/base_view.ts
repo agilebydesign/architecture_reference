@@ -26,7 +26,7 @@ export class BaseView {
     for (const [key, value] of Object.entries(data)) {
       const placeholder = `{{${key}}}`;
       const toInsert =
-        key === "content" ? String(value ?? "") : this._escapeHtml(value);
+        key === "content" || key.endsWith("Html") ? String(value ?? "") : this._escapeHtml(value);
       result = result.split(placeholder).join(toInsert);
     }
     return result;

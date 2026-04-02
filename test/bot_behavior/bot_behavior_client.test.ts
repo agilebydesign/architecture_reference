@@ -5,7 +5,7 @@ import { resolve } from "path";
 import { JSDOM } from "jsdom";
 import { BotBehaviorTest, testAllowedBehaviors, testBehaviorConfigs, testBaseActionConfigs } from "./bot_behavior_test.js";
 import { initBotBehaviorClient, BotBehaviorClient } from "../../src/bot_behavior/view/bot_behavior_client.js";
-import type { IBotBehavior } from "../../src/bot_behavior/bot_behavior.js";
+import type { IBotBehavior, NavigationResult } from "../../src/bot_behavior/bot_behavior.js";
 
 // Load actual BotBehavior.html and replace template variables with defaults
 const botBehaviorHtmlPath = resolve(__dirname, "../../src/bot_behavior/view/BotBehavior.html");
@@ -14,8 +14,7 @@ const fixtureHtml = `<!DOCTYPE html><html><body>${botBehaviorHtmlRaw
   .replace("{{botBehaviorCssUri}}", "")
   .replace("{{currentBehavior}}", "")
   .replace("{{currentAction}}", "")
-  .replace("{{behaviorCount}}", "0")
-  .replace("{{actionCount}}", "0")}</body></html>`;
+  .replace("{{behaviorTreeHtml}}", "")}</body></html>`;
 
 describe("bot_behavior_client", () => {
   let postMessageCalls: unknown[];
@@ -53,6 +52,16 @@ describe("bot_behavior_client", () => {
       // Client view adds: verify DOM element has correct text
       const currentActionEl = document.getElementById("currentAction");
       expect(currentActionEl?.textContent).toBe(expected);
+    }
+
+    protected override assertNavigation(botBehavior: IBotBehavior, result: NavigationResult, expectedBehavior: string, expectedAction: string): void {
+      super.assertNavigation(botBehavior, result, expectedBehavior, expectedAction);
+
+      // Client view adds: verify DOM elements updated
+      const currentBehaviorEl = document.getElementById("currentBehavior");
+      expect(currentBehaviorEl?.textContent).toBe(expectedBehavior);
+      const currentActionEl = document.getElementById("currentAction");
+      expect(currentActionEl?.textContent).toBe(expectedAction);
     }
   }
 

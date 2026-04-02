@@ -25,10 +25,32 @@ export const contextFolderLocators = {
 export const botBehaviorLocators = {
   /** Span displaying current behavior name */
   currentBehavior: "#currentBehavior",
-  /** Span displaying behavior count */
-  behaviorCount: "#behaviorCount",
   /** Span displaying current action name */
   currentAction: "#currentAction",
-  /** Span displaying action count */
-  actionCount: "#actionCount",
+  /** Next navigation button */
+  nextBtn: "#nextBtn",
+  /** Back navigation button */
+  backBtn: "#backBtn",
+  /** Behavior tree container */
+  behaviorTree: "#behaviorTree",
+  /** Behavior item by name (use with attribute selector) */
+  behaviorItem: (name: string) => `.behavior-item[data-behavior="${name}"]`,
+  /** Behavior header by name */
+  behaviorHeader: (name: string) => `.behavior-item[data-behavior="${name}"] .behavior-header`,
+  /** Expand icon by behavior name */
+  expandIcon: (name: string) => `.behavior-item[data-behavior="${name}"] .expand-icon`,
+  /** Behavior name span by behavior name */
+  behaviorName: (name: string) => `.behavior-item[data-behavior="${name}"] .behavior-name`,
+  /** Action item by behavior and action name */
+  actionItem: (behavior: string, action: string) => `.behavior-item[data-behavior="${behavior}"] .action-item[data-action="${action}"]`,
+  /** Execution setting button by target key and setting value */
+  execBtn: (target: string, setting: string) => `.exec-btn[data-target="${target}"][data-exec="${setting}"]`,
+  /** Active behavior item */
+  activeBehaviorItem: ".behavior-item.active",
+  /** Active action item */
+  activeActionItem: ".action-item.active",
+  /** All behavior items */
+  allBehaviorItems: ".behavior-item",
+  /** All action items within a behavior */
+  actionList: (behavior: string) => `.behavior-item[data-behavior="${behavior}"] .action-list`,
 };
