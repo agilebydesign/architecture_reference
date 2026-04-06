@@ -1,0 +1,59 @@
+{
+  "tests": {
+    "decisions": {
+      "test_framework": ["Vitest with JSDOM (TypeScript), matching existing bot_behavior client/view test patterns"],
+      "test_organization": ["Class per story, file per sub-epic: test/bot_behavior/test_display_instructions.ts"],
+      "test_doubles": ["Mock only vscode webview boundary (createMockWebviewPanel) — test BotBehaviorClient and BotBehaviorView directly"],
+      "parameterization": ["Individual it() tests per scenario — no parametrize needed, inline values sufficient for string-comparison assertions"]
+    },
+    "assumptions": [
+      "Test file is TypeScript (.ts), not Python (.py) — the architecture_reference project uses Vitest not pytest",
+      "File path is test/bot_behavior/test_display_instructions.ts — sub-epic 'Display Instructions' maps to this location following existing naming convention",
+      "Tests drive API design: BotBehavior.html must have instructions-panel element, BotBehaviorClient must have updateInstructionsPanel() method — both will fail initially until implemented",
+      "instructions-panel DOM fixture is added to BotBehavior.html as part of this feature implementation",
+      "testBehaviorConfigs uses 'shape' behavior (instructions: ['Shape the story map']) as the primary happy-path fixture",
+      "Empty instructions test uses inline fixture — no modification to shared testBehaviorConfigs needed",
+      "BotBehaviorView._postCurrentState() must include behaviorInstructions and actionInstructions — view tests verify this via posted message assertions",
+      "Tests follow Given/When/Then orchestrator pattern matching existing bot_behavior_test.ts style",
+      "Each test class extends or mirrors BotBehaviorTest helper pattern for fixture setup"
+    ]
+  },
+  "scenarios": {
+    "decisions": {
+      "examples_representation": ["Inline Values in Steps"],
+      "scenario_coverage": ["Happy Path", "Edge Cases", "Error Handling"],
+      "scenario_outline": ["Individual Scenarios"]
+    },
+    "assumptions": [
+      "Inline values are sufficient — instruction content is string arrays with no formula variation, so Scenario Outline adds no value",
+      "Individual scenarios are used because each case (happy path, empty state, hydration, navigation) has distinct setup and domain meaning",
+      "Happy path, edge cases (empty instructions), and error handling (stale/mixed content) are all covered",
+      "Background is used in both story test classes — all scenarios share the same precondition: panel open with behaviors and actions loaded",
+      "Domain terminology used throughout: BotBehavior, instructions-panel, instruction-item, instructions-empty, BotBehaviorHydrateData, navigateToBehavior, navigateToAction",
+      "Scenarios are in Given (state) / When (action) / Then (observable outcome) format — no Given describes an action",
+      "Test file path is test/panel/test_display_instructions.ts (panel channel, sub-epic = Display Instructions)",
+      "Scenarios cover both client-side (via hydrate message) and reactive (via navigation click) update paths"
+    ]
+  },
+  "exploration": {
+    "decisions": {
+      "acceptance_criteria_consolidation": ["Same logic, different data → Consolidate"],
+      "acceptance_criteria_count": ["Stop when criteria capture a full back-and-forth (user-system-user). Ensures atomic and testable slices."],
+      "acceptance_criteria_granularity": ["User-System Behavioral – Focus on each point of interaction (user input, system response). Ideal when precision in behavior is key."],
+      "acceptance_criteria_types": ["Behavioral primary, domain secondary – Emphasize user interactions with domain concepts as supporting context"],
+      "increment_size": ["Keep increment as-is – Current scope is appropriate"]
+    },
+    "assumptions": [
+      "Instructions are already loaded into the domain (IBotBehavior) via loadBehaviors() and loadActions() — no new loading mechanism is needed at domain level",
+      "The panel (BotBehavior.html) needs a new dedicated instructions-panel section to display instructions",
+      "BotBehaviorClient can read this.currentBehavior?.instructions and this.currentAction?.instructions directly after navigation — client-side rendering is viable",
+      "BotBehaviorView._postCurrentState() should include behaviorInstructions and actionInstructions arrays to keep server and client in sync",
+      "Empty instructions arrays should result in a visible empty state placeholder, not an error or blank area",
+      "Action instructions displayed are the merged array (base instructions first, then behavior-specific instructions) — this is already handled by loadActions()",
+      "Both 'Display Selected Behavior Instructions' and 'Display Selected Action Instructions' stories share the same instructions-panel DOM element but differ in trigger (behavior selection vs action selection)",
+      "Initial panel load should show instructions for the current behavior and action via the hydration mechanism",
+      "When user navigates (Next/Back or tree click) the instructions-panel content is fully replaced — no partial or stale content retained",
+      "Stories are scoped to the Panel channel — domain and server changes needed to support the panel are captured as part of these panel-level stories"
+    ]
+  }
+}

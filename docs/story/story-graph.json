@@ -1,0 +1,319 @@
+{
+  "epics": [
+    {
+      "name": "Navigate Bot Behavior",
+      "sequential_order": 1,
+      "estimated_stories": 2,
+      "notes": "Epic covers all panel-level features for the BotBehavior webview — behavior tree navigation, instructions display, and execution settings.",
+      "context_source": {
+        "file": "src/bot_behavior/view/BotBehavior.html",
+        "type": "code",
+        "description": "Panel HTML template defines the panel's surface area"
+      },
+      "sub_epics": [
+        {
+          "name": "Display Instructions",
+          "sequential_order": 1,
+          "estimated_stories": 2,
+          "test_file": "test/bot_behavior/display_instructions.test.ts",
+          "notes": "Sub-epic covers loading and displaying instructions for the selected behavior and action in the panel. Domain-level loading (loadBehaviors/loadActions) is already implemented; this sub-epic focuses on surfacing that data in the panel UI.",
+          "context_source": [
+            {
+              "file": "src/bot_behavior/bot_behavior.ts",
+              "type": "code",
+              "description": "IBotBehavior.currentBehavior.instructions[] and currentAction.instructions[] already accessible"
+            },
+            {
+              "file": "src/bot_behavior/view/bot_behavior_view.ts",
+              "type": "code",
+              "description": "_postCurrentState() currently omits instructions — needs extension"
+            },
+            {
+              "type": "chat",
+              "description": "User request: add stories for displaying and loading instructions for selected behaviors and actions"
+            }
+          ],
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "type": "and",
+              "connector": null,
+              "sequential_order": 1,
+              "notes": "Behavior instructions display and action instructions display are related panel stories — both write to the same instructions-panel DOM element, triggered by different user selections.",
+              "stories": [
+                {
+                  "name": "Display Selected Behavior Instructions",
+                  "sequential_order": 1,
+                  "connector": "and",
+                  "story_type": "user",
+                  "users": ["User"],
+                  "optional": false,
+                  "priority": 1,
+                  "context_source": {
+                    "file": "src/bot_behavior/view/bot_behavior_client.ts",
+                    "type": "code",
+                    "description": "navigateToBehavior() and renderTree() are the primary interaction points for behavior selection"
+                  },
+                  "acceptance_criteria": [
+                    {
+                      "name": "WHEN user clicks behavior-item in behavior tree THEN instructions-panel renders behavior's instructions as instruction-item list AND currentBehavior span updates to selected behavior name",
+                      "text": "WHEN user clicks behavior-item in behavior tree THEN instructions-panel renders behavior's instructions as instruction-item list AND currentBehavior span updates to selected behavior name",
+                      "sequential_order": 1
+                    },
+                    {
+                      "name": "WHEN selected behavior has empty instructions array THEN instructions-panel displays instructions-empty placeholder text BUT does not render instruction-item elements",
+                      "text": "WHEN selected behavior has empty instructions array THEN instructions-panel displays instructions-empty placeholder text BUT does not render instruction-item elements",
+                      "sequential_order": 2
+                    },
+                    {
+                      "name": "WHEN navigateToBehavior completes THEN _postCurrentState sends message including behaviorInstructions array AND client updateInstructionsPanel renders each item from behaviorInstructions into instructions-panel",
+                      "text": "WHEN navigateToBehavior completes THEN _postCurrentState sends message including behaviorInstructions array AND client updateInstructionsPanel renders each item from behaviorInstructions into instructions-panel",
+                      "sequential_order": 3
+                    },
+                    {
+                      "name": "WHEN panel initializes with current behavior set THEN instructions-panel populates from BotBehaviorHydrateData with currentBehavior instructions array AND instructions-panel reflects config-loaded instructions",
+                      "text": "WHEN panel initializes with current behavior set THEN instructions-panel populates from BotBehaviorHydrateData with currentBehavior instructions array AND instructions-panel reflects config-loaded instructions",
+                      "sequential_order": 4
+                    },
+                    {
+                      "name": "WHEN user selects different behavior THEN instructions-panel clears previous behavior instructions AND renders new behavior instructions BUT does not mix instructions from different behaviors",
+                      "text": "WHEN user selects different behavior THEN instructions-panel clears previous behavior instructions AND renders new behavior instructions BUT does not mix instructions from different behaviors",
+                      "sequential_order": 5
+                    },
+                    {
+                      "name": "WHEN behavior has multiple instructions THEN instructions-panel displays all instruction strings in their original config order AND each string is a separate instruction-item element",
+                      "text": "WHEN behavior has multiple instructions THEN instructions-panel displays all instruction strings in their original config order AND each string is a separate instruction-item element",
+                      "sequential_order": 6
+                    }
+                  ],
+                  "test_class": "TestDisplaySelectedBehaviorInstructions",
+                  "scenarios": [
+                    {
+                      "name": "BotBehavior renders and completes behavior instructions display when user selects behavior",
+                      "sequential_order": 1,
+                      "type": "happy_path",
+                      "background": [
+                        "Given BotBehavior panel is open with behaviors loaded from BotBehaviorHydrateData",
+                        "And instructions-panel is present in panel DOM"
+                      ],
+                      "test_method": "test_bot_behavior_renders_and_completes_behavior_instructions_display_when_user_selects_behavior",
+                      "context_source": {
+                        "file": "src/bot_behavior/view/bot_behavior_client.ts",
+                        "type": "code",
+                        "description": "navigateToBehavior() is the primary client method triggered by behavior-name click"
+                      },
+                      "steps": "Given BotBehavior has 'shape' behavior loaded with instructions ['Shape the story map']\nWhen user selects 'shape' behavior in behavior tree\nThen instructions-panel contains one instruction-item element\nAnd instruction-item text is 'Shape the story map'\nAnd currentBehavior span text is 'shape'"
+                    },
+                    {
+                      "name": "BotBehavior shows empty state when selected behavior has no instructions",
+                      "sequential_order": 2,
+                      "type": "edge_case",
+                      "background": [
+                        "Given BotBehavior panel is open with behaviors loaded from BotBehaviorHydrateData",
+                        "And instructions-panel is present in panel DOM"
+                      ],
+                      "test_method": "test_bot_behavior_shows_empty_state_when_selected_behavior_has_no_instructions",
+                      "context_source": {
+                        "type": "inferred",
+                        "basis": "AC #2 — empty instructions array must show placeholder, not blank area"
+                      },
+                      "steps": "Given BotBehavior has 'empty-behavior' behavior loaded with instructions []\nWhen user selects 'empty-behavior' behavior in behavior tree\nThen instructions-panel contains instructions-empty placeholder\nAnd instructions-panel contains zero instruction-item elements"
+                    },
+                    {
+                      "name": "BotBehavior replaces prior behavior instructions when user selects different behavior",
+                      "sequential_order": 3,
+                      "type": "edge_case",
+                      "background": [
+                        "Given BotBehavior panel is open with behaviors loaded from BotBehaviorHydrateData",
+                        "And instructions-panel is present in panel DOM"
+                      ],
+                      "test_method": "test_bot_behavior_replaces_prior_behavior_instructions_when_user_selects_different_behavior",
+                      "context_source": {
+                        "type": "inferred",
+                        "basis": "AC #5 — switching behaviors must clear old instructions and render new ones"
+                      },
+                      "steps": "Given BotBehavior has 'shape' and 'prioritization' behaviors loaded\nAnd 'shape' behavior is currently selected showing its instructions\nWhen user selects 'prioritization' behavior in behavior tree\nThen instructions-panel contains instruction-item elements for 'prioritization' instructions\nAnd instructions-panel contains no instruction-item elements from 'shape' instructions"
+                    },
+                    {
+                      "name": "BotBehavior populates instructions-panel from BotBehaviorHydrateData on panel init",
+                      "sequential_order": 4,
+                      "type": "happy_path",
+                      "background": [
+                        "Given BotBehavior panel DOM is loaded with empty instructions-panel",
+                        "And BotBehaviorHydrateData message is available with allowedBehaviors and behaviorConfigs"
+                      ],
+                      "test_method": "test_bot_behavior_populates_instructions_panel_from_hydrate_data_on_panel_init",
+                      "context_source": {
+                        "file": "src/bot_behavior/view/bot_behavior_client.ts",
+                        "type": "code",
+                        "description": "hydrate() calls super.loadBehaviors() + loadActions() when allowedBehaviors present in message — this is the panel init path"
+                      },
+                      "steps": "Given BotBehaviorHydrateData contains allowedBehaviors ['shape'] and behaviorConfigs with 'shape' having instructions ['Shape the story map']\nWhen panel receives BotBehaviorHydrateData init message\nThen instructions-panel contains one instruction-item with text 'Shape the story map'\nAnd currentBehavior span text is 'shape'"
+                    },
+                    {
+                      "name": "BotBehavior displays multiple behavior instructions in config order",
+                      "sequential_order": 5,
+                      "type": "happy_path",
+                      "background": [
+                        "Given BotBehavior panel is open with behaviors loaded from BotBehaviorHydrateData",
+                        "And instructions-panel is present in panel DOM"
+                      ],
+                      "test_method": "test_bot_behavior_displays_multiple_behavior_instructions_in_config_order",
+                      "context_source": {
+                        "type": "inferred",
+                        "basis": "AC #6 — multiple instructions must all appear as separate items in original order"
+                      },
+                      "steps": "Given BotBehavior has 'multi-behavior' behavior loaded with instructions ['First instruction', 'Second instruction', 'Third instruction']\nWhen user selects 'multi-behavior' behavior in behavior tree\nThen instructions-panel contains three instruction-item elements\nAnd first instruction-item text is 'First instruction'\nAnd second instruction-item text is 'Second instruction'\nAnd third instruction-item text is 'Third instruction'"
+                    }
+                  ],
+                  "behavior": null
+                },
+                {
+                  "name": "Display Selected Action Instructions",
+                  "sequential_order": 2,
+                  "connector": null,
+                  "story_type": "user",
+                  "users": ["User"],
+                  "optional": false,
+                  "priority": 1,
+                  "context_source": {
+                    "file": "src/bot_behavior/bot_behavior.ts",
+                    "lines": "156-180",
+                    "type": "code",
+                    "description": "loadActions() merges base instructions first then behavior-specific instructions — this is the merged array displayed"
+                  },
+                  "acceptance_criteria": [
+                    {
+                      "name": "WHEN user clicks action-item in behavior tree THEN instructions-panel renders action's merged instructions as instruction-item list AND currentAction span updates to selected action name",
+                      "text": "WHEN user clicks action-item in behavior tree THEN instructions-panel renders action's merged instructions as instruction-item list AND currentAction span updates to selected action name",
+                      "sequential_order": 1
+                    },
+                    {
+                      "name": "WHEN selected action has empty merged instructions array THEN instructions-panel displays instructions-empty placeholder text BUT does not retain previous action's instruction-item elements",
+                      "text": "WHEN selected action has empty merged instructions array THEN instructions-panel displays instructions-empty placeholder text BUT does not retain previous action's instruction-item elements",
+                      "sequential_order": 2
+                    },
+                    {
+                      "name": "WHEN navigateToAction completes THEN _postCurrentState sends message including actionInstructions array AND client updateInstructionsPanel replaces instructions-panel content with new action's instruction-item elements",
+                      "text": "WHEN navigateToAction completes THEN _postCurrentState sends message including actionInstructions array AND client updateInstructionsPanel replaces instructions-panel content with new action's instruction-item elements",
+                      "sequential_order": 3
+                    },
+                    {
+                      "name": "WHEN Next or Back button navigation changes current action THEN instructions-panel updates to new action's instructions AND previous action instructions are fully replaced BUT do not persist",
+                      "text": "WHEN Next or Back button navigation changes current action THEN instructions-panel updates to new action's instructions AND previous action instructions are fully replaced BUT do not persist",
+                      "sequential_order": 4
+                    },
+                    {
+                      "name": "WHEN action has merged instructions from base and behavior configs THEN instructions-panel renders the full merged instructions array AND merged list shows base instructions first followed by behavior-specific instructions",
+                      "text": "WHEN action has merged instructions from base and behavior configs THEN instructions-panel renders the full merged instructions array AND merged list shows base instructions first followed by behavior-specific instructions",
+                      "sequential_order": 5
+                    },
+                    {
+                      "name": "WHEN panel initializes with current action set THEN instructions-panel shows current action's instructions from BotBehaviorHydrateData AND instructions reflect merged action instructions loaded at init time",
+                      "text": "WHEN panel initializes with current action set THEN instructions-panel shows current action's instructions from BotBehaviorHydrateData AND instructions reflect merged action instructions loaded at init time",
+                      "sequential_order": 6
+                    }
+                  ],
+                  "test_class": "TestDisplaySelectedActionInstructions",
+                  "scenarios": [
+                    {
+                      "name": "BotBehavior renders and completes merged action instructions display when user selects action",
+                      "sequential_order": 1,
+                      "type": "happy_path",
+                      "background": [
+                        "Given BotBehavior panel is open with behaviors and actions loaded from BotBehaviorHydrateData",
+                        "And instructions-panel is present in panel DOM"
+                      ],
+                      "test_method": "test_bot_behavior_renders_and_completes_merged_action_instructions_display_when_user_selects_action",
+                      "context_source": {
+                        "file": "src/bot_behavior/view/bot_behavior_client.ts",
+                        "type": "code",
+                        "description": "navigateToAction() is triggered by action-item click; action.instructions is already merged by loadActions()"
+                      },
+                      "steps": "Given BotBehavior has 'shape' behavior with 'clarify' action loaded\nAnd 'clarify' action has merged instructions from IBaseActionConfig and IBehaviorConfig workflow entry\nWhen user selects 'clarify' action in behavior tree\nThen instructions-panel contains instruction-item elements for each merged instruction\nAnd instruction-item elements appear in merged order: base instructions first, then behavior-specific\nAnd currentAction span text is 'clarify'"
+                    },
+                    {
+                      "name": "BotBehavior shows empty state when selected action has no merged instructions",
+                      "sequential_order": 2,
+                      "type": "edge_case",
+                      "background": [
+                        "Given BotBehavior panel is open with behaviors and actions loaded from BotBehaviorHydrateData",
+                        "And instructions-panel is present in panel DOM"
+                      ],
+                      "test_method": "test_bot_behavior_shows_empty_state_when_selected_action_has_no_merged_instructions",
+                      "context_source": {
+                        "file": "test/test_data/bot_behavior_fixtures.ts",
+                        "type": "code",
+                        "description": "strategy action has empty behavior instructions []; base has instructions — combined is non-empty. Need a fully empty case."
+                      },
+                      "steps": "Given BotBehavior has 'shape' behavior with an action that has empty base instructions and empty behavior instructions\nWhen user selects that action in behavior tree\nThen instructions-panel contains instructions-empty placeholder\nAnd instructions-panel contains zero instruction-item elements"
+                    },
+                    {
+                      "name": "BotBehavior replaces prior action instructions when user navigates to different action",
+                      "sequential_order": 3,
+                      "type": "edge_case",
+                      "background": [
+                        "Given BotBehavior panel is open with behaviors and actions loaded from BotBehaviorHydrateData",
+                        "And instructions-panel is present in panel DOM"
+                      ],
+                      "test_method": "test_bot_behavior_replaces_prior_action_instructions_when_user_navigates_to_different_action",
+                      "context_source": {
+                        "type": "inferred",
+                        "basis": "AC #4 — Next/Back navigation must fully replace instructions, no prior content retained"
+                      },
+                      "steps": "Given BotBehavior is at 'shape' behavior with 'clarify' action selected showing its instructions\nWhen user presses Next button to advance to 'strategy' action\nThen instructions-panel contains instruction-item elements for 'strategy' action instructions\nAnd instructions-panel contains no instruction-item elements from 'clarify' action\nAnd currentAction span text is 'strategy'"
+                    },
+                    {
+                      "name": "BotBehavior shows base instructions first then behavior-specific instructions in merged order",
+                      "sequential_order": 4,
+                      "type": "happy_path",
+                      "background": [
+                        "Given BotBehavior panel is open with behaviors and actions loaded from BotBehaviorHydrateData",
+                        "And instructions-panel is present in panel DOM"
+                      ],
+                      "test_method": "test_bot_behavior_shows_base_instructions_first_then_behavior_specific_instructions_in_merged_order",
+                      "context_source": {
+                        "file": "src/bot_behavior/bot_behavior.ts",
+                        "type": "code",
+                        "description": "loadActions() merges: base instructions first, then workflow entry instructions — this is the key domain merge rule"
+                      },
+                      "steps": "Given BotBehavior has 'shape' behavior with 'clarify' action\nAnd IBaseActionConfig for 'clarify' has instructions ['IMPORTANT: Follow these action instructions specifically', 'Review all provided context']\nAnd 'shape' behavior workflow entry for 'clarify' has instructions ['Gather context for story mapping']\nWhen user selects 'clarify' action in behavior tree\nThen first instruction-item text is 'IMPORTANT: Follow these action instructions specifically'\nAnd second instruction-item text is 'Review all provided context'\nAnd third instruction-item text is 'Gather context for story mapping'\nAnd instructions-panel contains exactly three instruction-item elements"
+                    },
+                    {
+                      "name": "BotBehavior populates action instructions from BotBehaviorHydrateData on panel init",
+                      "sequential_order": 5,
+                      "type": "happy_path",
+                      "background": [
+                        "Given BotBehavior panel DOM is loaded with empty instructions-panel",
+                        "And BotBehaviorHydrateData message is available with allowedBehaviors, behaviorConfigs, and baseActionConfigs"
+                      ],
+                      "test_method": "test_bot_behavior_populates_action_instructions_from_hydrate_data_on_panel_init",
+                      "context_source": {
+                        "file": "src/bot_behavior/view/bot_behavior_client.ts",
+                        "type": "code",
+                        "description": "hydrate() with allowedBehaviors calls super.loadBehaviors()+loadActions() — current action instructions are set at init"
+                      },
+                      "steps": "Given BotBehaviorHydrateData contains allowedBehaviors, behaviorConfigs with 'shape', and baseActionConfigs for 'clarify'\nWhen panel receives BotBehaviorHydrateData init message\nThen instructions-panel contains instruction-item elements for the current action's merged instructions\nAnd currentAction span text matches the first action in 'shape' behavior workflow"
+                    }
+                  ],
+                  "behavior": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "story_groups": []
+    }
+  ],
+  "increments": [
+    {
+      "name": "Display and Load Instructions",
+      "priority": 1,
+      "stories": [
+        "Display Selected Behavior Instructions",
+        "Display Selected Action Instructions"
+      ]
+    }
+  ]
+}

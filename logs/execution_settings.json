@@ -1,0 +1,14 @@
+{
+  "story_bot._behavior.exploration": "manual",
+  "story_bot.exploration.clarify": "combine_next",
+  "story_bot.exploration.strategy": "combine_next",
+  "story_bot.exploration.build": "combine_next",
+  "story_bot.exploration.validate": "combine_next",
+  "story_bot.exploration.render": "combine_next",
+  "story_bot._behavior.scenarios": "combine_with_next",
+  "story_bot.scenarios.clarify": "combine_next",
+  "story_bot.scenarios.strategy": "combine_next",
+  "story_bot.scenarios.build": "combine_next",
+  "story_bot.scenarios.validate": "combine_next",
+  "story_bot.scenarios.render": "combine_next"
+}

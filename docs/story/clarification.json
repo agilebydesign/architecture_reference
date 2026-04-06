@@ -1,0 +1,116 @@
+{
+  "tests": {
+    "key_questions": {
+      "answers": {
+        "What is the correct test file location and hierarchy?": "Story path: Navigate Bot Behavior -> Display Instructions -> stories. Sub-epic for file name: Display Instructions. File: test/bot_behavior/test_display_instructions.ts. Story 1 class: TestDisplaySelectedBehaviorInstructions. Story 2 class: TestDisplaySelectedActionInstructions.",
+        "What system and user actions initiate tests?": "Client tests: initBotBehaviorClient() with JSDOM fixture, then loadBehaviors()+loadActions(), then navigateToBehavior(), navigateToAction(), next(), back(), or hydrate(). View tests: BotBehaviorView with createMockWebviewPanel(posted) to capture posted messages.",
+        "What preconditions are required?": "JSDOM environment with BotBehavior.html template (existing pattern from bot_behavior_client.test.ts). global.document and global.window from JSDOM. instructions-panel DOM element must be added to BotBehavior.html. testBehaviorConfigs, testAllowedBehaviors, testBaseActionConfigs from fixtures.",
+        "What data variations are required for test coverage?": "shape behavior: instructions=['Shape the story map']. clarify action: merged=['IMPORTANT: Follow these action instructions specifically', 'Review all provided context', 'Gather context for story mapping']. strategy action: merged=['Analyze gathered context', 'Propose a strategy'] (empty workflow instructions). Need a behavior or action with empty instructions to test empty state — add to fixtures.",
+        "What external system stubs are needed?": "Only vscode module mock (test/__mocks__/vscode.ts, already exists). createMockWebviewPanel for view tests. No network or file I/O mocks for client tests.",
+        "What is the test framework and language?": "TypeScript with Vitest. Follows existing test patterns: bot_behavior_client.test.ts and bot_behavior_view.test.ts. Uses describe/it/expect/beforeEach from vitest. Uses JSDOM for DOM rendering. Uses BotBehaviorTest abstract base class pattern where applicable."
+      }
+    },
+    "evidence": {
+      "required": [
+        "Specification scenarios from scenarios phase",
+        "Existing test patterns",
+        "Fixture data"
+      ],
+      "provided": {
+        "specification_scenarios": "docs/story/story-graph.json",
+        "existing_client_test": "test/bot_behavior/bot_behavior_client.test.ts",
+        "existing_view_test": "test/bot_behavior/bot_behavior_view.test.ts",
+        "fixtures": "test/test_data/bot_behavior_fixtures.ts",
+        "client_source": "src/bot_behavior/view/bot_behavior_client.ts",
+        "view_source": "src/bot_behavior/view/bot_behavior_view.ts",
+        "html_template": "src/bot_behavior/view/BotBehavior.html"
+      }
+    },
+    "context": [
+      "BotBehavior.html needs a new instructions-panel section for tests to query - must be added before tests can pass",
+      "BotBehaviorClient needs updateInstructionsPanel() method that replaces instructions-panel content",
+      "BotBehaviorView._postCurrentState() needs to include behaviorInstructions and actionInstructions arrays",
+      "testBehaviorConfigs already contains strategy action with empty behavior instructions — good for empty-merge test",
+      "Need to add a behavior with empty instructions to testBehaviorConfigs or create inline fixture"
+    ]
+  },
+  "scenarios": {
+    "key_questions": {
+      "answers": {
+        "What system and user actions initiate this story's flow?": "Story 1: User clicks behavior-name in tree triggering navigateToBehavior(). Also triggered at panel init via hydrate() receiving allowedBehaviors+behaviorConfigs from requestInit(). Story 2: User clicks action-item triggering navigateToAction(), or Next/Back buttons calling next()/back(). Both also initiated when window receives message with currentBehavior/currentAction keys.",
+        "What is the intended system response after each user action?": "Behavior selection: instructions-panel content replaced with instruction-item elements for currentBehavior.instructions[]; currentBehavior span updated. Action selection: instructions-panel content replaced with instruction-item elements for currentAction.instructions[]; currentAction span updated. Empty arrays: instructions-empty placeholder shown, no instruction-item elements rendered.",
+        "What preconditions or data states are required before this story can begin?": "Panel is open. loadBehaviors() has been called — behaviors exist in domain. loadActions() has been called — actions exist in domain. For action scenarios: a current behavior must be set. For hydration scenario: message contains allowedBehaviors and behaviorConfigs.",
+        "What are the success criteria for the story?": "instructions-panel contains exactly one instruction-item per instruction string in config order. Empty state shows placeholder and 0 items. Navigation fully replaces prior content. hydrate() populates instructions-panel on panel open.",
+        "What are the expected alternate flows, error paths, and edge cases?": "Edge: behavior with empty instructions[] shows placeholder. Edge: action with empty merged instructions shows placeholder. Edge: next() from last action of behavior advances to next behavior — instructions update to new behavior. Edge: back() from first action goes to previous behavior's last action — instructions update accordingly.",
+        "Are there any mandatory sequencing constraints?": "loadBehaviors() must precede navigateToBehavior(). loadActions() must precede navigateToAction(). navigateToBehavior() internally calls loadActions() — instructions following behavior navigation reflect the freshly loaded actions. hydrate() with allowedBehaviors calls loadBehaviors() + loadActions() before rendering instructions.",
+        "What domain rules does this story validate?": "Action instructions merge rule: IBaseActionConfig.instructions come first, then IActionWorkflowEntry.instructions — enforced by loadActions(). Behavior instructions come directly from IBehaviorConfig.instructions. Both arrays may be empty. Display order exactly mirrors the merged array order.",
+        "Is the story testable independently?": "Yes — client tests use JSDOM with BotBehavior.html template (existing pattern in bot_behavior_client.test.ts). View tests use createMockWebviewPanel with posted message capture (existing pattern in bot_behavior_view.test.ts). No external dependencies needed.",
+        "What data variations are required for test coverage?": "Behavior with non-empty instructions (e.g. 'Shape the story map'), behavior with empty instructions. Action with merged instructions (base + behavior-specific), action with empty merged instructions (strategy action has empty behavior instructions; base instructions only). All data exists in testBehaviorConfigs and testBaseActionConfigs fixtures."
+      }
+    },
+    "evidence": {
+      "required": [
+        "Acceptance criteria from exploration phase",
+        "Existing test fixture data",
+        "Source code for client hydrate and navigation methods"
+      ],
+      "provided": {
+        "acceptance_criteria": "docs/story/story-graph.json",
+        "fixtures": "test/test_data/bot_behavior_fixtures.ts",
+        "client_source": "src/bot_behavior/view/bot_behavior_client.ts",
+        "view_source": "src/bot_behavior/view/bot_behavior_view.ts",
+        "domain_source": "src/bot_behavior/bot_behavior.ts",
+        "existing_client_tests": "test/bot_behavior/bot_behavior_client.test.ts",
+        "existing_view_tests": "test/bot_behavior/bot_behavior_view.test.ts"
+      }
+    },
+    "context": [
+      "BotBehaviorClient.hydrate() calls super.loadBehaviors()+loadActions()+hydrate() when message contains allowedBehaviors — instructions are populated client-side from this data",
+      "navigateToBehavior() and navigateToAction() already update DOM for currentBehavior/currentAction spans — instructions-panel update follows same pattern",
+      "testBehaviorConfigs has strategy action with empty behavior instructions ([]) but base instructions ('Analyze gathered context', 'Propose a strategy') — valid merged test case",
+      "render action has executionSetting 'skip' — relevant for edge case where navigation skips render action",
+      "Instructions panel update must happen in: navigateToBehavior(), navigateToAction(), next(), back(), hydrate() — all override points in BotBehaviorClient"
+    ]
+  },
+  "exploration": {
+    "key_questions": {
+      "answers": {
+        "Which increment are we exploring?": "The 'Display and Load Instructions' increment — a new feature for the architecture_reference extension panel that enables users to see the instructions for the currently selected behavior and action.",
+        "What is the overarching outcome or user goal that unites this increment?": "A user navigating behaviors and actions in the panel wants to read the relevant instructions for the current step — the behavior's guidance and the action's merged instructions (from base + behavior config) — without leaving the panel.",
+        "What is the first thing the user will try to do in this flow?": "Select (click) a behavior or action in the behavior tree and expect to see its instructions content displayed in a dedicated instructions area in the panel.",
+        "What system reactions are expected for each user input?": "Selecting a behavior: panel shows behavior's instructions[] array. Selecting an action: panel shows action's merged instructions[]. Navigating via Next/Back: panel updates instruction content reactively. Server (_postCurrentState) must include instructions in its message to the client.",
+        "Where do we 'pass the ball' between the user and system in this flow?": "User clicks behavior/action in tree → BotBehaviorClient.navigateToBehavior/Action() → server _postCurrentState() includes instructions in message → client receives and renders to instructions-panel DOM element → user reads instructions.",
+        "What are the likely unknowns, edge cases, or domain complexities?": "Empty instructions arrays require placeholder text. Initial panel open needs instructions populated from hydration payload. Merged vs unmerged instructions for actions (actions already merged in loadActions()). Stale instructions if navigation state diverges.",
+        "Are there domain rules or constraints that govern this behavior?": "Action instructions are already merged by domain loadActions(): base action instructions[] first, then behavior workflow entry instructions[]. Behavior instructions are in IBehaviorConfig.instructions[]. Both can be empty arrays. The client already possesses instruction data post-loadBehaviors().",
+        "What parts of this increment are likely to involve integration or coordination across systems?": "Server BotBehaviorView._postCurrentState() must include behaviorInstructions and actionInstructions in the posted message. BotBehaviorHydrateData may need extension to carry instructions on panel open. BotBehavior.html needs a new instructions-panel section. bot_behavior_client.ts needs to render instructions from both server messages and local domain state.",
+        "Where do we face architectural risk or uncertainty that should be explored further before proceeding?": "Risk: client already has instructions via this.currentBehavior?.instructions after loadBehaviors — may be handled client-side without extra server round-trip. Need to decide whether instructions display is client-driven (read from local domain state) or server-driven (wait for _postCurrentState message). Current hydration mechanism (BotBehaviorHydrateData) can be extended without breaking changes."
+      }
+    },
+    "evidence": {
+      "required": [
+        "Story map from Shape stage",
+        "User interaction diagrams",
+        "Low fidelity UX flows for panel behavior"
+      ],
+      "provided": {
+        "existing_stories": "C:/Users/addis/OneDrive/Documents/Development/architecture_reference/docs/stories/story-graph.json",
+        "domain_model": "C:/Users/addis/OneDrive/Documents/Development/architecture_reference/src/bot_behavior/bot_behavior.ts",
+        "server_layer": "C:/Users/addis/OneDrive/Documents/Development/architecture_reference/src/bot_behavior/bot_behavior_server.ts",
+        "view_layer": "C:/Users/addis/OneDrive/Documents/Development/architecture_reference/src/bot_behavior/view/bot_behavior_view.ts",
+        "client_layer": "C:/Users/addis/OneDrive/Documents/Development/architecture_reference/src/bot_behavior/view/bot_behavior_client.ts",
+        "panel_template": "C:/Users/addis/OneDrive/Documents/Development/architecture_reference/src/bot_behavior/view/BotBehavior.html",
+        "client_tests": "C:/Users/addis/OneDrive/Documents/Development/architecture_reference/test/bot_behavior/bot_behavior_client.test.ts",
+        "view_tests": "C:/Users/addis/OneDrive/Documents/Development/architecture_reference/test/bot_behavior/bot_behavior_view.test.ts"
+      }
+    },
+    "context": [
+      "IBotBehavior.currentBehavior.instructions[] — already loaded by loadBehaviors(), already accessible on domain",
+      "IBotBehavior.currentAction.instructions[] — already merged (base + behavior) by loadActions(), accessible on domain",
+      "BotBehavior.html currently only shows currentBehavior name, currentAction name, navigation buttons, and behavior tree — no instructions display section",
+      "BotBehaviorView._postCurrentState() currently sends: currentBehavior name, currentAction name, behaviorTree — no instructions included",
+      "BotBehaviorClient already has instruction data via this.currentBehavior?.instructions after loadBehaviors() — client-side rendering is viable without server round-trip for navigation updates",
+      "BotBehaviorHydrateData interface includes allowedBehaviors, behaviorConfigs, baseActionConfigs — can be used to populate initial instructions",
+      "Existing stories cover loading (load behaviors, load actions) and navigation — this increment covers the display/render layer for instructions"
+    ]
+  }
+}
