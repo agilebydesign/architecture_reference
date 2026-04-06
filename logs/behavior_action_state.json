@@ -1,7 +1,0 @@
-{
-  "current_behavior": "story_bot.tests",
-  "at_behavior_level": false,
-  "timestamp": "2026-04-06T17:45:17.070250",
-  "completed_actions": [],
-  "current_action": "story_bot.tests.validate"
-}
