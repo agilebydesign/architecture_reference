@@ -8,10 +8,14 @@ import { ContextFolderTty } from "../context_folder/adapters/context_folder_tty.
 import { ContextFolderMarkdown } from "../context_folder/adapters/context_folder_markdown.js";
 import { ContextFolderJson } from "../context_folder/adapters/context_folder_json.js";
 import type { IContextFolderOutputAdapter } from "../context_folder/adapters/context_folder_adapter.js";
-import { BotBehaviorTty } from "../bot_behavior/adapters/bot_behavior_tty.js";
-import { BotBehaviorMarkdown } from "../bot_behavior/adapters/bot_behavior_markdown.js";
-import { BotBehaviorJson } from "../bot_behavior/adapters/bot_behavior_json.js";
-import type { IBotBehaviorOutputAdapter } from "../bot_behavior/adapters/bot_behavior_adapter.js";
+import { BotTty } from "../bot/adapters/bot_tty.js";
+import { BotMarkdown } from "../bot/adapters/bot_markdown.js";
+import { BotJson } from "../bot/adapters/bot_json.js";
+import type { IBotOutputAdapter } from "../bot/adapters/bot_adapter.js";
+import { BehaviorTty } from "../behavior/adapters/behavior_tty.js";
+import { BehaviorMarkdown } from "../behavior/adapters/behavior_markdown.js";
+import { BehaviorJson } from "../behavior/adapters/behavior_json.js";
+import type { IBehaviorOutputAdapter } from "../behavior/adapters/behavior_adapter.js";
 
 // TODO: bundle this in esbuild
 export interface RunOptions {
@@ -71,8 +75,22 @@ export class EngineCLI {
       const adapter = EngineCLI._getContextFolderAdapter(format);
       return adapter.path;
     }
-    if (rootSegment === "botBehavior") {
-      const adapter = EngineCLI._getBotBehaviorAdapter(format);
+    if (rootSegment === "bot") {
+      const adapter = EngineCLI._getBotAdapter(format);
+      const secondSegment = pathStr.split(".")[1];
+      if (secondSegment === "description") {
+        return adapter.description;
+      }
+      if (secondSegment === "behaviorNames") {
+        return adapter.behaviorNames;
+      }
+      if (secondSegment === "internals") {
+        return JSON.stringify(adapter.internals);
+      }
+      return adapter.bot;
+    }
+    if (rootSegment === "behavior") {
+      const adapter = EngineCLI._getBehaviorAdapter(format);
       const secondSegment = pathStr.split(".")[1];
       if (secondSegment === "currentAction" || secondSegment === "loadActions" || secondSegment === "actions") {
         return adapter.action;
@@ -124,14 +142,25 @@ export class EngineCLI {
     }
   }
 
-  private static _getBotBehaviorAdapter(format: string): IBotBehaviorOutputAdapter {
+  private static _getBotAdapter(format: string): IBotOutputAdapter {
     switch (format) {
       case "markdown":
-        return new BotBehaviorMarkdown(EngineCLI._engine.botBehavior);
+        return new BotMarkdown(EngineCLI._engine.bot);
       case "json":
-        return new BotBehaviorJson(EngineCLI._engine.botBehavior);
+        return new BotJson(EngineCLI._engine.bot);
       default:
-        return new BotBehaviorTty(EngineCLI._engine.botBehavior);
+        return new BotTty(EngineCLI._engine.bot);
+    }
+  }
+
+  private static _getBehaviorAdapter(format: string): IBehaviorOutputAdapter {
+    switch (format) {
+      case "markdown":
+        return new BehaviorMarkdown(EngineCLI._engine.behavior);
+      case "json":
+        return new BehaviorJson(EngineCLI._engine.behavior);
+      default:
+        return new BehaviorTty(EngineCLI._engine.behavior);
     }
   }
 }

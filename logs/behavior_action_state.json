@@ -1,0 +1,7 @@
+{
+  "current_behavior": "story_bot.shape",
+  "at_behavior_level": false,
+  "timestamp": "2026-04-06T19:00:01.706530",
+  "completed_actions": [],
+  "current_action": "story_bot.shape.render"
+}

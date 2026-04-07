@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="{{botCssUri}}">
+<section class="bot-section">
+  <div class="bot-selector">
+    <label>Bot: <select id="botSelect">{{botOptionsHtml}}</select></label>
+  </div>
+  <div class="bot-summary">
+    <span id="currentBotName">{{botName}}</span>
+    <button id="botDetailToggle" class="toggle-btn" title="Expand">▼</button>
+  </div>
+  <div id="botDetails" class="bot-details collapsed">
+    <div class="bot-field"><span class="label">Description:</span> <span id="botDescription">{{botDescription}}</span></div>
+    <div class="bot-field"><span class="label">Goal:</span> <span id="botGoal">{{botGoal}}</span></div>
+    <div class="bot-field"><span class="label">Behaviors:</span> <span id="botBehaviorNames">{{botBehaviorNames}}</span></div>
+  </div>
+</section>

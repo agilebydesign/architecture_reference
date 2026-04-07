@@ -1,0 +1,6 @@
+(E) Navigate Bot Behavior
+    (E) Display Instructions
+        (S) User --> Display Selected Behavior Instructions
+        and (S) User --> Display Selected Action Instructions
+        and (S) User --> Hydrate Instructions on Panel Open
+        and (S) User --> Update Instructions on Workflow Navigation

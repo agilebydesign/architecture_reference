@@ -54,3 +54,22 @@ export const botBehaviorLocators = {
   /** All action items within a behavior */
   actionList: (behavior: string) => `.behavior-item[data-behavior="${behavior}"] .action-list`,
 };
+
+export const botLocators = {
+  /** Bot dropdown selector */
+  botSelect: "#botSelect",
+  /** All option elements inside botSelect */
+  botSelectOptions: "#botSelect option",
+  /** Bot name display */
+  botName: "#currentBotName",
+  /** Bot description in details card */
+  botDescription: "#botDescription",
+  /** Bot goal in details card */
+  botGoal: "#botGoal",
+  /** Bot behavior names in details card */
+  botBehaviorNames: "#botBehaviorNames",
+  /** Expand/collapse toggle button */
+  botDetailToggle: "#botDetailToggle",
+  /** Details card container */
+  botDetails: "#botDetails",
+};

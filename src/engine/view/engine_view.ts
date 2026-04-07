@@ -8,9 +8,13 @@ import { CounterServer } from "../../counter/counter_server";
 import { CounterView } from "../../counter/view/counter_view";
 import { ContextFolderServer } from "../../context_folder/context_folder_server";
 import { ContextFolderView } from "../../context_folder/view/context_folder_view";
-import { BotBehaviorServer } from "../../bot_behavior/bot_behavior_server";
-import { BotBehaviorView } from "../../bot_behavior/view/bot_behavior_view";
-import type { ExecutionSetting } from "../../bot_behavior/bot_behavior";
+import { BotServer } from "../../bot/bot_server";
+import { BotView } from "../../bot/view/bot_view";
+import { BehaviorServer } from "../../behavior/behavior_server";
+import { BehaviorView } from "../../behavior/view/behavior_view";
+import type { ExecutionSetting } from "../../behavior/behavior";
+import type { IBot } from "../../bot/bot";
+import type { IBehavior } from "../../behavior/behavior";
 
 function getNonce(): string {
   return crypto.randomBytes(16).toString("hex");
@@ -22,7 +26,8 @@ export class EngineView extends BaseView {
   private _engine: Engine;
   public counter: CounterView;
   public contextFolder: ContextFolderView;
-  public botBehavior: BotBehaviorView;
+  public bot: BotView;
+  public behavior: BehaviorView;
   private _disposables: vscode.Disposable[] = [];
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
@@ -31,13 +36,21 @@ export class EngineView extends BaseView {
 
     const counterPath = path.join(extensionUri.fsPath, "persistence", "counter.json");
     const contextFolderPath = path.join(extensionUri.fsPath, "persistence", "context_folder.json");
-    const botBehaviorPath = path.join(extensionUri.fsPath, "persistence", "bot_behavior.json");
-    const botConfigDir = path.join(extensionUri.fsPath, "bots", "story_bot");
+    const botPath = path.join(extensionUri.fsPath, "persistence", "bot.json");
+    const behaviorPath = path.join(extensionUri.fsPath, "persistence", "behavior.json");
+    const botConfigDir = path.join(extensionUri.fsPath, "bots");
+    const botServer = new BotServer(botPath, botConfigDir);
+    const behaviorServer = new BehaviorServer(behaviorPath);
     this._engine = new Engine(
       new CounterServer(counterPath),
       new ContextFolderServer(contextFolderPath),
-      new BotBehaviorServer(botBehaviorPath, botConfigDir)
+      botServer,
+      behaviorServer
     ); // server domain (persistence)
+
+    // Coordinate: if BotServer already selected a bot (via persistence), forward behaviors
+    this._syncBehaviorsFromBot(botServer, behaviorServer);
+
     this.counter = new CounterView(
       this._panel,
       this._engine.counter,
@@ -48,9 +61,14 @@ export class EngineView extends BaseView {
       this._engine.contextFolder,
       extensionUri
     ); // server view
-    this.botBehavior = new BotBehaviorView(
+    this.bot = new BotView(
       this._panel,
-      this._engine.botBehavior,
+      this._engine.bot,
+      extensionUri
+    ); // server view
+    this.behavior = new BehaviorView(
+      this._panel,
+      this._engine.behavior,
       extensionUri
     ); // server view
 
@@ -94,9 +112,23 @@ export class EngineView extends BaseView {
       }
     }
 
-    // BotBehavior: setExecutionSetting sends key/value as separate properties
-    if (command === "botBehavior.setExecutionSetting" && "key" in message) {
-      this.botBehavior.setExecutionSetting(message.key as string, message.value as ExecutionSetting);
+    // Behavior: setExecutionSetting sends key/value as separate properties
+    if (command === "behavior.setExecutionSetting" && "key" in message) {
+      this.behavior.setExecutionSetting(message.key as string, message.value as ExecutionSetting);
+    }
+
+    // Coordinate: when bot switches, sync to BehaviorServer for persistence
+    if (command === "bot.switchBot") {
+      this._syncBehaviorsFromBot(this._engine.bot, this._engine.behavior);
+    }
+  }
+
+  /** Forward the selected bot's behavior configs to BehaviorServer. */
+  private _syncBehaviorsFromBot(bot: IBot, behavior: IBehavior): void {
+    const config = bot.currentBotConfig;
+    if (config) {
+      behavior.loadBehaviors(config.behaviorNames, config.behaviorConfigs);
+      behavior.loadActions(config.baseActionConfigs);
     }
   }
 
@@ -116,16 +148,18 @@ export class EngineView extends BaseView {
     const nonce = getNonce();
     const counterHtml = this.counter.getHtml(); // delegate; EngineView does not know counter markup
     const contextFolderHtml = this.contextFolder.getHtml();
-    const botBehaviorHtml = this.botBehavior.getHtml();
+    const botHtml = this.bot.getHtml();
+    const behaviorHtml = this.behavior.getHtml();
 
     return this.renderTemplate("dist/engine/view/Engine.html", {
       nonce,
-      content: contextFolderHtml + counterHtml + botBehaviorHtml,
+      content: contextFolderHtml + botHtml + counterHtml + behaviorHtml,
       themeCssUri: asUri(["view", "theme.css"]).toString(),
       engineCssUri: asUri(["engine", "view", "layout.css"]).toString(),      
       counterClientUri: asUri(["counter", "view", "counter_client.js"]).toString(),
       contextFolderClientUri: asUri(["context_folder", "view", "context_folder_client.js"]).toString(),
-      botBehaviorClientUri: asUri(["bot_behavior", "view", "bot_behavior_client.js"]).toString(),
+      botClientUri: asUri(["bot", "view", "bot_client.js"]).toString(),
+      behaviorClientUri: asUri(["behavior", "view", "behavior_client.js"]).toString(),
       engineClientUri: asUri(["engine", "view", "engine_client.js"]).toString(),
     });
   }

@@ -1,5 +1,7 @@
 {
   "name": "story_bot",
+  "description": "Create story maps and specifications",
+  "goal": "Transform domain understanding into executable stories",
   "behaviors": [
     "code",
     "exploration",

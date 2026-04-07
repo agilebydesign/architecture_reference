@@ -5,8 +5,8 @@ import { CounterTest } from "../counter/counter_test.js";
 import type { ICounter, IFoo, HydrateData } from "../../src/counter/counter.js";
 import { ContextFolderTest } from "../context_folder/context_folder_test.js";
 import type { IContextFolder, IBotInfo, ContextFolderHydrateData } from "../../src/context_folder/context_folder.js";
-import { BotBehaviorTest, testAllowedBehaviors, testBehaviorConfigs, testBaseActionConfigs } from "../bot_behavior/bot_behavior_test.js";
-import type { IBotBehavior, IBehaviorConfig, IActionConfig, IBaseActionConfig, BotBehaviorHydrateData, NavigationResult, PositionResult, ExecutionSetting } from "../../src/bot_behavior/bot_behavior.js";
+import { BehaviorTest, testAllowedBehaviors, testBehaviorConfigs, testBaseActionConfigs } from "../behavior/behavior_test.js";
+import type { IBehavior, IBehaviorConfig, IActionConfig, IBaseActionConfig, BehaviorHydrateData, NavigationResult, PositionResult, ExecutionSetting } from "../../src/behavior/behavior.js";
 
 /**
  * Wraps EngineCLI.run as ICounter for Template Method tests.
@@ -155,169 +155,169 @@ describe("EngineCLI — ContextFolder", () => {
 });
 
 /**
- * Wraps EngineCLI.run as IBotBehavior for Template Method tests.
- * Implements IBotBehavior interface by delegating to CLI commands.
+ * Wraps EngineCLI.run as IBehavior for Template Method tests.
+ * Implements IBehavior interface by delegating to CLI commands.
  */
-class CliBotBehaviorWrapper implements IBotBehavior {
+class CliBehaviorWrapper implements IBehavior {
   loadBehaviors(allowedBehaviors: string[], behaviorConfigs: IBehaviorConfig[]): void {
     // CLI can't pass complex objects via command string; delegate directly to engine
-    EngineCLI.engine.botBehavior.loadBehaviors(allowedBehaviors, behaviorConfigs);
+    EngineCLI.engine.behavior.loadBehaviors(allowedBehaviors, behaviorConfigs);
   }
 
   loadActions(baseActionConfigs?: IBaseActionConfig[]): void {
-    EngineCLI.engine.botBehavior.loadActions(baseActionConfigs);
+    EngineCLI.engine.behavior.loadActions(baseActionConfigs);
   }
 
   get currentBehavior(): IBehaviorConfig | null {
-    return EngineCLI.engine.botBehavior.currentBehavior;
+    return EngineCLI.engine.behavior.currentBehavior;
   }
 
   get currentAction(): IActionConfig | null {
-    return EngineCLI.engine.botBehavior.currentAction;
+    return EngineCLI.engine.behavior.currentAction;
   }
 
   get behaviors(): IBehaviorConfig[] {
-    return EngineCLI.engine.botBehavior.behaviors;
+    return EngineCLI.engine.behavior.behaviors;
   }
 
   get actions(): IActionConfig[] {
-    return EngineCLI.engine.botBehavior.actions;
+    return EngineCLI.engine.behavior.actions;
   }
 
   get baseActionConfigs(): IBaseActionConfig[] {
-    return EngineCLI.engine.botBehavior.baseActionConfigs;
+    return EngineCLI.engine.behavior.baseActionConfigs;
   }
 
   get behaviorNames(): string[] {
-    return EngineCLI.engine.botBehavior.behaviorNames;
+    return EngineCLI.engine.behavior.behaviorNames;
   }
 
   get actionNames(): string[] {
-    return EngineCLI.engine.botBehavior.actionNames;
+    return EngineCLI.engine.behavior.actionNames;
   }
 
   get executionSettings(): Record<string, ExecutionSetting> {
-    return EngineCLI.engine.botBehavior.executionSettings;
+    return EngineCLI.engine.behavior.executionSettings;
   }
 
   setExecutionSetting(key: string, value: ExecutionSetting): void {
-    EngineCLI.engine.botBehavior.setExecutionSetting(key, value);
+    EngineCLI.engine.behavior.setExecutionSetting(key, value);
   }
 
   navigateToBehavior(name: string): void {
-    EngineCLI.engine.botBehavior.navigateToBehavior(name);
+    EngineCLI.engine.behavior.navigateToBehavior(name);
   }
 
   navigateToAction(name: string): void {
-    EngineCLI.engine.botBehavior.navigateToAction(name);
+    EngineCLI.engine.behavior.navigateToAction(name);
   }
 
   next(): NavigationResult {
-    return EngineCLI.engine.botBehavior.next();
+    return EngineCLI.engine.behavior.next();
   }
 
   back(): NavigationResult {
-    return EngineCLI.engine.botBehavior.back();
+    return EngineCLI.engine.behavior.back();
   }
 
   pos(): PositionResult {
-    return EngineCLI.engine.botBehavior.pos();
+    return EngineCLI.engine.behavior.pos();
   }
 
   tree(): string {
-    return EngineCLI.engine.botBehavior.tree();
+    return EngineCLI.engine.behavior.tree();
   }
 
   nextBehavior(): IBehaviorConfig | null {
-    return EngineCLI.engine.botBehavior.nextBehavior();
+    return EngineCLI.engine.behavior.nextBehavior();
   }
 
   previousBehavior(): IBehaviorConfig | null {
-    return EngineCLI.engine.botBehavior.previousBehavior();
+    return EngineCLI.engine.behavior.previousBehavior();
   }
 
   nextAction(): IActionConfig | null {
-    return EngineCLI.engine.botBehavior.nextAction();
+    return EngineCLI.engine.behavior.nextAction();
   }
 
   findBehavior(name: string): IBehaviorConfig | null {
-    return EngineCLI.engine.botBehavior.findBehavior(name);
+    return EngineCLI.engine.behavior.findBehavior(name);
   }
 
   findAction(name: string): IActionConfig | null {
-    return EngineCLI.engine.botBehavior.findAction(name);
+    return EngineCLI.engine.behavior.findAction(name);
   }
 
   checkBehaviorExists(name: string): boolean {
-    return EngineCLI.engine.botBehavior.checkBehaviorExists(name);
+    return EngineCLI.engine.behavior.checkBehaviorExists(name);
   }
 
   isFinalAction(): boolean {
-    return EngineCLI.engine.botBehavior.isFinalAction();
+    return EngineCLI.engine.behavior.isFinalAction();
   }
 
   closeCurrent(): NavigationResult {
-    return EngineCLI.engine.botBehavior.closeCurrent();
+    return EngineCLI.engine.behavior.closeCurrent();
   }
 
-  hydrate(data?: BotBehaviorHydrateData): void {
-    EngineCLI.engine.botBehavior.hydrate?.(data ?? {});
+  hydrate(data?: BehaviorHydrateData): void {
+    EngineCLI.engine.behavior.hydrate?.(data ?? {});
   }
 }
 
-describe("EngineCLI — BotBehavior", () => {
+describe("EngineCLI — Behavior", () => {
   beforeEach(() => {
     EngineCLI.reset();
   });
 
-  class CliBotBehaviorTest extends BotBehaviorTest {
-    protected createBotBehavior(): IBotBehavior {
-      return new CliBotBehaviorWrapper();
+  class CliBehaviorTest extends BehaviorTest {
+    protected createBehavior(): IBehavior {
+      return new CliBehaviorWrapper();
     }
 
-    protected override assertCurrentBehavior(botBehavior: IBotBehavior, expected: string): void {
+    protected override assertCurrentBehavior(behavior: IBehavior, expected: string): void {
       // First: standard domain assertion
-      super.assertCurrentBehavior(botBehavior, expected);
+      super.assertCurrentBehavior(behavior, expected);
 
       // CLI layer adds: verify all output formats produce correct output
-      const outJson = EngineCLI.run("botBehavior.currentBehavior", { format: "json" });
+      const outJson = EngineCLI.run("behavior.currentBehavior", { format: "json" });
       expect(JSON.parse(outJson).currentBehavior).toBe(expected);
 
-      const outTty = EngineCLI.run("botBehavior.currentBehavior", { format: "tty" });
+      const outTty = EngineCLI.run("behavior.currentBehavior", { format: "tty" });
       expect(outTty).toContain(expected);
 
-      const outMd = EngineCLI.run("botBehavior.currentBehavior", { format: "markdown" });
+      const outMd = EngineCLI.run("behavior.currentBehavior", { format: "markdown" });
       expect(outMd).toContain(expected);
     }
 
-    protected override assertCurrentAction(botBehavior: IBotBehavior, expected: string): void {
+    protected override assertCurrentAction(behavior: IBehavior, expected: string): void {
       // First: standard domain assertion
-      super.assertCurrentAction(botBehavior, expected);
+      super.assertCurrentAction(behavior, expected);
 
       // CLI layer adds: verify all output formats produce correct output
-      const outJson = EngineCLI.run("botBehavior.currentAction", { format: "json" });
+      const outJson = EngineCLI.run("behavior.currentAction", { format: "json" });
       expect(JSON.parse(outJson).currentAction).toBe(expected);
 
-      const outTty = EngineCLI.run("botBehavior.currentAction", { format: "tty" });
+      const outTty = EngineCLI.run("behavior.currentAction", { format: "tty" });
       expect(outTty).toContain(expected);
 
-      const outMd = EngineCLI.run("botBehavior.currentAction", { format: "markdown" });
+      const outMd = EngineCLI.run("behavior.currentAction", { format: "markdown" });
       expect(outMd).toContain(expected);
     }
 
-    protected override assertNavigation(botBehavior: IBotBehavior, result: NavigationResult, expectedBehavior: string, expectedAction: string): void {
-      super.assertNavigation(botBehavior, result, expectedBehavior, expectedAction);
+    protected override assertNavigation(behavior: IBehavior, result: NavigationResult, expectedBehavior: string, expectedAction: string): void {
+      super.assertNavigation(behavior, result, expectedBehavior, expectedAction);
 
       // CLI layer adds: verify position output in all formats
-      const outJson = EngineCLI.run("botBehavior.pos", { format: "json" });
+      const outJson = EngineCLI.run("behavior.pos", { format: "json" });
       const parsed = JSON.parse(outJson);
       expect(parsed.behavior).toBe(expectedBehavior);
       expect(parsed.action).toBe(expectedAction);
 
-      const outTty = EngineCLI.run("botBehavior.pos", { format: "tty" });
+      const outTty = EngineCLI.run("behavior.pos", { format: "tty" });
       expect(outTty).toContain(`${expectedBehavior}.${expectedAction}`);
     }
   }
 
-  new CliBotBehaviorTest().registerTests();
+  new CliBehaviorTest().registerTests();
 });

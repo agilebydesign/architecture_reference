@@ -1,17 +1,17 @@
-// test/bot_behavior/test_display_instructions.ts
+// test/instructions/display_instructions.ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { JSDOM } from "jsdom";
-import { initBotBehaviorClient } from "../../src/bot_behavior/view/bot_behavior_client.js";
-import type { IBotBehavior } from "../../src/bot_behavior/bot_behavior.js";
-import { testBehaviorConfigs, testAllowedBehaviors, testBaseActionConfigs } from "../test_data/bot_behavior_fixtures.js";
+import { initBehaviorClient } from "../../src/behavior/view/behavior_client.js";
+import type { IBehavior } from "../../src/behavior/behavior.js";
+import { testBehaviorConfigs, testAllowedBehaviors, testBaseActionConfigs } from "../test_data/behavior_fixtures.js";
 
-// Load actual BotBehavior.html and replace template variables with defaults
-const botBehaviorHtmlPath = resolve(__dirname, "../../src/bot_behavior/view/BotBehavior.html");
-const botBehaviorHtmlRaw = readFileSync(botBehaviorHtmlPath, "utf-8");
-const fixtureHtml = `<!DOCTYPE html><html><body>${botBehaviorHtmlRaw
-  .replace("{{botBehaviorCssUri}}", "")
+// Load actual Behavior.html and replace template variables with defaults
+const behaviorHtmlPath = resolve(__dirname, "../../src/behavior/view/Behavior.html");
+const behaviorHtmlRaw = readFileSync(behaviorHtmlPath, "utf-8");
+const fixtureHtml = `<!DOCTYPE html><html><body>${behaviorHtmlRaw
+  .replace("{{behaviorCssUri}}", "")
   .replace("{{currentBehavior}}", "")
   .replace("{{currentAction}}", "")
   .replace("{{behaviorTreeHtml}}", "")}</body></html>`;
@@ -19,7 +19,7 @@ const fixtureHtml = `<!DOCTYPE html><html><body>${botBehaviorHtmlRaw
 describe("TestDisplaySelectedBehaviorInstructions", () => {
   let dom: JSDOM;
   let postMessageCalls: unknown[];
-  let botBehavior: IBotBehavior;
+  let behavior: IBehavior;
 
   beforeEach(() => {
     dom = new JSDOM(fixtureHtml, { url: "http://localhost" });
@@ -27,11 +27,11 @@ describe("TestDisplaySelectedBehaviorInstructions", () => {
     global.document = dom.window.document;
     global.window = dom.window as unknown as Window & typeof globalThis;
 
-    botBehavior = initBotBehaviorClient({
+    behavior = initBehaviorClient({
       postMessage: (m) => postMessageCalls.push(m),
     });
-    botBehavior.loadBehaviors(testAllowedBehaviors, testBehaviorConfigs);
-    botBehavior.loadActions(testBaseActionConfigs);
+    behavior.loadBehaviors(testAllowedBehaviors, testBehaviorConfigs);
+    behavior.loadActions(testBaseActionConfigs);
   });
 
   it("test_bot_behavior_renders_and_completes_behavior_instructions_display_when_user_selects_behavior", () => {
@@ -40,7 +40,7 @@ describe("TestDisplaySelectedBehaviorInstructions", () => {
     expect(testBehaviorConfigs.find(b => b.name === "shape")?.instructions).toEqual(["Shape the story map"]);
 
     // When user selects 'shape' behavior in behavior tree
-    botBehavior.navigateToBehavior("shape");
+    behavior.navigateToBehavior("shape");
 
     // Then instructions-panel contains one instruction-item element
     const panel = document.getElementById("instructions-panel");
@@ -55,14 +55,14 @@ describe("TestDisplaySelectedBehaviorInstructions", () => {
   });
 
   it("test_bot_behavior_shows_empty_state_when_selected_behavior_has_no_instructions", () => {
-    // Given BotBehavior has 'empty-behavior' behavior loaded with instructions []
-    botBehavior.loadBehaviors(
+    // Given Behavior has 'empty-behavior' behavior loaded with instructions []
+    behavior.loadBehaviors(
       ["empty-behavior"],
       [{ name: "empty-behavior", order: 1, description: "", goal: "", inputs: "", outputs: "", instructions: [], actionsWorkflow: [] }]
     );
 
     // When user selects 'empty-behavior' behavior in behavior tree
-    botBehavior.navigateToBehavior("empty-behavior");
+    behavior.navigateToBehavior("empty-behavior");
 
     // Then instructions-panel contains instructions-empty placeholder
     const panel = document.getElementById("instructions-panel");
@@ -73,14 +73,14 @@ describe("TestDisplaySelectedBehaviorInstructions", () => {
   });
 
   it("test_bot_behavior_replaces_prior_behavior_instructions_when_user_selects_different_behavior", () => {
-    // Given BotBehavior has 'shape' and 'prioritization' behaviors loaded
+    // Given Behavior has 'shape' and 'prioritization' behaviors loaded
     // And 'shape' behavior is currently selected showing its instructions
-    botBehavior.navigateToBehavior("shape");
+    behavior.navigateToBehavior("shape");
     const panelAfterShape = document.getElementById("instructions-panel");
     expect(panelAfterShape?.querySelectorAll(".instruction-item").length).toBeGreaterThan(0);
 
     // When user selects 'prioritization' behavior in behavior tree
-    botBehavior.navigateToBehavior("prioritization");
+    behavior.navigateToBehavior("prioritization");
 
     // Then instructions-panel contains instruction-item elements for 'prioritization' instructions
     const panel = document.getElementById("instructions-panel");
@@ -97,8 +97,8 @@ describe("TestDisplaySelectedBehaviorInstructions", () => {
   });
 
   it("test_bot_behavior_populates_instructions_panel_from_hydrate_data_on_panel_init", () => {
-    // Given BotBehaviorHydrateData contains allowedBehaviors ['shape'] and behaviorConfigs with 'shape' having instructions ['Shape the story map']
-    // When panel receives BotBehaviorHydrateData init message
+    // Given BehaviorHydrateData contains allowedBehaviors ['shape'] and behaviorConfigs with 'shape' having instructions ['Shape the story map']
+    // When panel receives BehaviorHydrateData init message
     const hydratePayload = {
       allowedBehaviors: ["shape"],
       behaviorConfigs: [testBehaviorConfigs.find(b => b.name === "shape")!],
@@ -121,14 +121,14 @@ describe("TestDisplaySelectedBehaviorInstructions", () => {
   });
 
   it("test_bot_behavior_displays_multiple_behavior_instructions_in_config_order", () => {
-    // Given BotBehavior has 'multi-behavior' behavior loaded with instructions ['First instruction', 'Second instruction', 'Third instruction']
-    botBehavior.loadBehaviors(
+    // Given Behavior has 'multi-behavior' behavior loaded with instructions ['First instruction', 'Second instruction', 'Third instruction']
+    behavior.loadBehaviors(
       ["multi-behavior"],
       [{ name: "multi-behavior", order: 1, description: "", goal: "", inputs: "", outputs: "", instructions: ["First instruction", "Second instruction", "Third instruction"], actionsWorkflow: [] }]
     );
 
     // When user selects 'multi-behavior' behavior in behavior tree
-    botBehavior.navigateToBehavior("multi-behavior");
+    behavior.navigateToBehavior("multi-behavior");
 
     // Then instructions-panel contains three instruction-item elements
     const panel = document.getElementById("instructions-panel");
@@ -149,7 +149,7 @@ describe("TestDisplaySelectedBehaviorInstructions", () => {
 describe("TestDisplaySelectedActionInstructions", () => {
   let dom: JSDOM;
   let postMessageCalls: unknown[];
-  let botBehavior: IBotBehavior;
+  let behavior: IBehavior;
 
   beforeEach(() => {
     dom = new JSDOM(fixtureHtml, { url: "http://localhost" });
@@ -157,20 +157,20 @@ describe("TestDisplaySelectedActionInstructions", () => {
     global.document = dom.window.document;
     global.window = dom.window as unknown as Window & typeof globalThis;
 
-    botBehavior = initBotBehaviorClient({
+    behavior = initBehaviorClient({
       postMessage: (m) => postMessageCalls.push(m),
     });
-    botBehavior.loadBehaviors(testAllowedBehaviors, testBehaviorConfigs);
-    botBehavior.loadActions(testBaseActionConfigs);
+    behavior.loadBehaviors(testAllowedBehaviors, testBehaviorConfigs);
+    behavior.loadActions(testBaseActionConfigs);
   });
 
   it("test_bot_behavior_renders_and_completes_merged_action_instructions_display_when_user_selects_action", () => {
-    // Given BotBehavior has 'shape' behavior with 'clarify' action loaded
+    // Given Behavior has 'shape' behavior with 'clarify' action loaded
     // And 'clarify' action has merged instructions from IBaseActionConfig and IBehaviorConfig workflow entry
-    botBehavior.navigateToBehavior("shape");
+    behavior.navigateToBehavior("shape");
 
     // When user selects 'clarify' action in behavior tree
-    botBehavior.navigateToAction("clarify");
+    behavior.navigateToAction("clarify");
 
     // Then instructions-panel contains instruction-item elements for each merged instruction
     const panel = document.getElementById("instructions-panel");
@@ -189,23 +189,23 @@ describe("TestDisplaySelectedActionInstructions", () => {
   });
 
   it("test_bot_behavior_shows_empty_state_when_selected_action_has_no_merged_instructions", () => {
-    // Given BotBehavior has 'shape' behavior with an action that has empty base instructions and empty behavior instructions
+    // Given Behavior has 'shape' behavior with an action that has empty base instructions and empty behavior instructions
     // 'strategy' action in 'shape' has instructions: [] in actionsWorkflow, and strategy base has no-empty instructions
     // Use a custom config with truly empty instructions on both sides
-    botBehavior.loadBehaviors(
+    behavior.loadBehaviors(
       ["empty-behavior"],
       [{ name: "empty-behavior", order: 1, description: "", goal: "", inputs: "", outputs: "", instructions: [], actionsWorkflow: [
         { name: "empty-action", order: 1, nextAction: null, instructions: [], executionSetting: "manual" }
       ]}]
     );
-    botBehavior.loadActions([
+    behavior.loadActions([
       { name: "empty-action", description: "", instructions: [] }
     ]);
 
-    botBehavior.navigateToBehavior("empty-behavior");
+    behavior.navigateToBehavior("empty-behavior");
 
     // When user selects that action in behavior tree
-    botBehavior.navigateToAction("empty-action");
+    behavior.navigateToAction("empty-action");
 
     // Then instructions-panel contains instructions-empty placeholder
     const panel = document.getElementById("instructions-panel");
@@ -216,15 +216,15 @@ describe("TestDisplaySelectedActionInstructions", () => {
   });
 
   it("test_bot_behavior_replaces_prior_action_instructions_when_user_navigates_to_different_action", () => {
-    // Given BotBehavior is at 'shape' behavior with 'clarify' action selected showing its instructions
-    botBehavior.navigateToBehavior("shape");
-    botBehavior.navigateToAction("clarify");
+    // Given Behavior is at 'shape' behavior with 'clarify' action selected showing its instructions
+    behavior.navigateToBehavior("shape");
+    behavior.navigateToAction("clarify");
 
     const panelAfterClarify = document.getElementById("instructions-panel");
     expect((panelAfterClarify?.querySelectorAll(".instruction-item").length ?? 0)).toBeGreaterThan(0);
 
     // When user presses Next button to advance to 'strategy' action
-    botBehavior.next();
+    behavior.next();
 
     // Then instructions-panel contains instruction-item elements for 'strategy' action instructions
     // 'strategy' base: ['Analyze gathered context', 'Propose a strategy'], behavior-specific: []
@@ -243,13 +243,13 @@ describe("TestDisplaySelectedActionInstructions", () => {
   });
 
   it("test_bot_behavior_shows_base_instructions_first_then_behavior_specific_instructions_in_merged_order", () => {
-    // Given BotBehavior has 'shape' behavior with 'clarify' action
+    // Given Behavior has 'shape' behavior with 'clarify' action
     // And IBaseActionConfig for 'clarify' has instructions ['IMPORTANT: Follow these action instructions specifically', 'Review all provided context']
     // And 'shape' behavior workflow entry for 'clarify' has instructions ['Gather context for story mapping']
-    botBehavior.navigateToBehavior("shape");
+    behavior.navigateToBehavior("shape");
 
     // When user selects 'clarify' action in behavior tree
-    botBehavior.navigateToAction("clarify");
+    behavior.navigateToAction("clarify");
 
     // Then first instruction-item text is 'IMPORTANT: Follow these action instructions specifically'
     const panel = document.getElementById("instructions-panel");
@@ -267,8 +267,8 @@ describe("TestDisplaySelectedActionInstructions", () => {
   });
 
   it("test_bot_behavior_populates_action_instructions_from_hydrate_data_on_panel_init", () => {
-    // Given BotBehaviorHydrateData contains allowedBehaviors, behaviorConfigs with 'shape', and baseActionConfigs for 'clarify'
-    // When panel receives BotBehaviorHydrateData init message
+    // Given BehaviorHydrateData contains allowedBehaviors, behaviorConfigs with 'shape', and baseActionConfigs for 'clarify'
+    // When panel receives BehaviorHydrateData init message
     const hydratePayload = {
       allowedBehaviors: testAllowedBehaviors,
       behaviorConfigs: testBehaviorConfigs,
