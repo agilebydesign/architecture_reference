@@ -73,3 +73,12 @@ export const botLocators = {
   /** Details card container */
   botDetails: "#botDetails",
 };
+
+export const instructionLocators = {
+  /** Instructions panel container */
+  instructionsPanel: "#instructions-panel",
+  /** Individual instruction item */
+  instructionItem: ".instruction-item",
+  /** Empty state placeholder */
+  instructionsEmpty: ".instructions-empty",
+};

@@ -16,6 +16,10 @@ import { BehaviorTty } from "../behavior/adapters/behavior_tty.js";
 import { BehaviorMarkdown } from "../behavior/adapters/behavior_markdown.js";
 import { BehaviorJson } from "../behavior/adapters/behavior_json.js";
 import type { IBehaviorOutputAdapter } from "../behavior/adapters/behavior_adapter.js";
+import { InstructionsTty } from "../instructions/adapters/instructions_tty.js";
+import { InstructionsMarkdown } from "../instructions/adapters/instructions_markdown.js";
+import { InstructionsJson } from "../instructions/adapters/instructions_json.js";
+import type { IInstructionsOutputAdapter } from "../instructions/adapters/instructions_adapter.js";
 
 // TODO: bundle this in esbuild
 export interface RunOptions {
@@ -103,9 +107,22 @@ export class EngineCLI {
       }
       if (secondSegment === "next" || secondSegment === "back" || secondSegment === "closeCurrent"
         || secondSegment === "navigateToBehavior" || secondSegment === "navigateToAction") {
+        // After behavior navigation, sync instructions
+        EngineCLI._syncInstructionsFromBehavior();
         return adapter.navigation;
       }
       return adapter.behavior;
+    }
+    if (rootSegment === "instructions") {
+      const adapter = EngineCLI._getInstructionsAdapter(format);
+      const secondSegment = pathStr.split(".")[1];
+      if (secondSegment === "behaviorInstructions") {
+        return adapter.behaviorInstructions;
+      }
+      if (secondSegment === "actionInstructions") {
+        return adapter.actionInstructions;
+      }
+      return adapter.allInstructions;
     }
     const adapter = EngineCLI._getAdapter(format);
     return adapter.total;
@@ -162,6 +179,27 @@ export class EngineCLI {
       default:
         return new BehaviorTty(EngineCLI._engine.behavior);
     }
+  }
+
+  private static _getInstructionsAdapter(format: string): IInstructionsOutputAdapter {
+    switch (format) {
+      case "markdown":
+        return new InstructionsMarkdown(EngineCLI._engine.instructions);
+      case "json":
+        return new InstructionsJson(EngineCLI._engine.instructions);
+      default:
+        return new InstructionsTty(EngineCLI._engine.instructions);
+    }
+  }
+
+  /** Sync instructions from current behavior/action state. */
+  private static _syncInstructionsFromBehavior(): void {
+    EngineCLI._engine.instructions.setBehaviorInstructions(
+      EngineCLI._engine.behavior.currentBehavior?.instructions ?? []
+    );
+    EngineCLI._engine.instructions.setActionInstructions(
+      EngineCLI._engine.behavior.currentAction?.instructions ?? []
+    );
   }
 }
 

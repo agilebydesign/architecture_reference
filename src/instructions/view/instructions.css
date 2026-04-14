@@ -1,0 +1,40 @@
+/* instructions/view/instructions.css — Instructions panel styling */
+.instructions-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.instructions-section .instructions-header {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.instructions-section .label {
+  font-weight: bold;
+}
+
+.instructions-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--vscode-panel-border, #333);
+  border-radius: 4px;
+  min-height: 2em;
+}
+
+.instruction-item {
+  padding: 4px 8px;
+  border-left: 2px solid var(--vscode-focusBorder, #007acc);
+  background: var(--vscode-editor-background, #1e1e1e);
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.instructions-empty {
+  color: var(--vscode-descriptionForeground, #888);
+  font-style: italic;
+  padding: 4px 8px;
+}

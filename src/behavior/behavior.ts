@@ -21,6 +21,7 @@ export interface IBehaviorConfig {
   actionsWorkflow: IActionWorkflowEntry[];
 }
 
+// TODO: what is the point of this?
 export interface IBaseActionConfig {
   name: string;
   description: string;
