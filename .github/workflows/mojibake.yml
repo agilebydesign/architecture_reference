@@ -1,0 +1,32 @@
+# Auto-deployed by org-deploy-mojibake-guard.sh
+# Calls the org-wide reusable workflow from abd-works/.github
+name: Mojibake check
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - '**/*.md'
+      - '**/*.json'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.txt'
+      - '**/*.py'
+      - '**/*.ts'
+      - '**/*.js'
+      - '**/*.mdc'
+  pull_request:
+    paths:
+      - '**/*.md'
+      - '**/*.json'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.txt'
+      - '**/*.py'
+      - '**/*.ts'
+      - '**/*.js'
+      - '**/*.mdc'
+
+jobs:
+  mojibake:
+    uses: abd-works/.github/.github/workflows/mojibake-check.yml@main
